@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>异采 - 供应商端</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#FAF6F0;color:#2D2926;max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden;padding-bottom:70px;position:relative}
+:root{--orange:#F37021;--brown:#3C2415;--bg:#FAF6F0;--text:#2D2926;--sub:#7A6E65;--border:#E8DDD3;--tag:#F5EDE4}
+
+/* Tab Bar */
+.tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid var(--border);display:flex;z-index:100;padding:6px 0 env(safe-area-inset-bottom,8px)}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;cursor:pointer;transition:.2s}
+.tab-item .icon{font-size:22px;line-height:1}
+.tab-item .label{font-size:10px;color:var(--sub)}
+.tab-item.active .label{color:var(--orange);font-weight:600}
+
+/* Pages */
+.page{display:none;padding:0 16px 16px}
+.page.active{display:block}
+
+/* Header */
+.page-header{padding:20px 0 16px;display:flex;justify-content:space-between;align-items:center}
+.page-title{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;color:var(--brown)}
+
+/* Home Page */
+.brand-header{background:linear-gradient(135deg,#3C2415,#8B5E3C);border-radius:16px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.brand-header::after{content:'';position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(243,112,33,.15)}
+.brand-name{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:#fff;letter-spacing:4px}
+.brand-welcome{color:rgba(255,255,255,.8);font-size:13px;margin-top:8px}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid var(--border)}
+.stat-num{font-size:28px;font-weight:700;color:var(--orange);font-family:'Noto Serif SC',serif}
+.stat-label{font-size:12px;color:var(--sub);margin-top:4px}
+
+.section-title{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:600;color:var(--brown);margin-bottom:12px}
+
+.quick-actions{display:flex;gap:10px;margin-bottom:24px}
+.quick-btn{flex:1;background:var(--orange);color:#fff;border:none;border-radius:12px;padding:16px 8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;text-align:center}
+.quick-btn:active{transform:scale(.96)}
+.quick-btn.secondary{background:var(--tag);color:var(--brown);border:1px solid var(--border)}
+
+.news-list{display:flex;flex-direction:column;gap:10px}
+.news-item{background:#fff;border-radius:12px;padding:14px 16px;border:1px solid var(--border)}
+.news-item .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.news-item .buyer{font-weight:600;font-size:14px}
+.news-item .time{font-size:11px;color:var(--sub)}
+.news-item .desc{font-size:12px;color:var(--sub)}
+.news-item .qty{font-size:12px;color:var(--orange);font-weight:600;margin-top:4px}
+
+/* Production Page */
+.btn-primary{background:var(--orange);color:#fff;border:none;border-radius:12px;padding:14px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-bottom:16px;transition:.2s}
+.btn-primary:active{transform:scale(.98)}
+
+.prod-card{background:#fff;border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:12px;cursor:pointer;transition:.2s}
+.prod-card:active{background:#fdf9f5}
+.prod-card .order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prod-card .order-no{font-size:12px;color:var(--sub)}
+.prod-card .status{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+.status.doing{background:#FFF3E8;color:var(--orange)}
+.status.done{background:#E8F5E9;color:#2E7D32}
+.prod-card .prod-name{font-weight:600;font-size:15px;margin-bottom:10px}
+.progress-bar{background:var(--border);border-radius:6px;height:8px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,var(--orange),#F5A623);height:100%;border-radius:6px;transition:width .5s}
+.progress-text{font-size:11px;color:var(--sub);margin-top:6px}
+
+.timeline{margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);display:none}
+.timeline.show{display:block}
+.timeline-item{display:flex;gap:12px;padding-bottom:16px;position:relative}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--orange);margin-top:5px;flex-shrink:0;position:relative;z-index:1}
+.timeline-item:not(:last-child) .timeline-dot::after{content:'';position:absolute;top:10px;left:4px;width:2px;height:calc(100% + 10px);background:var(--border)}
+.timeline-content .tl-title{font-size:13px;font-weight:600}
+.timeline-content .tl-desc{font-size:11px;color:var(--sub);margin-top:2px}
+.timeline-content .tl-time{font-size:11px;color:var(--sub);margin-top:2px}
+
+.btn-add-step{background:var(--tag);color:var(--brown);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+
+/* Products Page */
+.product-card{background:#fff;border-radius:12px;padding:14px;border:1px solid var(--border);margin-bottom:12px;display:flex;gap:14px;cursor:pointer;transition:.2s}
+.product-card:active{background:#fdf9f5}
+.product-img{width:80px;height:80px;border-radius:10px;background:var(--tag);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
+.product-info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.product-info .name{font-weight:600;font-size:14px;margin-bottom:4px}
+.product-info .spec{font-size:12px;color:var(--sub)}
+.product-info .price{font-size:14px;color:var(--orange);font-weight:700;margin-top:6px}
+.product-info .moq{font-size:11px;color:var(--sub)}
+
+.btn-add-product{position:fixed;bottom:80px;right:calc(50% - 200px);width:48px;height:48px;border-radius:50%;background:var(--orange);color:#fff;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(243,112,33,.4);z-index:50;display:flex;align-items:center;justify-content:center}
+
+/* Profile Page */
+.profile-header{background:linear-gradient(135deg,#3C2415,#5C3D2E);border-radius:16px;padding:28px 20px;text-align:center;margin-bottom:16px}
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px}
+.profile-header .company{color:#fff;font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700}
+.profile-header .tagline{color:rgba(255,255,255,.7);font-size:12px;margin-top:6px}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.info-item{background:#fff;border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border)}
+.info-item .val{font-weight:700;font-size:15px;color:var(--brown)}
+.info-item .lbl{font-size:11px;color:var(--sub);margin-top:2px}
+
+.cert-section{margin-bottom:20px}
+.cert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cert-item{background:#fff;border-radius:10px;padding:12px 8px;text-align:center;border:1px solid var(--border)}
+.cert-item .cert-icon{font-size:22px}
+.cert-item .cert-name{font-size:10px;color:var(--sub);margin-top:4px;line-height:1.3}
+.cert-item .cert-check{color:#2E7D32;font-size:10px;font-weight:600}
+
+.menu-list{margin-bottom:20px}
+.menu-item{background:#fff;border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:.2s}
+.menu-item:active{background:#fdf9f5}
+.menu-item .menu-label{font-size:14px;font-weight:500}
+.menu-item .menu-arrow{color:var(--sub);font-size:14px}
+
+.btn-logout{width:100%;background:#fff;color:#C0392B;border:1px solid #E8DDD3;border-radius:12px;padding:14px;font-size:14px;cursor:pointer;margin-top:8px}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:80vh;overflow-y:auto;padding:24px 20px;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700;color:var(--brown);margin-bottom:20px;text-align:center}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:20px;color:var(--sub);cursor:pointer}
+
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--brown);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;background:var(--bg);color:var(--text);outline:none;transition:.2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--orange)}
+.form-group textarea{height:80px;resize:none}
+
+.upload-area{width:100%;height:100px;border:2px dashed var(--border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--sub);font-size:13px;gap:6px}
+.upload-area:active{border-color:var(--orange)}
+
+.btn-submit{background:var(--orange);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+
+/* Toast */
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(45,41,38,.88);color:#fff;padding:14px 28px;border-radius:12px;font-size:14px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* Scrollbar */
+::-webkit-scrollbar{display:none}
+</style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Tab 1: 工作台 -->
+<div class="page active" id="page-home">
+  <div class="brand-header">
+    <div class="brand-name">异采</div>
+    <div class="brand-welcome">欢迎回来，上海润辉化妆品</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">12</div>
+      <div class="stat-label">本月询盘数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">待回复</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">85%</div>
+      <div class="stat-label">档案完整度</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">96</div>
+      <div class="stat-label">可信度评分</div>
+    </div>
+  </div>
+
+  <div class="section-title">快捷操作</div>
+  <div class="quick-actions">
+    <button class="quick-btn" onclick="showModal('uploadRecord')">上传生产记录</button>
+    <button class="quick-btn secondary" onclick="switchTab(2)">管理产品</button>
+    <button class="quick-btn secondary" onclick="switchTab(3)">完善档案</button>
+  </div>
+
+  <div class="section-title">最新动态</div>
+  <div class="news-list">
+    <div class="news-item">
+      <div class="top"><span class="buyer">某新锐品牌</span><span class="time">2小时前</span></div>
+      <div class="desc">护肤品代工需求</div>
+      <div class="qty">数量：10,000瓶</div>
+    </div>
+    <div class="news-item">
+      <div class="top"><span class="buyer">某知名美妆</span><span class="time">昨天</span></div>
+      <div class="desc">精华液代工需求</div>
+      <div class="qty">数量：50,000瓶</div>
+    </div>
+    <div class="news-item">
+      <div class="top"><span class="buyer">某国货品牌</span><span class="time">2天前</span></div>
+      <div class="desc">面霜代工需求</div>
+      <div class="qty">数量：20,000瓶</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 2: 生产管理 -->
+<div class="page" id="page-production">
+  <div class="page-header">
+    <div class="page-title">生产管理</div>
+  </div>
+  <button class="btn-primary" onclick="showModal('uploadRecord')">+ 新建生产记录</button>
+
+  <div class="prod-card" onclick="toggleTimeline(this)">
+    <div class="order-head">
+      <span class="order-no">ORD-2026-001</span>
+      <span class="status doing">进行中</span>
+    </div>
+    <div class="prod-name">玻尿酸精华液</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+    <div class="progress-text">3/6 工序 · 当前：冷却搅拌</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">原料称量</div>
+          <div class="tl-desc">玻尿酸原料、甘油、透明质酸钠已称量完毕</div>
+          <div class="tl-time">2026-01-15 09:00</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">加热溶解</div>
+          <div class="tl-desc">温度升至75°C，搅拌至完全溶解</div>
+          <div class="tl-time">2026-01-15 10:30</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">冷却搅拌</div>
+          <div class="tl-desc">降温至40°C，加入防腐剂，慢速搅拌中</div>
+          <div class="tl-time">2026-01-15 14:00 · 进行中</div>
+        </div>
+      </div>
+      <button class="btn-add-step" onclick="event.stopPropagation();showModal('addStep')">+ 添加工序</button>
+    </div>
+  </div>
+
+  <div class="prod-card" onclick="toggleTimeline(this)">
+    <div class="order-head">
+      <span class="order-no">ORD-2026-002</span>
+      <span class="status done">已完成</span>
+    </div>
+    <div class="prod-name">烟酰胺面膜</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+    <div class="progress-text">5/5 工序 · 已全部完成</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">面膜液配制</div>
+          <div class="tl-desc">烟酰胺、熊果苷精华液配制完成</div>
+          <div class="tl-time">2026-01-10 08:30</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">膜布裁剪</div>
+          <div class="tl-desc">天丝膜布裁剪成型，质检合格</div>
+          <div class="tl-time">2026-01-10 11:00</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">灌装封装</div>
+          <div class="tl-desc">每袋25ml×5片，自动灌装封装</div>
+          <div class="tl-time">2026-01-11 09:00</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">灭菌检测</div>
+          <div class="tl-desc">紫外灭菌处理，微生物检测合格</div>
+          <div class="tl-time">2026-01-12 14:00</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-title">包装入库</div>
+          <div class="tl-desc">外包装贴标，成品入库3000盒</div>
+          <div class="tl-time">2026-01-13 10:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-add-step" onclick="showModal('addStep')" style="margin-top:4px">+ 添加工序</button>
+</div>
+
+<!-- Tab 3: 产品管理 -->
+<div class="page" id="page-products">
+  <div class="page-header">
+    <div class="page-title">产品管理</div>
+  </div>
+
+  <div class="product-card" onclick="showModal('editProduct')">
+    <div class="product-img">🧴</div>
+    <div class="product-info">
+      <div class="name">玻尿酸保湿精华液</div>
+      <div class="spec">30ml/瓶</div>
+      <div class="price">¥8 - 15</div>
+      <div class="moq">起订量：5,000瓶</div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="showModal('editProduct')">
+    <div class="product-img">🎭</div>
+    <div class="product-info">
+      <div class="name">烟酰胺美白面膜</div>
+      <div class="spec">25ml×5片/盒</div>
+      <div class="price">¥12 - 20</div>
+      <div class="moq">起订量：3,000盒</div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="showModal('editProduct')">
+    <div class="product-img">🫙</div>
+    <div class="product-info">
+      <div class="name">神经酰胺修护面霜</div>
+      <div class="spec">50g/瓶</div>
+      <div class="price">¥15 - 25</div>
+      <div class="moq">起订量：5,000瓶</div>
+    </div>
+  </div>
+
+  <button class="btn-add-product" onclick="showModal('editProduct')">+</button>
+</div>
+
+<!-- Tab 4: 我的 -->
+<div class="page" id="page-profile">
+  <div class="profile-header">
+    <div class="avatar">🏭</div>
+    <div class="company">上海润辉化妆品有限公司</div>
+    <div class="tagline">代工厂 · 上海奉贤</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-item"><div class="val">2008年</div><div class="lbl">成立年份</div></div>
+    <div class="info-item"><div class="val">200-500人</div><div class="lbl">员工规模</div></div>
+    <div class="info-item"><div class="val">日产5万瓶</div><div class="lbl">产能</div></div>
+    <div class="info-item"><div class="val">3000起</div><div class="lbl">起订量</div></div>
+  </div>
+
+  <div class="cert-section">
+    <div class="section-title">资质证书</div>
+    <div class="cert-grid">
+      <div class="cert-item">
+        <div class="cert-icon">📋</div>
+        <div class="cert-name">营业执照</div>
+        <div class="cert-check">✓ 已认证</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🏅</div>
+        <div class="cert-name">生产许可证</div>
+        <div class="cert-check">✓ 已认证</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🔬</div>
+        <div class="cert-name">GMPC认证</div>
+        <div class="cert-check">✓ 已认证</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🌐</div>
+        <div class="cert-name">ISO22716</div>
+        <div class="cert-check">✓ 已认证</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">设置</div>
+  <div class="menu-list">
+    <div class="menu-item" onclick="showToast('功能开发中')"><span class="menu-label">编辑企业档案</span><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('功能开发中')"><span class="menu-label">资质管理</span><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('功能开发中')"><span class="menu-label">工厂相册</span><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('功能开发中')"><span class="menu-label">数据统计</span><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('功能开发中')"><span class="menu-label">联系客服</span><span class="menu-arrow">›</span></div>
+  </div>
+
+  <button class="btn-logout" onclick="showToast('已退出登录')">退出登录</button>
+</div>
+
+<!-- Tab Bar -->
+<div class="tab-bar">
+  <div class="tab-item active" onclick="switchTab(0)">
+    <div class="icon">📊</div>
+    <div class="label">工作台</div>
+  </div>
+  <div class="tab-item" onclick="switchTab(1)">
+    <div class="icon">⚙️</div>
+    <div class="label">生产管理</div>
+  </div>
+  <div class="tab-item" onclick="switchTab(2)">
+    <div class="icon">📦</div>
+    <div class="label">产品管理</div>
+  </div>
+  <div class="tab-item" onclick="switchTab(3)">
+    <div class="icon">👤</div>
+    <div class="label">我的</div>
+  </div>
+</div>
+
+<!-- Modal: Upload Record -->
+<div class="modal-overlay" id="modal-uploadRecord">
+  <div class="modal">
+    <div class="modal-title">上传生产记录</div>
+    <div class="form-group">
+      <label>订单号</label>
+      <input type="text" placeholder="请输入订单号">
+    </div>
+    <div class="form-group">
+      <label>产品名称</label>
+      <input type="text" placeholder="请输入产品名称">
+    </div>
+    <div class="form-group">
+      <label>客户名称</label>
+      <input type="text" placeholder="请输入客户名称">
+    </div>
+    <button class="btn-submit" onclick="submitAndClose('uploadRecord','生产记录已上传')">提交</button>
+  </div>
+</div>
+
+<!-- Modal: Add Step -->
+<div class="modal-overlay" id="modal-addStep">
+  <div class="modal">
+    <div class="modal-title">添加工序</div>
+    <div class="form-group">
+      <label>工序名称</label>
+      <select>
+        <option value="">请选择工序</option>
+        <option>原料称量</option>
+        <option>加热溶解</option>
+        <option>乳化搅拌</option>
+        <option>冷却搅拌</option>
+        <option>灌装封装</option>
+        <option>灭菌检测</option>
+        <option>包装入库</option>
+        <option>质检出厂</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>拍照上传</label>
+      <div class="upload-area" onclick="showToast('拍照功能开发中')">
+        <span style="font-size:28px">📷</span>
+        <span>点击拍照或上传</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>工序说明</label>
+      <textarea placeholder="请输入工序描述、参数等信息"></textarea>
+    </div>
+    <button class="btn-submit" onclick="submitAndClose('addStep','工序已添加')">提交</button>
+  </div>
+</div>
+
+<!-- Modal: Edit Product -->
+<div class="modal-overlay" id="modal-editProduct">
+  <div class="modal">
+    <div class="modal-title">编辑产品</div>
+    <div class="form-group">
+      <label>产品名称</label>
+      <input type="text" placeholder="请输入产品名称" value="玻尿酸保湿精华液">
+    </div>
+    <div class="form-group">
+      <label>规格</label>
+      <input type="text" placeholder="如 30ml/瓶" value="30ml/瓶">
+    </div>
+    <div class="form-group">
+      <label>价格区间（元）</label>
+      <div style="display:flex;gap:10px">
+        <input type="number" placeholder="最低价" value="8" style="flex:1">
+        <input type="number" placeholder="最高价" value="15" style="flex:1">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>起订量</label>
+      <input type="number" placeholder="最低起订量" value="5000">
+    </div>
+    <div class="form-group">
+      <label>产品图片</label>
+      <div class="upload-area" onclick="showToast('上传功能开发中')">
+        <span style="font-size:28px">🖼️</span>
+        <span>点击上传产品图片</span>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="submitAndClose('editProduct','产品已保存')">保存</button>
+  </div>
+</div>
+
+<script>
+const pages = ['page-home','page-production','page-products','page-profile'];
+const tabs = document.querySelectorAll('.tab-item');
+
+function switchTab(idx){
+  pages.forEach((p,i)=>{
+    document.getElementById(p).classList.toggle('active',i===idx);
+    tabs[i].classList.toggle('active',i===idx);
+  });
+  window.scrollTo(0,0);
+}
+
+function toggleTimeline(card){
+  const tl=card.querySelector('.timeline');
+  if(tl) tl.classList.toggle('show');
+}
+
+function showModal(id){
+  document.getElementById('modal-'+id).classList.add('show');
+}
+
+function closeModal(id){
+  document.getElementById('modal-'+id).classList.remove('show');
+}
+
+function submitAndClose(modalId,msg){
+  closeModal(modalId);
+  showToast(msg);
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+  overlay.addEventListener('click',function(e){
+    if(e.target===this) this.classList.remove('show');
+  });
+});
+</script>
+</body>
+</html>

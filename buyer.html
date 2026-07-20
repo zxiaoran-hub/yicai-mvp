@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>异采 - 化妆品行业可信供应链平台</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+--orange:#F37021;--brown:#3C2415;--bg:#FAF6F0;--text:#2D2926;--sub:#7A6E65;
+--border:#E8DDD3;--tag-bg:#F5EDE4;--white:#FFFFFF;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+background:var(--bg);color:var(--text);max-width:430px;margin:0 auto;position:relative}
+
+/* ===== Pages ===== */
+.page{display:none;height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:68px}
+.page.active{display:flex;flex-direction:column}
+.tab-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* ===== Top Brand ===== */
+.brand-header{padding:16px 20px 8px;text-align:center}
+.brand-name{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--brown);letter-spacing:4px}
+.brand-sub{font-size:12px;color:var(--sub);margin-top:4px;letter-spacing:1px}
+
+/* ===== Data Overview ===== */
+.data-overview{display:flex;justify-content:center;gap:24px;padding:12px 20px;text-align:center}
+.data-item .num{font-size:20px;font-weight:700;color:var(--orange)}
+.data-item .label{font-size:11px;color:var(--sub);margin-top:2px}
+
+/* ===== Search ===== */
+.search-bar{margin:8px 20px;background:var(--white);border-radius:24px;display:flex;align-items:center;padding:10px 16px;gap:8px;border:1px solid var(--border)}
+.search-bar svg{flex-shrink:0;color:var(--sub)}
+.search-bar input{border:none;outline:none;flex:1;font-size:14px;background:transparent;color:var(--text)}
+.search-bar input::placeholder{color:#B8ADA5}
+
+/* ===== Banner ===== */
+.banner{margin:12px 20px;border-radius:14px;padding:22px 20px;background:linear-gradient(135deg,#3C2415,#8B5E3C);color:#fff;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.06)}
+.banner-text{font-size:15px;font-weight:600;letter-spacing:1px;line-height:1.6}
+
+/* ===== Category Tabs ===== */
+.cat-tabs{display:flex;gap:8px;padding:14px 20px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{flex-shrink:0;padding:6px 16px;border-radius:20px;font-size:13px;background:var(--tag-bg);color:var(--sub);border:none;cursor:pointer;transition:.2s}
+.cat-tab.active{background:var(--orange);color:#fff}
+
+/* ===== Supplier Cards ===== */
+.supplier-list{padding:0 20px 20px}
+.supplier-card{background:var(--white);border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--border);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.supplier-card:active{transform:scale(.98);box-shadow:0 2px 12px rgba(60,36,21,.08)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.card-name{font-size:15px;font-weight:600;color:var(--text);flex:1;margin-right:10px;line-height:1.4}
+.score-badge{background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:10px;flex-shrink:0;white-space:nowrap}
+.card-meta{display:flex;gap:12px;font-size:12px;color:var(--sub);margin-bottom:8px;flex-wrap:wrap}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tag{font-size:11px;padding:3px 8px;border-radius:6px}
+.tag-verify{background:var(--tag-bg);color:var(--brown)}
+.tag-trace{background:#E8F5E9;color:#2E7D32;font-weight:600}
+.card-live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text);padding:8px 10px;background:#FFF8F0;border-radius:8px;border:1px solid #FDEBD0}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#4CAF50;display:inline-block;position:relative;flex-shrink:0}
+.pulse-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;background:rgba(76,175,80,.3);animation:pulse 1.5s infinite}
+.pulse-dot.orange{background:var(--orange)}
+.pulse-dot.orange::after{background:rgba(243,112,33,.3)}
+@keyframes pulse{0%{transform:scale(1);opacity:1}100%{transform:scale(2);opacity:0}}
+
+/* ===== Detail Page ===== */
+#detailPage{position:fixed;top:0;left:0;right:0;bottom:0;max-width:430px;margin:0 auto;z-index:100;background:var(--bg);transform:translateX(100%);transition:transform .3s ease}
+#detailPage.show{transform:translateX(0)}
+.detail-header{background:linear-gradient(135deg,#3C2415,#5C3D2E);padding:16px 20px;padding-top:max(16px,env(safe-area-inset-top));color:#fff;position:relative}
+.detail-back{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:4px 8px 4px 0;position:absolute;left:12px;top:max(12px,env(safe-area-inset-top))}
+.detail-title{text-align:center;padding-top:4px}
+.detail-title h2{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:600;letter-spacing:1px}
+.detail-title .type-tag{display:inline-block;background:rgba(255,255,255,.15);font-size:11px;padding:3px 10px;border-radius:10px;margin-top:6px}
+.detail-body{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;padding-bottom:80px}
+
+/* Info Grid */
+.info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin:16px 20px;border-radius:12px;overflow:hidden}
+.info-cell{background:var(--white);padding:14px 10px;text-align:center}
+.info-cell .val{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px}
+.info-cell .key{font-size:11px;color:var(--sub)}
+
+/* Certs */
+.section-title{font-size:16px;font-weight:600;padding:20px 20px 12px;color:var(--text);display:flex;align-items:center;gap:6px}
+.certs-scroll{display:flex;gap:10px;padding:0 20px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.certs-scroll::-webkit-scrollbar{display:none}
+.cert-card{flex-shrink:0;width:120px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center}
+.cert-icon{font-size:28px;margin-bottom:6px}
+.cert-name{font-size:12px;color:var(--text);font-weight:500;margin-bottom:4px}
+.cert-status{font-size:11px;color:#2E7D32;font-weight:600}
+
+/* Factory */
+.factory-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px}
+.factory-item{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.factory-img{height:80px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:32px}
+.factory-label{text-align:center;font-size:12px;color:var(--sub);padding:8px}
+
+/* Process Timeline */
+.process-section{margin:0 20px;background:var(--white);border-radius:14px;padding:16px;border:1px solid var(--border)}
+.process-desc{font-size:12px;color:var(--sub);margin-bottom:14px;line-height:1.6;padding:8px 10px;background:#FFF8F0;border-radius:8px}
+.timeline{position:relative;padding-left:20px}
+.timeline::before{content:'';position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:var(--border)}
+.tl-item{position:relative;padding-bottom:18px;padding-left:16px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-19px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--border);background:var(--white);z-index:1}
+.tl-dot.done{background:#4CAF50;border-color:#4CAF50}
+.tl-dot.doing{background:var(--orange);border-color:var(--orange);animation:dotPulse 1.5s infinite}
+@keyframes dotPulse{0%{box-shadow:0 0 0 0 rgba(243,112,33,.4)}70%{box-shadow:0 0 0 8px rgba(243,112,33,0)}100%{box-shadow:0 0 0 0 rgba(243,112,33,0)}}
+.tl-dot.wait{background:var(--white);border-color:#CCC}
+.tl-name{font-size:14px;font-weight:600;color:var(--text)}
+.tl-time{font-size:11px;color:var(--sub);margin-top:2px}
+.tl-desc{font-size:12px;color:var(--sub);margin-top:4px;line-height:1.5}
+.tl-photo{margin-top:6px;display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--orange);background:#FFF3E8;padding:4px 10px;border-radius:6px}
+
+/* Products */
+.product-card{display:flex;gap:12px;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px;margin:0 20px 10px}
+.product-img{width:72px;height:72px;background:var(--tag-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.product-info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.product-name{font-size:14px;font-weight:600;margin-bottom:4px}
+.product-spec{font-size:12px;color:var(--sub)}
+.product-price{font-size:14px;font-weight:700;color:var(--orange);margin-top:4px}
+.product-moq{font-size:11px;color:var(--sub)}
+
+/* Bottom CTA */
+.detail-cta{position:absolute;bottom:0;left:0;right:0;padding:12px 20px;padding-bottom:max(12px,env(safe-area-inset-bottom));background:var(--white);border-top:1px solid var(--border)}
+.cta-btn{width:100%;padding:14px;background:var(--orange);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.cta-btn:active{opacity:.85}
+
+/* ===== Inquiry Modal ===== */
+.modal-overlay{position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--white);border-radius:20px 20px 0 0;padding:24px 20px;padding-bottom:max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s ease;max-height:85vh;overflow-y:auto}
+.modal-overlay.show .modal-sheet{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:18px;font-weight:600;text-align:center;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--sub);text-align:center;margin-bottom:20px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;display:block}
+.form-label .opt{color:var(--sub);font-weight:400}
+.form-input,.form-select,.form-textarea{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg);outline:none;transition:border .2s;font-family:inherit}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--orange)}
+.form-textarea{min-height:80px;resize:vertical}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%237A6E65' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.modal-btns{display:flex;gap:10px;margin-top:20px}
+.btn-cancel{flex:1;padding:13px;border:1px solid var(--border);border-radius:12px;background:var(--white);font-size:15px;color:var(--sub);cursor:pointer}
+.btn-submit{flex:1;padding:13px;border:none;border-radius:12px;background:var(--orange);color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.btn-submit:active{opacity:.85}
+
+/* ===== Toast ===== */
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);background:rgba(45,41,38,.9);color:#fff;padding:14px 24px;border-radius:12px;font-size:14px;z-index:999;opacity:0;transition:all .3s;pointer-events:none;text-align:center;max-width:300px}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* ===== Favorites ===== */
+.fav-empty{text-align:center;padding:80px 40px;color:var(--sub)}
+.fav-empty .icon{font-size:48px;margin-bottom:12px}
+.fav-empty p{font-size:14px;line-height:1.6}
+.fav-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;margin:0 20px 10px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.fav-avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#3C2415,#8B5E3C);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:700;flex-shrink:0}
+.fav-info{flex:1}
+.fav-name{font-size:14px;font-weight:600}
+.fav-type{font-size:12px;color:var(--sub);margin-top:2px}
+.fav-score{font-size:12px;font-weight:700;color:var(--orange)}
+
+/* ===== Inquiries ===== */
+.inquiry-card{background:var(--white);border:1px solid var(--border);border-radius:12px;margin:0 20px 10px;overflow:hidden;cursor:pointer;transition:all .2s}
+.inquiry-top{padding:14px;display:flex;justify-content:space-between;align-items:flex-start}
+.inquiry-supplier{font-size:14px;font-weight:600;flex:1}
+.inquiry-status{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:600;flex-shrink:0}
+.status-pending{background:#FFF3E0;color:#E65100}
+.status-replied{background:#E8F5E9;color:#2E7D32}
+.status-closed{background:var(--tag-bg);color:var(--sub)}
+.inquiry-meta{padding:0 14px 12px;font-size:12px;color:var(--sub);display:flex;gap:16px}
+.inquiry-detail{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.inquiry-detail.open{max-height:500px}
+.inquiry-detail-inner{padding:0 14px 14px;border-top:1px solid var(--border);padding-top:12px}
+.inquiry-row{display:flex;margin-bottom:8px;font-size:13px}
+.inquiry-row .k{color:var(--sub);width:70px;flex-shrink:0}
+.inquiry-row .v{color:var(--text);flex:1}
+.inquiry-reply{margin-top:10px;padding:10px;background:#F1F8E9;border-radius:8px;font-size:12px;color:#33691E;line-height:1.6}
+
+/* ===== Profile ===== */
+.profile-header{background:linear-gradient(135deg,#3C2415,#5C3D2E);padding:30px 20px;text-align:center;color:#fff}
+.profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 10px}
+.profile-name{font-size:18px;font-weight:600}
+.profile-role{font-size:12px;opacity:.7;margin-top:4px}
+.profile-menu{margin:16px 20px}
+.menu-item{display:flex;align-items:center;padding:16px;background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:background .15s}
+.menu-item:active{background:var(--tag-bg)}
+.menu-icon{font-size:20px;margin-right:12px}
+.menu-text{flex:1;font-size:15px;color:var(--text)}
+.menu-arrow{color:var(--sub);font-size:14px}
+
+/* ===== Bottom Tab ===== */
+.tab-bar{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:var(--white);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:50}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 0 6px;cursor:pointer;transition:color .2s;color:var(--sub)}
+.tab-item.active{color:var(--orange)}
+.tab-item svg{width:22px;height:22px;margin-bottom:2px}
+.tab-item span{font-size:10px}
+.tab-item.active svg{stroke:var(--orange)}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar{width:0;height:0}
+
+/* ===== Section Divider ===== */
+.section-divider{height:8px;background:var(--bg)}
+
+/* ===== Orders ===== */
+.order-card{background:var(--white);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(60,36,21,.06);cursor:pointer;transition:transform .2s}
+.order-card:active{transform:scale(.98)}
+.order-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.order-no{font-size:13px;font-weight:600;color:var(--brown)}
+.order-status{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500}
+.order-status.producing{background:#FFF0E6;color:var(--orange)}
+.order-status.qc{background:#E8F5E9;color:#2E7D32}
+.order-status.shipped{background:#E3F2FD;color:#1565C0}
+.order-supplier{font-size:14px;font-weight:600;margin-bottom:4px}
+.order-product{font-size:12px;color:var(--sub);margin-bottom:12px}
+.order-progress{display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.order-progress-bar{flex:1;height:6px;background:var(--tag-bg);border-radius:3px;overflow:hidden}
+.order-progress-fill{height:100%;border-radius:3px;background:var(--orange);transition:width .3s}
+.order-progress-text{font-size:11px;color:var(--sub);min-width:36px;text-align:right}
+.order-steps{display:flex;justify-content:space-between;margin-top:8px}
+.order-step{display:flex;flex-direction:column;align-items:center;gap:4px}
+.order-step .step-dot{width:10px;height:10px;border-radius:50%;background:var(--tag-bg)}
+.order-step .step-dot.done{background:var(--orange)}
+.order-step .step-dot.active{background:var(--orange);box-shadow:0 0 0 3px rgba(243,112,33,.3);animation:pulse2 2s infinite}
+@keyframes pulse2{0%,100%{box-shadow:0 0 0 3px rgba(243,112,33,.3)}50%{box-shadow:0 0 0 6px rgba(243,112,33,.1)}}
+.order-step .step-label{font-size:9px;color:var(--sub)}
+.order-step .step-label.active{color:var(--orange);font-weight:600}
+
+/* ===== Order Detail (overlay) ===== */
+.order-detail-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:200;transform:translateX(100%);transition:transform .3s;overflow-y:auto;max-width:430px;margin:0 auto}
+.order-detail-overlay.show{transform:translateX(0)}
+.order-detail-header{background:linear-gradient(135deg,#3C2415,#5C3D2E);color:#fff;padding:40px 20px 20px}
+.order-detail-back{background:none;border:none;color:#fff;font-size:14px;cursor:pointer;margin-bottom:8px;display:block;text-align:left}
+.order-detail-title{font-size:18px;font-weight:600;font-family:'Noto Serif SC',serif}
+.order-detail-sub{font-size:12px;opacity:.8;margin-top:4px}
+.order-timeline{padding:20px;position:relative;padding-left:32px}
+.order-timeline::before{content:'';position:absolute;left:22px;top:20px;bottom:20px;width:2px;background:var(--border)}
+.ot-item{position:relative;margin-bottom:24px}
+.ot-dot{position:absolute;left:-18px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border)}
+.ot-dot.done{background:var(--orange);border-color:var(--orange)}
+.ot-dot.active{background:var(--orange);border-color:var(--orange);box-shadow:0 0 0 4px rgba(243,112,33,.25);animation:pulse2 2s infinite}
+.ot-name{font-size:14px;font-weight:600}
+.ot-time{font-size:11px;color:var(--sub);margin-top:2px}
+.ot-desc{font-size:12px;color:var(--sub);margin-top:4px;line-height:1.5}
+.ot-photos{display:flex;gap:6px;margin-top:8px}
+.ot-photo{width:52px;height:52px;border-radius:6px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:18px}
+</style>
+</head>
+<body>
+
+<!-- ========== Page 1: Home ========== -->
+<div id="homePage" class="page active">
+<div class="tab-content">
+<div class="brand-header">
+<div class="brand-name">异 采</div>
+<div class="brand-sub">化妆品行业可信供应链平台</div>
+</div>
+<div class="data-overview">
+<div class="data-item"><div class="num">48</div><div class="label">认证供应商</div></div>
+<div class="data-item"><div class="num">156</div><div class="label">生产过程记录</div></div>
+<div class="data-item"><div class="num">92%</div><div class="label">好评率</div></div>
+</div>
+<div class="search-bar">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+<input type="text" id="searchInput" placeholder="搜索供应商名称、产品..." oninput="filterSuppliers()">
+</div>
+<div class="banner">
+<div class="banner-text">✦ 生产过程可视化，采购更安心</div>
+</div>
+<div class="cat-tabs" id="catTabs">
+<button class="cat-tab active" data-cat="all" onclick="switchCat(this)">全部</button>
+<button class="cat-tab" data-cat="代工厂" onclick="switchCat(this)">代工厂</button>
+<button class="cat-tab" data-cat="原料商" onclick="switchCat(this)">原料商</button>
+<button class="cat-tab" data-cat="包材商" onclick="switchCat(this)">包材商</button>
+<button class="cat-tab" data-cat="检测机构" onclick="switchCat(this)">检测机构</button>
+</div>
+<div class="supplier-list" id="supplierList"></div>
+</div>
+</div>
+
+<!-- ========== Page 2: Orders ========== -->
+<div id="ordersPage" class="page">
+<div class="tab-content">
+<div style="padding:20px 20px 8px;font-size:20px;font-weight:600;font-family:'Noto Serif SC',serif">我的订单</div>
+<div style="padding:0 20px 8px;font-size:12px;color:var(--sub)">实时追踪供应商生产进度</div>
+<div id="ordersList" style="padding:0 16px"></div>
+</div>
+</div>
+
+<!-- ========== Page 3: Inquiries ========== -->
+<div id="inquiryPage" class="page">
+<div class="tab-content">
+<div style="padding:20px;font-size:20px;font-weight:600;font-family:'Noto Serif SC',serif">我的询盘</div>
+<div id="inquiryList"></div>
+</div>
+</div>
+
+<!-- ========== Page 4: Profile ========== -->
+<div id="profilePage" class="page">
+<div class="tab-content">
+<div class="profile-header">
+<div class="profile-avatar">👤</div>
+<div class="profile-name">演示用户</div>
+<div class="profile-role">采购方</div>
+</div>
+<div class="profile-menu">
+<div class="menu-item" onclick="switchTab(2)"><span class="menu-icon">📋</span><span class="menu-text">我的询盘</span><span class="menu-arrow">›</span></div>
+<div class="menu-item" onclick="switchTab(1)"><span class="menu-icon">📦</span><span class="menu-text">我的订单</span><span class="menu-arrow">›</span></div>
+<div class="menu-item"><span class="menu-icon">📊</span><span class="menu-text">数据统计</span><span class="menu-arrow">›</span></div>
+<div class="menu-item"><span class="menu-icon">⚙️</span><span class="menu-text">设置</span><span class="menu-arrow">›</span></div>
+<div class="menu-item"><span class="menu-icon">💬</span><span class="menu-text">联系客服</span><span class="menu-arrow">›</span></div>
+</div>
+</div>
+</div>
+
+<!-- ========== Detail Page (overlay) ========== -->
+<div id="detailPage">
+<div class="detail-header">
+<button class="detail-back" onclick="closeDetail()">‹ 返回</button>
+<div class="detail-title">
+<h2 id="detailName"></h2>
+<div class="type-tag" id="detailType"></div>
+</div>
+</div>
+<div class="detail-body" id="detailBody"></div>
+<div class="detail-cta">
+<button class="cta-btn" id="ctaBtn" onclick="openInquiry()">📩 发送询盘</button>
+</div>
+</div>
+
+<!-- ========== Inquiry Modal ========== -->
+<div class="modal-overlay" id="inquiryModal">
+<div class="modal-sheet">
+<div class="modal-handle"></div>
+<div class="modal-title">📩 发送询盘</div>
+<div class="modal-sub" id="inquirySub"></div>
+<div class="form-group">
+<label class="form-label">采购品类</label>
+<select class="form-select" id="inqCategory">
+<option value="">请选择品类</option>
+<option>护肤品类</option><option>彩妆品类</option><option>洗护品类</option>
+<option>原料成分</option><option>包装材料</option><option>检测服务</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">需求描述</label>
+<textarea class="form-textarea" id="inqDesc" placeholder="请描述您的采购需求..."></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">采购数量</label>
+<input class="form-input" id="inqQty" placeholder="请输入采购数量">
+</div>
+<div class="form-group">
+<label class="form-label">期望价格 <span class="opt">(选填)</span></label>
+<input class="form-input" id="inqPrice" placeholder="请输入期望单价">
+</div>
+<div class="form-group">
+<label class="form-label">联系方式</label>
+<input class="form-input" id="inqContact" placeholder="手机号或邮箱">
+</div>
+<div class="modal-btns">
+<button class="btn-cancel" onclick="closeInquiry()">取消</button>
+<button class="btn-submit" onclick="submitInquiry()">提交询盘</button>
+</div>
+</div>
+</div>
+
+<!-- ========== Toast ========== -->
+<div class="toast" id="toast"></div>
+
+
+<!-- ========== Order Detail Overlay ========== -->
+<div class="order-detail-overlay" id="orderDetailOverlay">
+<div class="order-detail-header">
+<button class="order-detail-back" onclick="closeOrderDetail()">‹ 返回订单列表</button>
+<div class="order-detail-title" id="odTitle"></div>
+<div class="order-detail-sub" id="odSub"></div>
+</div>
+<div style="padding:16px 20px 8px">
+<div style="background:var(--white);border-radius:12px;padding:14px;margin-bottom:12px">
+<div style="font-size:12px;color:var(--sub);margin-bottom:4px">供应商</div>
+<div style="font-size:14px;font-weight:600" id="odSupplier"></div>
+</div>
+<div style="background:var(--white);border-radius:12px;padding:14px;margin-bottom:16px">
+<div style="font-size:12px;color:var(--sub);margin-bottom:8px">订单进度</div>
+<div id="odProgress"></div>
+</div>
+</div>
+<div style="padding:0 20px 12px;font-size:15px;font-weight:600;font-family:'Noto Serif SC',serif">🔴 生产过程记录</div>
+<div style="padding:0 12px 80px;font-size:12px;color:var(--sub);margin:0 20px 8px">以下为该订单在供应商的实际生产过程，实时可追溯</div>
+<div class="order-timeline" id="odTimeline"></div>
+</div>
+
+<!-- ========== Bottom Tab Bar ========== -->
+<div class="tab-bar">
+<div class="tab-item active" onclick="switchTab(0)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+<span>首页</span>
+</div>
+<div class="tab-item" onclick="switchTab(1)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l2 3v5a2 2 0 0 1-2 2h-1"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><path d="M8 18H16"/></svg>
+<span>订单</span>
+</div>
+<div class="tab-item" onclick="switchTab(2)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+<span>询盘</span>
+</div>
+<div class="tab-item" onclick="switchTab(3)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<span>我的</span>
+</div>
+</div>
+
+<script>
+// ===== DATA =====
+const suppliers = [
+{
+  id:1, name:'上海润辉化妆品有限公司', type:'代工厂', location:'上海奉贤', size:'200-500人', score:96, year:2008,
+  capacity:'月产50万瓶', moq:'5000瓶', main:'面霜、精华液、面膜', certs:['营业执照','生产许可证','GMPC认证','ISO22716'],
+  factory:[{i:'🏭',l:'生产车间'},{i:'⚙️',l:'乳化设备'},{i:'🧴',l:'灌装线'},{i:'🔬',l:'质检室'}],
+  live:'冷却搅拌工序',
+  processes:[
+    {n:'原料称量',t:'06-15 08:30',d:'按配方精确称量各类原料，完成投料核验',s:'done',p:'📸 已拍照'},
+    {n:'加热乳化',t:'06-15 09:45',d:'加热至75°C，高速乳化15分钟至均匀',s:'done',p:'📸 已拍照'},
+    {n:'冷却搅拌',t:'06-15 11:20',d:'降温至40°C，低速搅拌加入活性成分',s:'doing',p:'📸 实时中'},
+    {n:'半成品检测',t:'预计 14:00',d:'pH值、粘度、微生物检测',s:'wait',p:''},
+    {n:'灌装包装',t:'预计 16:00',d:'自动灌装、旋盖、贴标、装箱',s:'wait',p:''}
+  ],
+  products:[
+    {i:'🧴',n:'玻尿酸保湿面霜',s:'50g/瓶',p:'¥18.5',m:'5000瓶起'},
+    {i:'💧',n:'烟酰胺精华液',s:'30ml/瓶',p:'¥22.0',m:'3000瓶起'},
+    {i:'🧖',n:'胶原蛋白面膜',s:'25ml×5片/盒',p:'¥28.0',m:'2000盒起'},
+    {i:'🫧',n:'氨基酸洁面乳',s:'120ml/支',p:'¥12.8',m:'5000支起'}
+  ]
+},
+{
+  id:2, name:'上海碧源生物科技有限公司', type:'原料商', location:'上海金山', size:'50-100人', score:91, year:2012,
+  capacity:'月产20吨原料', moq:'100kg', main:'透明质酸、胶原蛋白、植物提取物', certs:['营业执照','生产许可证','ISO9001','COSMOS认证'],
+  factory:[{i:'🧪',l:'研发实验室'},{i:'⚗️',l:'提取车间'},{i:'🔬',l:'分析中心'},{i:'📦',l:'恒温仓库'}],
+  live:'分离纯化工序',
+  processes:[
+    {n:'原料预处理',t:'06-14 09:00',d:'植物原料清洗、粉碎、过筛',s:'done',p:'📸 已拍照'},
+    {n:'酶解提取',t:'06-14 11:30',d:'生物酶解法提取活性成分，温度37°C',s:'done',p:'📸 已拍照'},
+    {n:'膜分离纯化',t:'06-14 15:00',d:'超滤膜分离，去除杂质蛋白',s:'done',p:'📸 已拍照'},
+    {n:'冷冻干燥',t:'06-15 09:00',d:'真空冷冻干燥，保留活性',s:'doing',p:'📸 实时中'},
+    {n:'质检放行',t:'预计 06-16',d:'含量测定、微生物限度、重金属检测',s:'wait',p:''}
+  ],
+  products:[
+    {i:'🧪',n:'医药级透明质酸',s:'1kg/袋',p:'¥3,800',m:'5kg起'},
+    {i:'💎',n:'重组胶原蛋白',s:'500g/瓶',p:'¥5,200',m:'2kg起'},
+    {i:'🌿',n:'积雪草提取物',s:'1kg/瓶',p:'¥680',m:'10kg起'}
+  ]
+},
+{
+  id:3, name:'上海璟瑞包装科技有限公司', type:'包材商', location:'上海松江', size:'100-200人', score:88, year:2015,
+  capacity:'月产100万套', moq:'10000套', main:'化妆品瓶、口红管、粉饼盒', certs:['营业执照','生产许可证','ISO14001','SGS认证'],
+  factory:[{i:'🏭',l:'注塑车间'},{i:'🎨',l:'喷涂车间'},{i:'🖨️',l:'印刷车间'},{i:'📦',l:'成品仓库'}],
+  live:'喷涂上色工序',
+  processes:[
+    {n:'模具准备',t:'06-15 07:30',d:'检查模具状态，预热至工作温度',s:'done',p:'📸 已拍照'},
+    {n:'注塑成型',t:'06-15 09:00',d:'ABS原料注塑成型，检查外观',s:'done',p:'📸 已拍照'},
+    {n:'表面处理',t:'06-15 11:00',d:'去毛刺、底漆喷涂、烘干',s:'done',p:'📸 已拍照'},
+    {n:'喷涂上色',t:'06-15 14:00',d:'面漆喷涂，色号Pantone 7505C',s:'doing',p:'📸 实时中'},
+    {n:'丝印logo',t:'预计 16:30',d:'品牌logo丝印、UV固化',s:'wait',p:''},
+    {n:'品控检验',t:'预计 18:00',d:'色差检测、附着力测试、尺寸检测',s:'wait',p:''}
+  ],
+  products:[
+    {i:'🧴',n:'精华液玻璃瓶',s:'30ml/支',p:'¥4.5',m:'10000支起'},
+    {i:'💄',n:'口红管（磁吸）',s:'标准款',p:'¥6.8',m:'5000个起'},
+    {i:'🫙',n:'面霜亚克力罐',s:'50g/个',p:'¥3.2',m:'10000个起'},
+    {i:'📦',n:'定制礼盒套装',s:'按需定制',p:'¥15.0',m:'3000套起'}
+  ]
+},
+{
+  id:4, name:'上海清研检测技术有限公司', type:'检测机构', location:'上海闵行', size:'50-100人', score:94, year:2010,
+  capacity:'日检200批次', moq:'1批次', main:'微生物检测、重金属检测、功效评价', certs:['营业执照','CMA资质','CNAS认可','GLP认证'],
+  factory:[{i:'🔬',l:'微生物室'},{i:'⚗️',l:'化学分析室'},{i:'🧫',l:'细胞实验室'},{i:'📊',l:'数据中心'}],
+  live:'重金属检测',
+  processes:[
+    {n:'样品接收',t:'06-15 08:00',d:'核对样品信息、登记编号、拍照留存',s:'done',p:'📸 已拍照'},
+    {n:'样品前处理',t:'06-15 09:30',d:'微波消解、定容、稀释',s:'done',p:'📸 已拍照'},
+    {n:'重金属检测',t:'06-15 13:00',d:'ICP-MS检测铅、砷、汞、镉',s:'doing',p:'📸 实时中'},
+    {n:'微生物检测',t:'预计 06-16',d:'菌落总数、霉菌酵母、致病菌',s:'wait',p:''},
+    {n:'报告出具',t:'预计 06-17',d:'数据审核、报告签发',s:'wait',p:''}
+  ],
+  products:[
+    {i:'🔬',n:'全套安全检测',s:'1批次',p:'¥2,800',m:'1批次起'},
+    {i:'📋',n:'功效评价报告',s:'1份',p:'¥8,500',m:'1份起'},
+    {i:'🧫',n:'微生物检测',s:'5项/批次',p:'¥600',m:'10批次起'}
+  ]
+},
+{
+  id:5, name:'上海美尚精细化工有限公司', type:'代工厂', location:'上海奉贤', size:'100-200人', score:89, year:2011,
+  capacity:'月产30万瓶', moq:'3000瓶', main:'洗发水、沐浴露、身体乳', certs:['营业执照','生产许可证','GMPC认证','ISO22716'],
+  factory:[{i:'🏭',l:'乳化车间'},{i:'🧴',l:'灌装车间'},{i:'🔬',l:'研发室'},{i:'📦',l:'仓储中心'}],
+  live:'脱模检验工序',
+  processes:[
+    {n:'配方核对',t:'06-15 07:00',d:'双人复核配方，确认原料批号',s:'done',p:'📸 已拍照'},
+    {n:'水相制备',t:'06-15 08:30',d:'纯水加热、溶解增稠剂',s:'done',p:'📸 已拍照'},
+    {n:'油相乳化',t:'06-15 10:00',d:'油相加热混合，真空乳化均质',s:'done',p:'📸 已拍照'},
+    {n:'调香调色',t:'06-15 11:30',d:'加入香精、色素，搅拌均匀',s:'done',p:'📸 已拍照'},
+    {n:'脱模检验',t:'06-15 14:00',d:'外观检查、粘度测试、pH测试',s:'doing',p:'📸 实时中'},
+    {n:'灌装入库',t:'预计 16:30',d:'自动灌装、封膜、装箱入库',s:'wait',p:''}
+  ],
+  products:[
+    {i:'🧴',n:'氨基酸洗发水',s:'500ml/瓶',p:'¥9.8',m:'5000瓶起'},
+    {i:'🫧',n:'烟酰胺沐浴露',s:'400ml/瓶',p:'¥8.5',m:'5000瓶起'},
+    {i:'🧖',n:'身体乳',s:'300ml/瓶',p:'¥11.2',m:'3000瓶起'}
+  ]
+}
+];
+
+const inquiries = [
+  {supplier:'上海润辉化妆品有限公司',category:'护肤品类',desc:'定制玻尿酸保湿面霜，要求GMPC认证工厂',qty:'20000瓶',price:'¥16/瓶',status:'pending',time:'2025-06-14 10:30',reply:''},
+  {supplier:'上海碧源生物科技有限公司',category:'原料成分',desc:'采购医药级透明质酸，要求提供COA报告',qty:'10kg',price:'',status:'replied',time:'2025-06-10 14:20',reply:'您好，医药级透明质酸报价¥3,800/kg，10kg以上可享95折优惠。COA及MSDS文件已附，请查收。样品可安排顺丰到付寄送。'},
+  {supplier:'上海璟瑞包装科技有限公司',category:'包装材料',desc:'定制品牌logo口红管，磁吸款',qty:'8000个',price:'¥6/个',status:'closed',time:'2025-05-28 09:15',reply:'感谢询盘！磁吸口红管8000个单价¥6.5，含丝印logo。已安排打样，预计5个工作日完成。'}
+];
+
+let currentCat = 'all';
+let currentSupplier = null;
+let currentTab = 0;
+const pages = ['homePage','favPage','inquiryPage','profilePage'];
+
+// ===== Render Functions =====
+function renderSupplierList() {
+  const keyword = document.getElementById('searchInput').value.toLowerCase();
+  let list = suppliers.filter(s => {
+    const matchCat = currentCat === 'all' || s.type === currentCat;
+    const matchKw = !keyword || s.name.toLowerCase().includes(keyword) || s.type.includes(keyword) || s.location.includes(keyword);
+    return matchCat && matchKw;
+  });
+  const el = document.getElementById('supplierList');
+  if (!list.length) {
+    el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--sub);font-size:14px">暂无匹配的供应商</div>';
+    return;
+  }
+  el.innerHTML = list.map(s => `
+    <div class="supplier-card" onclick="openDetail(${s.id})">
+      <div class="card-top">
+        <div class="card-name">${s.name}</div>
+        <div class="score-badge">可信度 ${s.score}</div>
+      </div>
+      <div class="card-meta">
+        <span>📍 ${s.location}</span>
+        <span>👥 ${s.size}</span>
+        <span>📅 ${s.year}年成立</span>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-verify">${s.type} · 已核验 ✓</span>
+        <span class="tag tag-trace">🔗 生产过程可追溯</span>
+      </div>
+      <div class="card-live">
+        <span class="pulse-dot orange"></span>
+        <span>正在进行：<strong>${s.live}</strong></span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterSuppliers() { renderSupplierList(); }
+function switchCat(btn) {
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = btn.dataset.cat;
+  renderSupplierList();
+}
+
+// ===== Detail =====
+function openDetail(id) {
+  const s = suppliers.find(x => x.id === id);
+  if (!s) return;
+  currentSupplier = s;
+  document.getElementById('detailName').textContent = s.name;
+  document.getElementById('detailType').textContent = s.type;
+  document.getElementById('inquirySub').textContent = '向「' + s.name + '」发送采购需求';
+
+  let html = '';
+  // Info Grid
+  html += `<div class="info-grid">
+    <div class="info-cell"><div class="val">${s.year}</div><div class="key">成立年份</div></div>
+    <div class="info-cell"><div class="val">${s.size}</div><div class="key">员工规模</div></div>
+    <div class="info-cell"><div class="val">${s.capacity}</div><div class="key">月产能</div></div>
+    <div class="info-cell"><div class="val">${s.moq}</div><div class="key">起订量</div></div>
+    <div class="info-cell"><div class="val">${s.main}</div><div class="key">主营产品</div></div>
+    <div class="info-cell"><div class="val" style="color:var(--orange)">${s.score}</div><div class="key">可信度评分</div></div>
+  </div>`;
+
+  // Certs
+  html += `<div class="section-title">📜 资质证书</div><div class="certs-scroll">`;
+  s.certs.forEach(c => {
+    html += `<div class="cert-card"><div class="cert-icon">📄</div><div class="cert-name">${c}</div><div class="cert-status">✓ 已核验</div></div>`;
+  });
+  html += `</div>`;
+
+  // Factory
+  html += `<div class="section-title">🏭 工厂实景</div><div class="factory-grid">`;
+  s.factory.forEach(f => {
+    html += `<div class="factory-item"><div class="factory-img">${f.i}</div><div class="factory-label">${f.l}</div></div>`;
+  });
+  html += `</div>`;
+
+  // Process Timeline
+  html += `<div class="section-title">🔴 生产过程记录</div>
+  <div style="padding:0 20px"><div class="process-section">
+    <div class="process-desc">📋 以下为该供应商实际生产过程中的关键工序记录，实时可追溯</div>
+    <div class="timeline">`;
+  s.processes.forEach(p => {
+    const dotClass = p.s === 'done' ? 'done' : p.s === 'doing' ? 'doing' : 'wait';
+    const statusText = p.s === 'wait' ? '<span style="color:#999">待进行</span>' : `<span style="color:#999">${p.t}</span>`;
+    html += `<div class="tl-item">
+      <div class="tl-dot ${dotClass}"></div>
+      <div class="tl-name">${p.n}</div>
+      <div class="tl-time">${statusText}</div>
+      ${p.s !== 'wait' ? `<div class="tl-desc">${p.d}</div>` : ''}
+      ${p.p ? `<div class="tl-photo">${p.p} 查看照片</div>` : ''}
+    </div>`;
+  });
+  html += `</div></div></div>`;
+
+  // Products
+  html += `<div class="section-title">📦 产品目录</div>`;
+  s.products.forEach(p => {
+    html += `<div class="product-card">
+      <div class="product-img">${p.i}</div>
+      <div class="product-info">
+        <div class="product-name">${p.n}</div>
+        <div class="product-spec">${p.s}</div>
+        <div class="product-price">${p.p}</div>
+        <div class="product-moq">${p.m}</div>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('detailBody').innerHTML = html;
+  document.getElementById('detailPage').classList.add('show');
+}
+
+function closeDetail() {
+  document.getElementById('detailPage').classList.remove('show');
+}
+
+// ===== Inquiry Modal =====
+function openInquiry() {
+  document.getElementById('inquiryModal').classList.add('show');
+}
+function closeInquiry() {
+  document.getElementById('inquiryModal').classList.remove('show');
+}
+function submitInquiry() {
+  closeInquiry();
+  showToast('✅ 询盘已发送，供应商将在24小时内回复');
+}
+
+// ===== Toast =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===== Tab Switch =====
+function switchTab(idx) {
+  currentTab = idx;
+  document.querySelectorAll('.page').forEach((p,i) => {
+    p.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.tab-item').forEach((t,i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  if (idx === 1) renderOrders();
+  if (idx === 2) renderInquiries();
+}
+
+// ===== Favorites =====
+function renderFavorites() {
+  const favIds = [1, 4];
+  const favs = suppliers.filter(s => favIds.includes(s.id));
+  let html = '';
+  favs.forEach(s => {
+    const initial = s.name.charAt(2);
+    html += `<div class="fav-card" onclick="switchTab(0);setTimeout(()=>openDetail(${s.id}),100)">
+      <div class="fav-avatar">${initial}</div>
+      <div class="fav-info">
+        <div class="fav-name">${s.name}</div>
+        <div class="fav-type">${s.type} · ${s.location}</div>
+      </div>
+      <div class="fav-score">${s.score}分</div>
+    </div>`;
+  });
+  document.getElementById('favContent').innerHTML = html;
+}
+
+// ===== Inquiries =====
+function renderInquiries() {
+  let html = '';
+  inquiries.forEach((inq, i) => {
+    const statusMap = {pending:['待回复','status-pending'],replied:['已回复','status-replied'],closed:['已关闭','status-closed']};
+    const [label, cls] = statusMap[inq.status];
+    html += `<div class="inquiry-card" onclick="toggleInquiry(${i})">
+      <div class="inquiry-top">
+        <div class="inquiry-supplier">${inq.supplier}</div>
+        <div class="inquiry-status ${cls}">${label}</div>
+      </div>
+      <div class="inquiry-meta">
+        <span>📦 ${inq.category}</span>
+        <span>🕐 ${inq.time}</span>
+      </div>
+      <div class="inquiry-detail" id="inqDetail${i}">
+        <div class="inquiry-detail-inner">
+          <div class="inquiry-row"><span class="k">品类</span><span class="v">${inq.category}</span></div>
+          <div class="inquiry-row"><span class="k">描述</span><span class="v">${inq.desc}</span></div>
+          <div class="inquiry-row"><span class="k">数量</span><span class="v">${inq.qty}</span></div>
+          ${inq.price ? `<div class="inquiry-row"><span class="k">期望价格</span><span class="v">${inq.price}</span></div>` : ''}
+          ${inq.reply ? `<div class="inquiry-reply">💬 供应商回复：${inq.reply}</div>` : ''}
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('inquiryList').innerHTML = html;
+}
+
+function toggleInquiry(idx) {
+  const el = document.getElementById('inqDetail' + idx);
+  el.classList.toggle('open');
+}
+
+// ===== Close modal on overlay click =====
+document.getElementById('inquiryModal').addEventListener('click', function(e) {
+  if (e.target === this) closeInquiry();
+});
+
+
+// ===== Orders Data =====
+const orders = [
+  {
+    id: 'ORD-2026-001',
+    supplier: '上海润辉化妆品有限公司',
+    product: '玻尿酸保湿精华液 30ml',
+    qty: '10000瓶',
+    status: 'producing',
+    statusText: '生产中',
+    progress: 60,
+    currentStep: '冷却搅拌',
+    steps: [
+      { name: '已下单', done: true },
+      { name: '原料准备', done: true },
+      { name: '乳化生产', done: true },
+      { name: '冷却搅拌', done: false, active: true },
+      { name: '质检取样', done: false },
+      { name: '灌装发货', done: false }
+    ],
+    timeline: [
+      { name: '原料称量', time: '07/18 08:30', desc: '透明质酸钠、甘油、丁二醇等原料精确称量，批号记录完毕', status: 'done', photos: ['📸','📸'] },
+      { name: '水相加热', time: '07/18 09:15', desc: '水相原料加热至75°C，搅拌溶解完全', status: 'done', photos: ['📸'] },
+      { name: '乳化生产', time: '07/18 10:00', desc: '油相与水相混合乳化，转速2800rpm，恒温30分钟，乳化均匀', status: 'done', photos: ['📸','📸','📹'] },
+      { name: '冷却搅拌', time: '07/18 11:30', desc: '缓慢降温至45°C，加入活性成分（烟酰胺、神经酰胺），低速搅拌', status: 'active', photos: ['📸'] },
+      { name: '质检取样', time: '待进行', desc: 'pH值、粘度、微生物检测，预计2小时', status: 'wait', photos: [] },
+      { name: '灌装包装', time: '待进行', desc: '自动灌装30ml/瓶，旋盖贴标，装箱发货', status: 'wait', photos: [] }
+    ]
+  },
+  {
+    id: 'ORD-2026-002',
+    supplier: '上海璟瑞包装科技有限公司',
+    product: '50ml精华液瓶（渐变玫瑰金）',
+    qty: '20000只',
+    status: 'qc',
+    statusText: '质检中',
+    progress: 85,
+    currentStep: '质检入库',
+    steps: [
+      { name: '已下单', done: true },
+      { name: '模具准备', done: true },
+      { name: '注塑成型', done: true },
+      { name: '喷涂上色', done: true },
+      { name: '质检入库', done: false, active: true },
+      { name: '物流配送', done: false }
+    ],
+    timeline: [
+      { name: '模具安装', time: '07/15 06:00', desc: '50ml精华液瓶模具安装调试完成，渐变玫瑰金色确认', status: 'done', photos: ['📸'] },
+      { name: '注塑成型', time: '07/15 07:30', desc: 'PETG原料注塑，模温60°C，周期18秒，首件检验合格', status: 'done', photos: ['📸','📸'] },
+      { name: '喷涂上色', time: '07/16 09:00', desc: '渐变玫瑰金色喷涂完成，三层工艺：底漆+色漆+光油', status: 'done', photos: ['📸','📸','📹'] },
+      { name: '质检入库', time: '07/18 10:00', desc: '外观检查：色差△E<1.5合格；密封性测试：负压0.06MPa无泄漏；尺寸抽检合格', status: 'active', photos: ['📸','📸'] },
+      { name: '物流配送', time: '待进行', desc: '预计07/19发货，德邦物流', status: 'wait', photos: [] }
+    ]
+  },
+  {
+    id: 'ORD-2026-003',
+    supplier: '上海碧源生物科技有限公司',
+    product: '低分子透明质酸钠',
+    qty: '50kg',
+    status: 'shipped',
+    statusText: '已发货',
+    progress: 100,
+    currentStep: '已完成',
+    steps: [
+      { name: '已下单', done: true },
+      { name: '发酵培养', done: true },
+      { name: '分离纯化', done: true },
+      { name: '干燥包装', done: true },
+      { name: '质检出库', done: true },
+      { name: '物流配送', done: true }
+    ],
+    timeline: [
+      { name: '原料投料', time: '07/10 07:00', desc: '发酵培养基配制完成，灭菌处理', status: 'done', photos: ['📸'] },
+      { name: '发酵培养', time: '07/10-07/12', desc: '温度37°C，pH 7.0，发酵48小时，产率达标', status: 'done', photos: ['📸','📸'] },
+      { name: '分离纯化', time: '07/13 09:00', desc: '膜分离+层析纯化，纯度>98%，分子量<10kDa', status: 'done', photos: ['📸','📸'] },
+      { name: '干燥包装', time: '07/14 14:00', desc: '喷雾干燥，真空包装，25kg/桶×2', status: 'done', photos: ['📸'] },
+      { name: '质检出库', time: '07/15 09:00', desc: '纯度99.2%、水分<5%、微生物合格，COA出具', status: 'done', photos: ['📸','📸'] },
+      { name: '物流配送', time: '07/15 15:00', desc: '顺丰冷链发出，运号SF1234567890，07/16签收', status: 'done', photos: ['📸'] }
+    ]
+  }
+];
+
+function renderOrders() {
+  let html = '';
+  orders.forEach((o, i) => {
+    const progressColor = o.status === 'shipped' ? '#2E7D32' : 'var(--orange)';
+    html += `<div class="order-card" onclick="openOrderDetail(${i})">
+      <div class="order-top">
+        <div class="order-no">${o.id}</div>
+        <div class="order-status ${o.status}">${o.statusText}</div>
+      </div>
+      <div class="order-supplier">${o.supplier}</div>
+      <div class="order-product">${o.product} · ${o.qty}</div>
+      <div class="order-progress">
+        <div class="order-progress-bar"><div class="order-progress-fill" style="width:${o.progress}%;background:${progressColor}"></div></div>
+        <div class="order-progress-text">${o.progress}%</div>
+      </div>
+      <div class="order-steps">`;
+    o.steps.forEach(s => {
+      const dotClass = s.active ? 'active' : s.done ? 'done' : '';
+      const labelClass = s.active ? 'active' : '';
+      html += `<div class="order-step"><div class="step-dot ${dotClass}"></div><div class="step-label ${labelClass}">${s.name}</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('ordersList').innerHTML = html;
+}
+
+function openOrderDetail(idx) {
+  const o = orders[idx];
+  document.getElementById('odTitle').textContent = o.id;
+  document.getElementById('odSub').textContent = o.product + ' · ' + o.qty;
+  document.getElementById('odSupplier').textContent = o.supplier;
+  
+  // Progress bar
+  const progressColor = o.status === 'shipped' ? '#2E7D32' : 'var(--orange)';
+  let progressHtml = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+    <div style="flex:1;height:8px;background:var(--tag-bg);border-radius:4px;overflow:hidden">
+      <div style="height:100%;width:${o.progress}%;background:${progressColor};border-radius:4px"></div>
+    </div>
+    <div style="font-size:14px;font-weight:600;color:${progressColor}">${o.progress}%</div>
+  </div>
+  <div style="font-size:12px;color:var(--sub)">当前工序：<span style="color:var(--text);font-weight:500">${o.currentStep}</span></div>`;
+  document.getElementById('odProgress').innerHTML = progressHtml;
+  
+  // Timeline
+  let tlHtml = '';
+  o.timeline.forEach(t => {
+    const dotClass = t.status === 'done' ? 'done' : t.status === 'active' ? 'active' : '';
+    const timeText = t.status === 'wait' ? '<span style="color:#999">待进行</span>' : t.time;
+    tlHtml += `<div class="ot-item">
+      <div class="ot-dot ${dotClass}"></div>
+      <div class="ot-name">${t.name}</div>
+      <div class="ot-time">${timeText}</div>
+      ${t.status !== 'wait' ? `<div class="ot-desc">${t.desc}</div>` : ''}
+      ${t.photos.length ? `<div class="ot-photos">${t.photos.map(p => `<div class="ot-photo">${p}</div>`).join('')}</div>` : ''}
+    </div>`;
+  });
+  document.getElementById('odTimeline').innerHTML = tlHtml;
+  
+  document.getElementById('orderDetailOverlay').classList.add('show');
+}
+
+function closeOrderDetail() {
+  document.getElementById('orderDetailOverlay').classList.remove('show');
+}
+
+// ===== Init =====
+renderSupplierList();
+</script>
+</body>
+</html>
