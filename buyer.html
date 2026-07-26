@@ -254,7 +254,7 @@ function renderCurrent(){
 
 // ====== 找供应商 ======
 function renderBrowse(){
-  var categories=['全部','护肤品','彩妆','洗护','原料','包装'];
+  var categories=['全部','护肤品','彩妆','洗护','原料','包装','合规咨询'];
   var filterHtml='';
   categories.forEach(function(c){
     filterHtml+='<div class="filter-tag'+(currentFilter===c?' active':'')+'" onclick="filterSuppliers(\''+c+'\')">'+c+'</div>';
@@ -523,5 +523,3 @@ function confirmReceive(orderId){
 // Init
 renderManage();
 </script>
-</body>
-</html>
