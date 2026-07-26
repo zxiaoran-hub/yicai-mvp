@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>异采 - 公司管理端</title>
+<style>
+:root{--orange:#F37021;--brown:#3C2415;--beige:#FAF6F0;--gold:#C8A96E;--white:#FFF;--gray:#999;--light-gray:#E8E4DF;--green:#27AE60;--red:#E74C3C;--blue:#2D8CFF;--shadow:0 2px 12px rgba(60,36,21,0.08);--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--beige);color:var(--brown);min-height:100vh;padding-bottom:70px}
+.header{background:var(--white);padding:16px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.header h1{font-size:18px;font-weight:700}
+.header .sub{font-size:12px;color:var(--gray);margin-top:2px}
+.container{max-width:480px;margin:0 auto;padding:16px}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);display:flex;box-shadow:0 -2px 10px rgba(0,0,0,0.06);z-index:100}
+.tab-item{flex:1;text-align:center;padding:10px 0 8px;font-size:11px;color:var(--gray);cursor:pointer;border-top:2px solid transparent}
+.tab-item.active{color:var(--orange);border-top-color:var(--orange)}
+.tab-item .tab-icon{font-size:20px;margin-bottom:2px}
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.stat-num{font-size:24px;font-weight:700;color:var(--orange)}
+.stat-label{font-size:12px;color:var(--gray);margin-top:4px}
+.stat-sub{font-size:11px;color:var(--green);margin-top:2px}
+/* Cards */
+.card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.card-title{font-size:15px;font-weight:600}
+.card-meta{font-size:12px;color:var(--gray);display:flex;flex-wrap:wrap;gap:6px}
+.badge{font-size:11px;padding:3px 8px;border-radius:10px;font-weight:500}
+.badge-green{background:#E8F8EF;color:var(--green)}
+.badge-orange{background:#FFF3EB;color:var(--orange)}
+.badge-blue{background:#EBF5FF;color:var(--blue)}
+.badge-gray{background:#F0F0F0;color:var(--gray)}
+.badge-gold{background:#FFF8E7;color:var(--gold)}
+/* Level tag */
+.level-tag{display:inline-block;width:24px;height:24px;border-radius:6px;font-size:12px;font-weight:700;text-align:center;line-height:24px}
+.level-A{background:#E8F8EF;color:var(--green)}
+.level-B{background:#FFF3EB;color:var(--orange)}
+.level-C{background:#F0F0F0;color:var(--gray)}
+/* Star rating */
+.stars{color:var(--gold);font-size:14px;letter-spacing:1px}
+/* Supplier card */
+.supplier-card{background:var(--white);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+.supplier-avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#FFF3EB,#FFE8D6);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.supplier-info{flex:1}
+.supplier-name{font-size:14px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.supplier-detail{font-size:12px;color:var(--gray);margin-top:4px}
+/* Filters */
+.filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.filter-select{padding:6px 10px;border:1px solid var(--light-gray);border-radius:8px;font-size:12px;background:var(--white);color:var(--brown);-webkit-appearance:none}
+/* Person card */
+.person-card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px}
+.person-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:700;flex-shrink:0}
+.person-info{flex:1}
+.person-name{font-size:15px;font-weight:600}
+.person-stats{font-size:12px;color:var(--gray);margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
+/* Trend */
+.trend-card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.trend-title{font-size:14px;font-weight:600;margin-bottom:10px}
+.trend-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
+.trend-bar-label{width:50px;color:var(--gray)}
+.trend-bar-track{flex:1;height:8px;background:var(--beige);border-radius:4px;overflow:hidden}
+.trend-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--orange),var(--gold))}
+.trend-bar-value{width:50px;text-align:right;font-weight:600;color:var(--brown)}
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--white);width:100%;max-width:480px;max-height:85vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:20px 16px 30px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-header h3{font-size:17px;font-weight:700}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--beige);border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* Timeline */
+.timeline{padding:10px 0}
+.timeline-item{display:flex;gap:12px;position:relative;padding-bottom:20px}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--light-gray);background:var(--white);flex-shrink:0;margin-top:4px;position:relative;z-index:1}
+.timeline-item.done .timeline-dot{background:var(--green);border-color:var(--green)}
+.timeline-item.current .timeline-dot{background:var(--orange);border-color:var(--orange);box-shadow:0 0 0 4px rgba(243,112,33,0.2)}
+.timeline-item:not(:last-child)::before{content:'';position:absolute;left:5px;top:16px;width:2px;bottom:0;background:var(--light-gray)}
+.timeline-item.done::before{background:var(--green)}
+.timeline-content{flex:1}
+.timeline-status{font-size:14px;font-weight:600}
+.timeline-item.current .timeline-status{color:var(--orange)}
+.timeline-time{font-size:12px;color:var(--gray);margin-top:2px}
+.timeline-remark{font-size:12px;color:var(--gray);margin-top:2px;font-style:italic}
+.btn{display:inline-block;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer}
+.btn:active{opacity:0.8}
+.btn-primary{background:var(--orange);color:var(--white)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.empty{text-align:center;padding:40px 20px;color:var(--gray);font-size:14px}
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(60,36,21,0.85);color:var(--white);padding:12px 24px;border-radius:10px;font-size:14px;z-index:300;display:none}
+.toast.show{display:block}
+.order-row{font-size:12px;color:var(--gray);margin-top:4px;display:flex;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 公司管理端</h1>
+  <div class="sub">品牌方管理视角</div>
+</div>
+
+<div class="container">
+  <!-- 数据总览 -->
+  <div id="page-overview" class="page">
+    <div class="stat-grid" id="overviewStats"></div>
+    <div class="trend-card" id="trendCard">
+      <div class="trend-title">📈 月度采购趋势</div>
+      <div id="trendBars"></div>
+    </div>
+    <div class="section-title" style="font-size:15px;font-weight:600;margin:16px 0 10px">最近订单</div>
+    <div id="recentOrders"></div>
+  </div>
+
+  <!-- 人员管理 -->
+  <div id="page-people" class="page" style="display:none">
+    <div id="peopleList"></div>
+  </div>
+
+  <!-- 供应商库 -->
+  <div id="page-suppliers" class="page" style="display:none">
+    <div id="supplierList"></div>
+  </div>
+
+  <!-- 订单总览 -->
+  <div id="page-orders" class="page" style="display:none">
+    <div class="filters">
+      <select class="filter-select" id="filterStatus" onchange="renderOrders()">
+        <option value="">全部状态</option>
+        <option value="待确认">待确认</option>
+        <option value="原料准备中">原料准备中</option>
+        <option value="生产中">生产中</option>
+        <option value="质检中">质检中</option>
+        <option value="已发货">已发货</option>
+        <option value="已签收">已签收</option>
+        <option value="已完成">已完成</option>
+      </select>
+      <select class="filter-select" id="filterCategory" onchange="renderOrders()">
+        <option value="">全部品类</option>
+        <option value="护肤品">护肤品</option>
+        <option value="彩妆">彩妆</option>
+        <option value="包装">包装</option>
+        <option value="原料">原料</option>
+      </select>
+      <select class="filter-select" id="filterBuyer" onchange="renderOrders()">
+        <option value="">全部采购</option>
+        <option value="张明">张明</option>
+        <option value="李娜">李娜</option>
+        <option value="王芳">王芳</option>
+      </select>
+    </div>
+    <div id="orderList"></div>
+  </div>
+</div>
+
+<!-- 底部Tab -->
+<div class="tab-bar">
+  <div class="tab-item active" onclick="switchTab('overview')"><div class="tab-icon">📊</div>数据总览</div>
+  <div class="tab-item" onclick="switchTab('people')"><div class="tab-icon">👥</div>人员管理</div>
+  <div class="tab-item" onclick="switchTab('suppliers')"><div class="tab-icon">🏭</div>供应商库</div>
+  <div class="tab-item" onclick="switchTab('orders')"><div class="tab-icon">📦</div>订单总览</div>
+</div>
+
+<!-- 订单详情 Modal -->
+<div class="modal-overlay" id="orderDetailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>订单详情</h3>
+      <button class="modal-close" onclick="closeModal('orderDetailModal')">✕</button>
+    </div>
+    <div id="orderDetailContent"></div>
+  </div>
+</div>
+
+<!-- 供应商等级调整 Modal -->
+<div class="modal-overlay" id="levelModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>调整供应商等级</h3>
+      <button class="modal-close" onclick="closeModal('levelModal')">✕</button>
+    </div>
+    <div id="levelForm"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var ORDER_STATUSES=['待确认','原料准备中','生产中','质检中','已发货','已签收'];
+function getData(key){return JSON.parse(localStorage.getItem(key)||'[]')}
+function setData(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function getSupplier(id){return getData('yc_suppliers').find(function(s){return s.id===id})}
+function getDemand(id){return getData('yc_demands').find(function(d){return d.id===id})}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast show';setTimeout(function(){t.className='toast'},2000)}
+function openModal(id){document.getElementById(id).className='modal-overlay show'}
+function closeModal(id){document.getElementById(id).className='modal-overlay'}
+
+function switchTab(tab){
+  document.querySelectorAll('.page').forEach(function(p){p.style.display='none'});
+  document.getElementById('page-'+tab).style.display='block';
+  var idx={overview:0,people:1,suppliers:2,orders:3}[tab];
+  document.querySelectorAll('.tab-item').forEach(function(t,i){t.className='tab-item'+(i===idx?' active':'')});
+  if(tab==='overview')renderOverview();
+  if(tab==='people')renderPeople();
+  if(tab==='suppliers')renderSuppliers();
+  if(tab==='orders')renderOrders();
+}
+
+function renderOverview(){
+  var orders=getData('yc_orders');
+  var demands=getData('yc_demands');
+  var suppliers=getData('yc_suppliers');
+  // Stats
+  var thisMonthOrders=orders.filter(function(o){return o.createdAt>='2025-01-01'});
+  var totalAmount=thisMonthOrders.reduce(function(s,o){return s+o.amount},0);
+  var activeDemands=demands.filter(function(d){return d.status==='报价中'||d.status==='进行中'}).length;
+  var activeSuppliers=suppliers.filter(function(s){return s.status==='活跃'}).length;
+  var doneOrders=orders.filter(function(o){return o.status==='已签收'||o.status==='已完成'}).length;
+  
+  document.getElementById('overviewStats').innerHTML=
+    '<div class="stat-card"><div class="stat-num">¥'+((totalAmount||1232000)/10000).toFixed(1)+'万</div><div class="stat-label">本月采购额</div><div class="stat-sub">↑ 12% 环比</div></div>'
+    +'<div class="stat-card"><div class="stat-num">'+activeDemands+'</div><div class="stat-label">进行中需求</div></div>'
+    +'<div class="stat-card"><div class="stat-num">'+activeSuppliers+'</div><div class="stat-label">活跃供应商</div></div>'
+    +'<div class="stat-card"><div class="stat-num">'+doneOrders+'</div><div class="stat-label">已完成订单</div></div>';
+  
+  // Trend bars (static data for demo)
+  var trends=[
+    {month:'10月',amount:68},
+    {month:'11月',amount:82},
+    {month:'12月',amount:95},
+    {month:'1月',amount:100}
+  ];
+  var html='';
+  trends.forEach(function(t){
+    html+='<div class="trend-bar"><span class="trend-bar-label">'+t.month+'</span>'
+      +'<div class="trend-bar-track"><div class="trend-bar-fill" style="width:'+t.amount+'%"></div></div>'
+      +'<span class="trend-bar-value">'+(t.amount*1.2).toFixed(0)+'万</span></div>';
+  });
+  document.getElementById('trendBars').innerHTML=html;
+  
+  // Recent orders
+  var recent=orders.slice(-3).reverse();
+  var rhtml='';
+  recent.forEach(function(o){
+    var s=getSupplier(o.supplierId);
+    var statusClass=o.status==='已签收'||o.status==='已完成'?'badge-green':'badge-blue';
+    rhtml+='<div class="card" onclick="showOrderDetail(\''+o.id+'\')" style="cursor:pointer">'
+      +'<div class="card-header"><span class="card-title">'+o.title+'</span><span class="badge '+statusClass+'">'+o.status+'</span></div>'
+      +'<div class="card-meta"><span>🏭 '+(s?s.name:'未知')+'</span><span>💰 ¥'+o.amount.toLocaleString()+'</span></div>'
+      +'<div class="order-row"><span>'+o.buyerName+'</span><span>'+o.createdAt+'</span></div>'
+      +'</div>';
+  });
+  document.getElementById('recentOrders').innerHTML=rhtml||'<div class="empty">暂无订单</div>';
+}
+
+function renderPeople(){
+  var buyers=getData('yc_buyers');
+  var orders=getData('yc_orders');
+  var demands=getData('yc_demands');
+  var html='';
+  buyers.forEach(function(b){
+    var buyerOrders=orders.filter(function(o){return o.buyerName===b.name});
+    var activeOrders=buyerOrders.filter(function(o){return o.status!=='已签收'&&o.status!=='已完成'}).length;
+    var totalAmount=buyerOrders.reduce(function(s,o){return s+o.amount},0);
+    var buyerDemands=demands.filter(function(d){return d.createdBy===b.name}).length;
+    html+='<div class="person-card">'
+      +'<div class="person-avatar">'+b.name[0]+'</div>'
+      +'<div class="person-info"><div class="person-name">'+b.name+'</div>'
+      +'<div class="person-stats"><span>📝 '+buyerDemands+'个需求</span><span>📦 '+activeOrders+'个进行中</span><span>💰 ¥'+(totalAmount/10000).toFixed(1)+'万</span></div>'
+      +'</div></div>';
+  });
+  document.getElementById('peopleList').innerHTML=html;
+}
+
+function renderSuppliers(){
+  var suppliers=getData('yc_suppliers');
+  var orders=getData('yc_orders');
+  var html='';
+  suppliers.forEach(function(s){
+    var coopCount=orders.filter(function(o){return o.supplierId===s.id}).length;
+    var statusBadge=s.status==='活跃'?'badge-green':'badge-orange';
+    var stars='';
+    for(var i=0;i<5;i++){stars+=i<Math.floor(s.rating)?'★':'☆'}
+    html+='<div class="supplier-card">'
+      +'<div class="supplier-avatar">🏭</div>'
+      +'<div class="supplier-info">'
+      +'<div class="supplier-name">'+s.name+' <span class="level-tag level-'+s.level+'">'+s.level+'</span></div>'
+      +'<div style="margin:2px 0"><span class="badge '+statusBadge+'">'+s.status+'</span> <span class="stars">'+stars+'</span> <span style="font-size:12px;color:var(--gray)">'+s.rating+'</span></div>'
+      +'<div class="supplier-detail">主营：'+s.category+' | 合作'+coopCount+'次</div>'
+      +'<div style="margin-top:6px"><button class="btn btn-sm btn-primary" onclick="showLevelChange(\''+s.id+'\')">调整等级</button></div>'
+      +'</div></div>';
+  });
+  document.getElementById('supplierList').innerHTML=html;
+}
+
+function showLevelChange(supplierId){
+  var s=getSupplier(supplierId);
+  var html='<div style="margin-bottom:14px;font-size:14px;color:#666">供应商：'+s.name+'</div>'
+    +'<div style="margin-bottom:14px"><label style="font-size:13px;display:block;margin-bottom:6px">当前等级：<b>'+s.level+'</b></label></div>'
+    +'<div style="display:flex;gap:10px;margin-bottom:16px">'
+    +'<button class="btn '+(s.level==='A'?'btn-primary':'')+'" style="flex:1;background:'+(s.level==='A'?'var(--orange)':'var(--beige)')+';color:'+(s.level==='A'?'#fff':'var(--brown)')+'" onclick="setLevel(\''+supplierId+'\',\'A\')">A级</button>'
+    +'<button class="btn '+(s.level==='B'?'btn-primary':'')+'" style="flex:1;background:'+(s.level==='B'?'var(--orange)':'var(--beige)')+';color:'+(s.level==='B'?'#fff':'var(--brown)')+'" onclick="setLevel(\''+supplierId+'\',\'B\')">B级</button>'
+    +'<button class="btn '+(s.level==='C'?'btn-primary':'')+'" style="flex:1;background:'+(s.level==='C'?'var(--orange)':'var(--beige)')+';color:'+(s.level==='C'?'#fff':'var(--brown)')+'" onclick="setLevel(\''+supplierId+'\',\'C\')">C级</button>'
+    +'</div>';
+  document.getElementById('levelForm').innerHTML=html;
+  openModal('levelModal');
+}
+
+function setLevel(supplierId,level){
+  var suppliers=getData('yc_suppliers');
+  var s=suppliers.find(function(x){return x.id===supplierId});
+  s.level=level;
+  setData('yc_suppliers',suppliers);
+  closeModal('levelModal');
+  showToast('等级已更新为 '+level+' 级');
+  renderSuppliers();
+}
+
+function renderOrders(){
+  var statusFilter=document.getElementById('filterStatus').value;
+  var catFilter=document.getElementById('filterCategory').value;
+  var buyerFilter=document.getElementById('filterBuyer').value;
+  var orders=getData('yc_orders');
+  var demands=getData('yc_demands');
+  
+  if(statusFilter){orders=orders.filter(function(o){return o.status===statusFilter})}
+  if(catFilter){
+    orders=orders.filter(function(o){
+      var d=getDemand(o.demandId);
+      return d&&d.category===catFilter;
+    });
+  }
+  if(buyerFilter){orders=orders.filter(function(o){return o.buyerName===buyerFilter})}
+  
+  if(orders.length===0){document.getElementById('orderList').innerHTML='<div class="empty">暂无订单</div>';return}
+  
+  var html='';
+  orders.sort(function(a,b){return b.createdAt.localeCompare(a.createdAt)});
+  orders.forEach(function(o){
+    var s=getSupplier(o.supplierId);
+    var d=getDemand(o.demandId);
+    var statusClass=o.status==='已签收'||o.status==='已完成'?'badge-green':'badge-blue';
+    html+='<div class="card" onclick="showOrderDetail(\''+o.id+'\')" style="cursor:pointer">'
+      +'<div class="card-header"><span class="card-title" style="font-size:13px">'+o.orderNo+'</span><span class="badge '+statusClass+'">'+o.status+'</span></div>'
+      +'<div style="font-size:14px;font-weight:600;margin-bottom:6px">'+o.title+'</div>'
+      +'<div class="card-meta"><span>🏭 '+(s?s.name:'未知')+'</span><span>💰 ¥'+o.amount.toLocaleString()+'</span></div>'
+      +'<div class="order-row"><span>📂 '+(d?d.category:'')+'</span><span>👤 '+o.buyerName+'</span><span>'+o.createdAt+'</span></div>'
+      +'</div>';
+  });
+  document.getElementById('orderList').innerHTML=html;
+}
+
+function showOrderDetail(orderId){
+  var orders=getData('yc_orders');
+  var o=orders.find(function(x){return x.id===orderId});if(!o)return;
+  var currentIdx=ORDER_STATUSES.indexOf(o.status);
+  var supplier=getSupplier(o.supplierId);
+  var d=getDemand(o.demandId);
+  
+  var html='<div style="margin-bottom:16px">'
+    +'<div style="font-size:13px;color:#999;margin-bottom:4px">'+o.orderNo+'</div>'
+    +'<div style="font-size:16px;font-weight:600;margin-bottom:8px">'+o.title+'</div>'
+    +'<div style="font-size:13px;color:#666;line-height:1.8">'
+    +'<div>🏭 供应商：'+(supplier?supplier.name:'未知')+'</div>'
+    +'<div>💰 金额：¥'+o.amount.toLocaleString()+'</div>'
+    +'<div>📦 数量：'+o.quantity.toLocaleString()+'</div>'
+    +'<div>👤 采购人员：'+o.buyerName+'</div>'
+    +'<div>📅 下单时间：'+o.createdAt+'</div>'
+    +'</div></div>';
+  
+  html+='<div style="font-size:14px;font-weight:600;margin-bottom:10px">生产进度</div>';
+  html+='<div class="timeline">';
+  ORDER_STATUSES.forEach(function(s,i){
+    var found=o.timeline.find(function(t){return t.status===s});
+    var cls=i<currentIdx?'done':(i===currentIdx?'current':'');
+    html+='<div class="timeline-item '+cls+'"><div class="timeline-dot"></div><div class="timeline-content">'
+      +'<div class="timeline-status">'+(i<currentIdx?'✓ ':'')+s+'</div>'
+      +(found?'<div class="timeline-time">'+found.time+'</div>'
+      +(found.remark?'<div class="timeline-remark">'+found.remark+'</div>':''):'<div class="timeline-time" style="color:#ccc">等待中</div>')
+      +'</div></div>';
+  });
+  html+='</div>';
+  document.getElementById('orderDetailContent').innerHTML=html;
+  openModal('orderDetailModal');
+}
+
+// Init
+renderOverview();
+</script>
+</body>
+</html>

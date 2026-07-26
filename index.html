@@ -2,50 +2,170 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>异采</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>异采 - 化妆品行业可信供应链平台</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
-  background: #FAF6F0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+:root {
+  --orange: #F37021;
+  --brown: #3C2415;
+  --beige: #FAF6F0;
+  --gold: #C8A96E;
+  --white: #FFFFFF;
+  --gray: #999;
+  --light-gray: #E8E4DF;
+  --shadow: 0 2px 12px rgba(60,36,21,0.08);
 }
-.brand { text-align: center; margin-bottom: 48px; }
-.brand h1 { font-family: 'Noto Serif SC', serif; font-size: 36px; color: #3C2415; letter-spacing: 8px; margin-bottom: 8px; }
-.brand p { font-size: 13px; color: #7A6E65; letter-spacing: 2px; }
-.cards { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 360px; }
-.card {
-  background: white; border-radius: 16px; padding: 28px 24px; text-decoration: none; color: #2D2926;
-  box-shadow: 0 2px 12px rgba(60,36,21,0.08); display: flex; align-items: center; gap: 20px;
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: var(--beige); color: var(--brown); min-height: 100vh; }
+.container { max-width: 480px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; display: flex; flex-direction: column; }
+.logo-section { text-align: center; padding: 40px 0 20px; }
+.logo { width: 72px; height: 72px; background: linear-gradient(135deg, var(--orange), var(--gold)); border-radius: 18px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(243,112,33,0.3); }
+.logo-text { font-size: 32px; font-weight: 800; color: var(--white); letter-spacing: -1px; }
+h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
+.subtitle { font-size: 15px; color: var(--gray); letter-spacing: 2px; }
+.cards { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 30px 0; }
+.card { background: var(--white); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--brown); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+.card:active { transform: scale(0.98); box-shadow: 0 1px 6px rgba(60,36,21,0.1); }
+.card-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.card-icon.supplier { background: linear-gradient(135deg, #FFF3EB, #FFE8D6); }
+.card-icon.buyer { background: linear-gradient(135deg, #EBF5FF, #D6ECFF); }
+.card-icon.company { background: linear-gradient(135deg, #F0EBFF, #E0D6FF); }
+.card-info { flex: 1; }
+.card-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+.card-desc { font-size: 13px; color: var(--gray); }
+.card-arrow { font-size: 18px; color: var(--light-gray); }
+.footer { text-align: center; padding: 20px 0; }
+.footer-text { font-size: 12px; color: var(--light-gray); }
+.badge { display: inline-block; background: var(--orange); color: var(--white); font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-top: 6px; }
+@media(min-width:768px) {
+  .container { max-width: 600px; padding: 40px 24px; }
+  .cards { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .card { width: calc(50% - 8px); flex-direction: column; text-align: center; padding: 32px 20px; }
+  .card:last-child { width: calc(50% - 8px); }
 }
-.card:active { transform: scale(0.97); }
-.card-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
-.card-icon.buyer { background: #F37021; }
-.card-icon.supplier { background: #3C2415; }
-.card-text h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
-.card-text p { font-size: 12px; color: #7A6E65; }
-.footer { margin-top: 48px; font-size: 11px; color: #C4B8AC; letter-spacing: 1px; }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="brand"><h1>异 采</h1><p>化妆品行业可信供应链平台</p></div>
-<div class="cards">
-  <a class="card" href="buyer.html">
-    <div class="card-icon buyer">🛍️</div>
-    <div class="card-text"><h3>采购方入口</h3><p>搜索供应商 · 查看生产过程 · 追踪订单 · 发送询盘</p></div>
-  </a>
-  <a class="card" href="supplier.html">
-    <div class="card-icon supplier">🏭</div>
-    <div class="card-text"><h3>供应商入口</h3><p>管理工作台 · 上传生产记录 · 管理产品</p></div>
-  </a>
+<div class="container">
+  <div class="logo-section">
+    <div class="logo"><span class="logo-text">异采</span></div>
+    <h1>异采平台</h1>
+    <p class="subtitle">化妆品行业可信供应链平台</p>
+  </div>
+  <div class="cards">
+    <a class="card" href="supplier.html">
+      <div class="card-icon supplier">🏭</div>
+      <div class="card-info">
+        <div class="card-title">供应商端</div>
+        <div class="card-desc">查看需求、提交报价、管理订单</div>
+        <span class="badge">供应商入口</span>
+      </div>
+      <span class="card-arrow">›</span>
+    </a>
+    <a class="card" href="buyer.html">
+      <div class="card-icon buyer">📋</div>
+      <div class="card-info">
+        <div class="card-title">采购人员端</div>
+        <div class="card-desc">发布需求、比价选择、跟踪订单</div>
+        <span class="badge">采购入口</span>
+      </div>
+      <span class="card-arrow">›</span>
+    </a>
+    <a class="card" href="company.html">
+      <div class="card-icon company">📊</div>
+      <div class="card-info">
+        <div class="card-title">公司管理端</div>
+        <div class="card-desc">数据总览、人员管理、供应商库</div>
+        <span class="badge">管理入口</span>
+      </div>
+      <span class="card-arrow">›</span>
+    </a>
+  </div>
+  <div class="footer">
+    <p class="footer-text">© 2025 异采 YiCai · 演示版 MVP</p>
+  </div>
 </div>
-<div class="footer">YICAI · COSMETICS SUPPLY CHAIN PLATFORM</div>
+<script>
+// 初始化模拟数据
+(function initData(){
+  if(localStorage.getItem('yc_init_v2')) return;
+  
+  var suppliers = [
+    {id:'s1', name:'上海璟辰化妆品有限公司', category:'护肤品', cert:'ISO22716/GMPC', capacity:'月产50万瓶', contact:'王经理', phone:'138****6789', status:'活跃', level:'A', rating:4.8, cooperationCount:12},
+    {id:'s2', name:'广州美尚生物科技有限公司', category:'彩妆', cert:'ISO22716', capacity:'月产80万件', contact:'李总', phone:'139****2345', status:'活跃', level:'A', rating:4.6, cooperationCount:8},
+    {id:'s3', name:'苏州华盛包装科技有限公司', category:'包装', cert:'ISO9001/FSC', capacity:'月产200万套', contact:'张经理', phone:'137****8901', status:'活跃', level:'B', rating:4.3, cooperationCount:5},
+    {id:'s4', name:'深圳源草生化科技有限公司', category:'原料', cert:'ISO9001/REACH', capacity:'月产100吨', contact:'陈博士', phone:'136****4567', status:'待审核', level:'B', rating:4.1, cooperationCount:2}
+  ];
+  
+  var demands = [
+    {id:'d1', title:'玻尿酸保湿精华液生产', category:'护肤品', spec:'30ml/瓶，含2%玻尿酸，透明质酸钠为主要成分，无色透明液体', quantity:50000, targetPrice:8.5, deliveryDate:'2025-03-15', status:'报价中', createdBy:'张明', createdAt:'2025-01-10', remark:'需要样品5瓶'},
+    {id:'d2', title:'丝绒哑光口红生产', category:'彩妆', spec:'3.5g/支，色号：#R01豆沙红、#R03正红、#R05玫瑰粉，各5000支', quantity:15000, targetPrice:12, deliveryDate:'2025-04-01', status:'已选供应商', createdBy:'李娜', createdAt:'2025-01-08', remark:'需要色卡确认'},
+    {id:'d3', title:'定制礼盒包装', category:'包装', spec:'300x200x80mm，铜版纸+特种纸，烫金工艺，内含EVA内衬', quantity:10000, targetPrice:15, deliveryDate:'2025-03-20', status:'报价中', createdBy:'张明', createdAt:'2025-01-12', remark:'需打样确认'}
+  ];
+  
+  var quotations = [
+    {id:'q1', demandId:'d1', supplierId:'s1', unitPrice:8.2, deliveryDays:30, moq:30000, remark:'含包材，可提供免费样品', status:'已报价', createdAt:'2025-01-11'},
+    {id:'q2', demandId:'d1', supplierId:'s2', unitPrice:8.8, deliveryDays:25, moq:20000, remark:'支持加急生产', status:'已报价', createdAt:'2025-01-11'},
+    {id:'q3', demandId:'d2', supplierId:'s2', unitPrice:11.5, deliveryDays:35, moq:10000, remark:'含调色服务', status:'已报价', createdAt:'2025-01-09'},
+    {id:'q4', demandId:'d3', supplierId:'s3', unitPrice:14.5, deliveryDays:20, moq:5000, remark:'可免费打样2次', status:'已报价', createdAt:'2025-01-13'},
+    {id:'q5', demandId:'d3', supplierId:'s1', unitPrice:16.0, deliveryDays:18, moq:8000, remark:'烫金工艺经验丰富', status:'已报价', createdAt:'2025-01-13'}
+  ];
+  
+  var orders = [
+    {
+      id:'o1', orderNo:'YC20250108001', demandId:'d2', supplierId:'s2', buyerName:'李娜', 
+      amount:172500, quantity:15000, unitPrice:11.5,
+      status:'生产中', title:'丝绒哑光口红生产',
+      timeline:[
+        {status:'待确认', time:'2025-01-09 10:00', remark:'订单已创建'},
+        {status:'原料准备中', time:'2025-01-10 09:30', remark:'原料已下单采购'},
+        {status:'生产中', time:'2025-01-12 14:00', remark:'已开始灌装生产线'}
+      ],
+      createdAt:'2025-01-09'
+    },
+    {
+      id:'o2', orderNo:'YC20241215001', demandId:'d4', supplierId:'s1', buyerName:'张明',
+      amount:425000, quantity:50000, unitPrice:8.5,
+      status:'已签收', title:'烟酰胺美白精华液生产',
+      timeline:[
+        {status:'待确认', time:'2024-12-16 09:00', remark:'订单创建'},
+        {status:'原料准备中', time:'2024-12-17 10:00', remark:''},
+        {status:'生产中', time:'2024-12-20 11:00', remark:''},
+        {status:'质检中', time:'2025-01-05 14:00', remark:'质检合格'},
+        {status:'已发货', time:'2025-01-06 09:00', remark:'顺丰物流 SF1234567'},
+        {status:'已签收', time:'2025-01-08 15:00', remark:'仓库已验收'}
+      ],
+      createdAt:'2024-12-16'
+    },
+    {
+      id:'o3', orderNo:'YC20241201001', demandId:'d5', supplierId:'s3', buyerName:'王芳',
+      amount:135000, quantity:10000, unitPrice:13.5,
+      status:'已完成', title:'双十一限定礼盒包装',
+      timeline:[
+        {status:'待确认', time:'2024-12-02 10:00', remark:''},
+        {status:'原料准备中', time:'2024-12-03 14:00', remark:''},
+        {status:'生产中', time:'2024-12-05 09:00', remark:''},
+        {status:'质检中', time:'2024-12-10 16:00', remark:'合格率99.2%'},
+        {status:'已发货', time:'2024-12-11 08:00', remark:''},
+        {status:'已签收', time:'2024-12-13 11:00', remark:'已签收'}
+      ],
+      createdAt:'2024-12-02'
+    }
+  ];
+  
+  var buyers = [
+    {id:'b1', name:'张明', demands:5, activeOrders:3, amount:892000},
+    {id:'b2', name:'李娜', demands:3, activeOrders:2, amount:534000},
+    {id:'b3', name:'王芳', demands:4, activeOrders:1, amount:678000}
+  ];
+  
+  localStorage.setItem('yc_suppliers', JSON.stringify(suppliers));
+  localStorage.setItem('yc_demands', JSON.stringify(demands));
+  localStorage.setItem('yc_quotations', JSON.stringify(quotations));
+  localStorage.setItem('yc_orders', JSON.stringify(orders));
+  localStorage.setItem('yc_buyers', JSON.stringify(buyers));
+  localStorage.setItem('yc_init_v2', '1');
+})();
+</script>
 </body>
 </html>
