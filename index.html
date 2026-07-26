@@ -57,7 +57,7 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
       <div class="card-icon supplier">🏭</div>
       <div class="card-info">
         <div class="card-title">供应商端</div>
-        <div class="card-desc">查看需求、提交报价、管理订单</div>
+        <div class="card-desc">查看需求、提交报价、管理订单、商品管理</div>
         <span class="badge">供应商入口</span>
       </div>
       <span class="card-arrow">›</span>
@@ -66,7 +66,7 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
       <div class="card-icon buyer">📋</div>
       <div class="card-info">
         <div class="card-title">采购人员端</div>
-        <div class="card-desc">发布需求、比价选择、跟踪订单</div>
+        <div class="card-desc">发布需求、找供应商、比价选择、跟踪订单</div>
         <span class="badge">采购入口</span>
       </div>
       <span class="card-arrow">›</span>
@@ -75,7 +75,7 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
       <div class="card-icon company">📊</div>
       <div class="card-info">
         <div class="card-title">公司管理端</div>
-        <div class="card-desc">数据总览、人员管理、供应商库</div>
+        <div class="card-desc">数据总览、人员管理、供应商库、订单总览</div>
         <span class="badge">管理入口</span>
       </div>
       <span class="card-arrow">›</span>
@@ -86,85 +86,115 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
   </div>
 </div>
 <script>
-// 初始化模拟数据
 (function initData(){
-  if(localStorage.getItem('yc_init_v2')) return;
-  
+  if(localStorage.getItem('yc_init_v3')) return;
+
   var suppliers = [
-    {id:'s1', name:'上海璟辰化妆品有限公司', category:'护肤品', cert:'ISO22716/GMPC', capacity:'月产50万瓶', contact:'王经理', phone:'138****6789', status:'活跃', level:'A', rating:4.8, cooperationCount:12},
-    {id:'s2', name:'广州美尚生物科技有限公司', category:'彩妆', cert:'ISO22716', capacity:'月产80万件', contact:'李总', phone:'139****2345', status:'活跃', level:'A', rating:4.6, cooperationCount:8},
-    {id:'s3', name:'苏州华盛包装科技有限公司', category:'包装', cert:'ISO9001/FSC', capacity:'月产200万套', contact:'张经理', phone:'137****8901', status:'活跃', level:'B', rating:4.3, cooperationCount:5},
-    {id:'s4', name:'深圳源草生化科技有限公司', category:'原料', cert:'ISO9001/REACH', capacity:'月产100吨', contact:'陈博士', phone:'136****4567', status:'待审核', level:'B', rating:4.1, cooperationCount:2}
+    {id:'s1', name:'上海璟辰化妆品有限公司', category:'护肤品', cert:'ISO22716/GMPC/SGS', capacity:'月产50万瓶', contact:'王经理', phone:'138****6789', status:'活跃', level:'A', rating:4.8, cooperationCount:12,
+     intro:'上海璟辰化妆品有限公司成立于2010年，专注于护肤品OEM/ODM代工服务。公司拥有10万级GMPC洁净车间，配备全自动灌装线和乳化设备。核心团队拥有15年护肤品研发经验，服务超过200个品牌客户。',
+     products:[
+       {id:'p1', name:'玻尿酸保湿精华液', category:'护肤品', spec:'30ml/瓶，含2%透明质酸钠', price:8.5, moq:5000, desc:'高纯度玻尿酸配方，保湿锁水效果显著，支持定制浓度和容量'},
+       {id:'p2', name:'烟酰胺亮肤面霜', category:'护肤品', spec:'50g/瓶，含5%烟酰胺', price:12.0, moq:3000, desc:'美白淡斑配方，质地轻薄易吸收，可调整功效成分比例'},
+       {id:'p3', name:'氨基酸温和洁面乳', category:'护肤品', spec:'120ml/支，氨基酸表活体系', price:6.5, moq:5000, desc:'温和不刺激，pH5.5弱酸性配方，适合敏感肌，支持定制香型'}
+     ]},
+    {id:'s2', name:'广州美源生物科技有限公司', category:'彩妆', cert:'ISO22716/FDA', capacity:'月产80万件', contact:'李总', phone:'139****2345', status:'活跃', level:'A', rating:4.6, cooperationCount:8,
+     intro:'广州美源生物科技有限公司是一家集研发、生产、销售为一体的彩妆代工企业。拥有现代化厂房8000平方米，配备全自动口红灌装机、粉饼压粉机等先进设备。年产能超1000万件，产品远销东南亚及欧美市场。',
+     products:[
+       {id:'p4', name:'气垫BB霜', category:'彩妆', spec:'15g/盒，含替换芯', price:15.0, moq:3000, desc:'轻薄遮瑕，持久不脱妆，SPF50+ PA+++，可定制色号和功效'},
+       {id:'p5', name:'丝绒哑光口红', category:'彩妆', spec:'3.5g/支，丝绒质地', price:11.5, moq:5000, desc:'高显色持久配方，不拔干不沾杯，支持OEM色号定制'},
+       {id:'p6', name:'九色眼影盘', category:'彩妆', spec:'12g/盘，9色组合', price:18.0, moq:3000, desc:'粉质细腻飞粉少，哑光珠光搭配，支持调色和包装设计定制'}
+     ]},
+    {id:'s3', name:'苏州清雅日化有限公司', category:'洗护', cert:'ISO22716/ISO14001', capacity:'月产100万瓶', contact:'张经理', phone:'137****8901', status:'活跃', level:'A', rating:4.5, cooperationCount:10,
+     intro:'苏州清雅日化有限公司专注洗护发及身体护理产品研发生产15年。拥有5条全自动生产线，通过ISO22716和ISO14001双认证。擅长天然植物配方开发，合作品牌涵盖国内外知名日化品牌。',
+     products:[
+       {id:'p7', name:'氨基酸洗发水', category:'洗护', spec:'500ml/瓶，无硅油配方', price:7.0, moq:5000, desc:'温和清洁不伤发，蓬松控油效果佳，支持定制功效和香型'},
+       {id:'p8', name:'修护护发素', category:'洗护', spec:'500ml/瓶，含角蛋白', price:6.5, moq:5000, desc:'深层修护毛鳞片，柔顺不油腻，适配各类发质'},
+       {id:'p9', name:'香氛沐浴露', category:'洗护', spec:'400ml/瓶，前中后调香氛', price:8.0, moq:5000, desc:'持久留香配方，泡沫绵密易冲洗，多种香型可选'}
+     ]},
+    {id:'s4', name:'杭州绿源化妆品原料有限公司', category:'原料', cert:'ISO9001/REACH/COA', capacity:'月产200吨', contact:'陈博士', phone:'136****4567', status:'活跃', level:'B', rating:4.3, cooperationCount:6,
+     intro:'杭州绿源化妆品原料有限公司是一家专业的化妆品原料供应商，拥有GMP标准仓库和完善的质检体系。主营玻尿酸、烟酰胺、植物提取物等活性原料，与国内多家科研院所保持技术合作。',
+     products:[
+       {id:'p10', name:'玻尿酸原液', category:'原料', spec:'1kg/瓶，分子量100万Da', price:280.0, moq:10, desc:'高纯度透明质酸钠，化妆品级原料，附COA检测报告'},
+       {id:'p11', name:'烟酰胺粉末', category:'原料', spec:'25kg/桶，纯度≥99.5%', price:150.0, moq:25, desc:'高纯度维生素B3衍生物，美白淡斑核心原料，附完整质检报告'},
+       {id:'p12', name:'积雪草提取物', category:'原料', spec:'1kg/瓶，苷含量≥40%', price:320.0, moq:5, desc:'天然植物提取，舒缓修护功效显著，水溶性好'}
+     ]},
+    {id:'s5', name:'佛山华彩包装科技有限公司', category:'包装', cert:'ISO9001/FSC/BRC', capacity:'月产300万套', contact:'刘经理', phone:'135****3456', status:'活跃', level:'B', rating:4.2, cooperationCount:4,
+     intro:'佛山华彩包装科技有限公司专注化妆品包装设计与生产。拥有PET/玻璃瓶生产线、纸盒印刷生产线，提供从设计到量产的一站式包装解决方案。',
+     products:[
+       {id:'p13', name:'PET精华液瓶', category:'包装', spec:'30ml，透明/磨砂可选', price:1.2, moq:10000, desc:'高品质PET材质，可配滴管/喷头/按压泵，支持丝印烫金'},
+       {id:'p14', name:'口红管', category:'包装', spec:'标准口径21.5mm', price:2.5, moq:5000, desc:'铝合金/塑料材质可选，多色可选，支持定制LOGO和配色'},
+       {id:'p15', name:'礼盒包装', category:'包装', spec:'定制尺寸，铜版纸+特种纸', price:15.0, moq:3000, desc:'高端礼盒定制，支持烫金、UV、击凸等工艺，含内衬设计'}
+     ]}
   ];
-  
+
   var demands = [
-    {id:'d1', title:'玻尿酸保湿精华液生产', category:'护肤品', spec:'30ml/瓶，含2%玻尿酸，透明质酸钠为主要成分，无色透明液体', quantity:50000, targetPrice:8.5, deliveryDate:'2025-03-15', status:'报价中', createdBy:'张明', createdAt:'2025-01-10', remark:'需要样品5瓶'},
-    {id:'d2', title:'丝绒哑光口红生产', category:'彩妆', spec:'3.5g/支，色号：#R01豆沙红、#R03正红、#R05玫瑰粉，各5000支', quantity:15000, targetPrice:12, deliveryDate:'2025-04-01', status:'已选供应商', createdBy:'李娜', createdAt:'2025-01-08', remark:'需要色卡确认'},
-    {id:'d3', title:'定制礼盒包装', category:'包装', spec:'300x200x80mm，铜版纸+特种纸，烫金工艺，内含EVA内衬', quantity:10000, targetPrice:15, deliveryDate:'2025-03-20', status:'报价中', createdBy:'张明', createdAt:'2025-01-12', remark:'需打样确认'}
+    {id:'d1', title:'寻找护肤品OEM代工厂', category:'护肤品', spec:'30ml精华液，含2%玻尿酸，透明质酸钠为主要成分，无色透明液体，需通过备案', quantity:5000, targetPrice:8.5, deliveryDate:'2025-03-15', status:'报价中', createdBy:'张明', createdAt:'2025-01-10', remark:'需要样品5瓶，需配合完成产品备案'},
+    {id:'d2', title:'采购彩妆原料', category:'原料', spec:'高纯度烟酰胺粉末，纯度≥99.5%，需提供COA证书和MSDS', quantity:100, targetPrice:150, deliveryDate:'2025-02-28', status:'已选供应商', createdBy:'李娜', createdAt:'2025-01-08', remark:'首批试用，后续长期合作'},
+    {id:'d3', title:'定制洗护套装', category:'洗护', spec:'洗发水500ml+护发素500ml+沐浴露400ml套装，无硅油配方，自然清新香型', quantity:3000, targetPrice:18.0, deliveryDate:'2025-04-01', status:'进行中', createdBy:'王芳', createdAt:'2025-01-05', remark:'春季新品，需定制包装和香型'},
+    {id:'d4', title:'气垫BB霜代工', category:'彩妆', spec:'15g气垫BB霜，SPF50+ PA+++，自然色和健康色各5000个，含替换芯', quantity:10000, targetPrice:14.0, deliveryDate:'2025-03-30', status:'报价中', createdBy:'张明', createdAt:'2025-01-12', remark:'需要色卡确认，包材由我方提供'}
   ];
-  
+
   var quotations = [
-    {id:'q1', demandId:'d1', supplierId:'s1', unitPrice:8.2, deliveryDays:30, moq:30000, remark:'含包材，可提供免费样品', status:'已报价', createdAt:'2025-01-11'},
-    {id:'q2', demandId:'d1', supplierId:'s2', unitPrice:8.8, deliveryDays:25, moq:20000, remark:'支持加急生产', status:'已报价', createdAt:'2025-01-11'},
-    {id:'q3', demandId:'d2', supplierId:'s2', unitPrice:11.5, deliveryDays:35, moq:10000, remark:'含调色服务', status:'已报价', createdAt:'2025-01-09'},
-    {id:'q4', demandId:'d3', supplierId:'s3', unitPrice:14.5, deliveryDays:20, moq:5000, remark:'可免费打样2次', status:'已报价', createdAt:'2025-01-13'},
-    {id:'q5', demandId:'d3', supplierId:'s1', unitPrice:16.0, deliveryDays:18, moq:8000, remark:'烫金工艺经验丰富', status:'已报价', createdAt:'2025-01-13'}
+    {id:'q1', demandId:'d1', supplierId:'s1', unitPrice:8.2, deliveryDays:30, moq:3000, remark:'含包材，可提供免费样品5瓶，配合备案', status:'已报价', createdAt:'2025-01-11'},
+    {id:'q2', demandId:'d2', supplierId:'s4', unitPrice:145.0, deliveryDays:7, moq:25, remark:'现货供应，附COA证书和MSDS', status:'已报价', createdAt:'2025-01-09'},
+    {id:'q3', demandId:'d2', supplierId:'s1', unitPrice:155.0, deliveryDays:10, moq:50, remark:'需定制纯度，交期稍长', status:'已报价', createdAt:'2025-01-09'},
+    {id:'q4', demandId:'d3', supplierId:'s3', unitPrice:17.5, deliveryDays:25, moq:2000, remark:'含包装设计，天然植物香型', status:'已报价', createdAt:'2025-01-06'},
+    {id:'q5', demandId:'d4', supplierId:'s2', unitPrice:13.5, deliveryDays:35, moq:5000, remark:'含调色服务，可配合来料加工', status:'已报价', createdAt:'2025-01-13'},
+    {id:'q6', demandId:'d4', supplierId:'s1', unitPrice:14.8, deliveryDays:30, moq:8000, remark:'有彩妆线可支持，品质有保障', status:'已报价', createdAt:'2025-01-13'}
   ];
-  
+
   var orders = [
     {
-      id:'o1', orderNo:'YC20250108001', demandId:'d2', supplierId:'s2', buyerName:'李娜', 
-      amount:172500, quantity:15000, unitPrice:11.5,
-      status:'生产中', title:'丝绒哑光口红生产',
+      id:'o1', orderNo:'YC20250106001', demandId:'d3', supplierId:'s3', buyerName:'王芳',
+      amount:52500, quantity:3000, unitPrice:17.5,
+      status:'生产中', title:'定制洗护套装',
+      timeline:[
+        {status:'待确认', time:'2025-01-06 10:00', remark:'订单已创建，等待供应商确认'},
+        {status:'原料准备中', time:'2025-01-07 14:30', remark:'原料已下单，氨基酸表活和植物精油采购中'},
+        {status:'生产中', time:'2025-01-10 09:00', remark:'配方打样完成，已开始批量灌装生产'}
+      ],
+      createdAt:'2025-01-06'
+    },
+    {
+      id:'o2', orderNo:'YC20250108001', demandId:'d2', supplierId:'s4', buyerName:'李娜',
+      amount:14500, quantity:100, unitPrice:145.0,
+      status:'质检中', title:'采购彩妆原料',
       timeline:[
         {status:'待确认', time:'2025-01-09 10:00', remark:'订单已创建'},
-        {status:'原料准备中', time:'2025-01-10 09:30', remark:'原料已下单采购'},
-        {status:'生产中', time:'2025-01-12 14:00', remark:'已开始灌装生产线'}
+        {status:'原料准备中', time:'2025-01-09 16:00', remark:'库存调拨中'},
+        {status:'生产中', time:'2025-01-10 11:00', remark:'已完成分装打包'},
+        {status:'质检中', time:'2025-01-12 14:00', remark:'质检部正在进行纯度检测'}
       ],
       createdAt:'2025-01-09'
     },
     {
-      id:'o2', orderNo:'YC20241215001', demandId:'d4', supplierId:'s1', buyerName:'张明',
+      id:'o3', orderNo:'YC20241220001', demandId:'d5', supplierId:'s1', buyerName:'张明',
       amount:425000, quantity:50000, unitPrice:8.5,
       status:'已签收', title:'烟酰胺美白精华液生产',
       timeline:[
-        {status:'待确认', time:'2024-12-16 09:00', remark:'订单创建'},
-        {status:'原料准备中', time:'2024-12-17 10:00', remark:''},
-        {status:'生产中', time:'2024-12-20 11:00', remark:''},
-        {status:'质检中', time:'2025-01-05 14:00', remark:'质检合格'},
-        {status:'已发货', time:'2025-01-06 09:00', remark:'顺丰物流 SF1234567'},
-        {status:'已签收', time:'2025-01-08 15:00', remark:'仓库已验收'}
+        {status:'待确认', time:'2024-12-20 09:00', remark:'订单创建'},
+        {status:'原料准备中', time:'2024-12-21 10:00', remark:'烟酰胺原料已到位'},
+        {status:'生产中', time:'2024-12-24 11:00', remark:'开始乳化灌装'},
+        {status:'质检中', time:'2025-01-05 14:00', remark:'质检合格，微生物检测通过'},
+        {status:'已发货', time:'2025-01-06 09:00', remark:'顺丰物流 SF1234567890'},
+        {status:'已签收', time:'2025-01-08 15:00', remark:'仓库已验收，数量核对无误'}
       ],
-      createdAt:'2024-12-16'
-    },
-    {
-      id:'o3', orderNo:'YC20241201001', demandId:'d5', supplierId:'s3', buyerName:'王芳',
-      amount:135000, quantity:10000, unitPrice:13.5,
-      status:'已完成', title:'双十一限定礼盒包装',
-      timeline:[
-        {status:'待确认', time:'2024-12-02 10:00', remark:''},
-        {status:'原料准备中', time:'2024-12-03 14:00', remark:''},
-        {status:'生产中', time:'2024-12-05 09:00', remark:''},
-        {status:'质检中', time:'2024-12-10 16:00', remark:'合格率99.2%'},
-        {status:'已发货', time:'2024-12-11 08:00', remark:''},
-        {status:'已签收', time:'2024-12-13 11:00', remark:'已签收'}
-      ],
-      createdAt:'2024-12-02'
+      createdAt:'2024-12-20'
     }
   ];
-  
+
   var buyers = [
-    {id:'b1', name:'张明', demands:5, activeOrders:3, amount:892000},
-    {id:'b2', name:'李娜', demands:3, activeOrders:2, amount:534000},
-    {id:'b3', name:'王芳', demands:4, activeOrders:1, amount:678000}
+    {id:'b1', name:'张明', company:'异采美妆集团', title:'高级采购经理', phone:'138****1001', demands:5, activeOrders:3, amount:892000},
+    {id:'b2', name:'李娜', company:'异采美妆集团', title:'采购专员', phone:'139****2002', demands:3, activeOrders:2, amount:534000},
+    {id:'b3', name:'王芳', company:'异采美妆集团', title:'采购主管', phone:'137****3003', demands:4, activeOrders:1, amount:678000}
   ];
-  
+
   localStorage.setItem('yc_suppliers', JSON.stringify(suppliers));
   localStorage.setItem('yc_demands', JSON.stringify(demands));
   localStorage.setItem('yc_quotations', JSON.stringify(quotations));
   localStorage.setItem('yc_orders', JSON.stringify(orders));
   localStorage.setItem('yc_buyers', JSON.stringify(buyers));
-  localStorage.setItem('yc_init_v2', '1');
+  localStorage.setItem('yc_init_v3', '1');
 })();
 </script>
 </body>

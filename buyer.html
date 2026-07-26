@@ -16,7 +16,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .tab-item{flex:1;text-align:center;padding:10px 0 8px;font-size:11px;color:var(--gray);cursor:pointer;transition:color 0.2s;border-top:2px solid transparent}
 .tab-item.active{color:var(--orange);border-top-color:var(--orange)}
 .tab-item .tab-icon{font-size:20px;margin-bottom:2px}
-/* Form */
 .form-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
 .form-group{margin-bottom:14px}
 .form-label{font-size:13px;font-weight:500;margin-bottom:6px;display:block}
@@ -30,7 +29,6 @@ textarea.form-input{resize:vertical;min-height:60px}
 .btn-outline{background:transparent;border:1px solid var(--orange);color:var(--orange)}
 .btn-sm{padding:6px 14px;font-size:12px}
 .btn-green{background:var(--green);color:var(--white)}
-/* List */
 .list-item{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer}
 .list-item:active{opacity:0.9}
 .item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -42,20 +40,18 @@ textarea.form-input{resize:vertical;min-height:60px}
 .badge-blue{background:#EBF5FF;color:var(--blue)}
 .item-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--gray)}
 .item-meta span{display:flex;align-items:center;gap:3px}
-/* Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
 .modal-overlay.show{display:flex}
 .modal{background:var(--white);width:100%;max-width:480px;max-height:85vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:20px 16px 30px}
 .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .modal-header h3{font-size:17px;font-weight:700}
 .modal-close{width:28px;height:28px;border-radius:50%;background:var(--beige);border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-/* Compare table */
 .compare-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
 .compare-table th{background:var(--beige);padding:8px 6px;text-align:left;font-size:12px;color:var(--gray);border-bottom:1px solid var(--light-gray)}
 .compare-table td{padding:8px 6px;border-bottom:1px solid #f5f5f5}
 .compare-table tr.best td{background:#FFF9F0}
 .compare-table .best-tag{font-size:10px;background:var(--orange);color:#fff;padding:1px 4px;border-radius:4px;margin-left:4px}
-/* Timeline */
+.compare-table .lowest{color:var(--green);font-weight:700}
 .timeline{padding:10px 0}
 .timeline-item{display:flex;gap:12px;position:relative;padding-bottom:20px}
 .timeline-item:last-child{padding-bottom:0}
@@ -69,7 +65,6 @@ textarea.form-input{resize:vertical;min-height:60px}
 .timeline-item.current .timeline-status{color:var(--orange)}
 .timeline-time{font-size:12px;color:var(--gray);margin-top:2px}
 .timeline-remark{font-size:12px;color:var(--gray);margin-top:2px;font-style:italic}
-/* Success msg */
 .success-msg{text-align:center;padding:30px;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow)}
 .success-icon{font-size:48px;margin-bottom:12px}
 .success-text{font-size:16px;font-weight:600;color:var(--green)}
@@ -78,17 +73,35 @@ textarea.form-input{resize:vertical;min-height:60px}
 .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(60,36,21,0.85);color:var(--white);padding:12px 24px;border-radius:10px;font-size:14px;z-index:300;display:none}
 .toast.show{display:block}
 .section-title{font-size:15px;font-weight:600;margin:16px 0 10px}
-/* Buyer selector */
 .buyer-select{background:var(--white);border-radius:var(--radius);padding:12px;margin-bottom:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px}
 .buyer-select label{font-size:13px;color:var(--gray);white-space:nowrap}
 .buyer-select select{flex:1;padding:6px 8px;border:1px solid var(--light-gray);border-radius:6px;font-size:13px;background:var(--beige)}
+/* Supplier browse */
+.filter-tags{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-tag{padding:6px 14px;border-radius:20px;font-size:12px;background:var(--white);color:var(--brown);border:1px solid var(--light-gray);cursor:pointer;transition:all 0.2s}
+.filter-tag.active{background:var(--orange);color:var(--white);border-color:var(--orange)}
+.supplier-browse-card{background:var(--white);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+.supplier-avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#FFF3EB,#FFE8D6);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.supplier-browse-info{flex:1}
+.supplier-browse-name{font-size:14px;font-weight:600;margin-bottom:4px}
+.supplier-browse-tags{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}
+.supplier-browse-tag{font-size:10px;padding:2px 6px;border-radius:4px;background:#FFF3EB;color:var(--orange)}
+.supplier-browse-meta{font-size:12px;color:var(--gray);margin-top:4px}
+.supplier-browse-detail{background:var(--beige);border-radius:8px;padding:12px;margin-top:10px}
+.detail-section{margin-bottom:10px}
+.detail-section:last-child{margin-bottom:0}
+.detail-section-title{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--brown)}
+.detail-product-item{background:var(--white);border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:12px}
+.detail-product-name{font-weight:600;margin-bottom:2px}
+.detail-product-meta{color:var(--gray);display:flex;gap:8px;flex-wrap:wrap}
+.stars{color:var(--gold);font-size:13px;letter-spacing:1px}
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>📋 采购人员端</h1>
-  <div class="sub">需求发布 · 比价选品 · 订单跟踪</div>
+  <div class="sub">需求发布 · 找供应商 · 比价选品 · 订单跟踪</div>
 </div>
 
 <div class="container">
@@ -114,6 +127,7 @@ textarea.form-input{resize:vertical;min-height:60px}
         <select class="form-select" id="fCategory">
           <option value="护肤品">护肤品</option>
           <option value="彩妆">彩妆</option>
+          <option value="洗护">洗护</option>
           <option value="包装">包装</option>
           <option value="原料">原料</option>
         </select>
@@ -143,6 +157,12 @@ textarea.form-input{resize:vertical;min-height:60px}
     <div id="publishResult" style="display:none;margin-top:16px"></div>
   </div>
 
+  <!-- 找供应商 -->
+  <div id="page-browse" class="page" style="display:none">
+    <div class="filter-tags" id="categoryFilters"></div>
+    <div id="supplierBrowseList"></div>
+  </div>
+
   <!-- 需求管理 -->
   <div id="page-manage" class="page" style="display:none">
     <div id="demandManageList"></div>
@@ -157,8 +177,20 @@ textarea.form-input{resize:vertical;min-height:60px}
 <!-- 底部Tab -->
 <div class="tab-bar">
   <div class="tab-item active" onclick="switchTab('publish')"><div class="tab-icon">✏️</div>发布需求</div>
+  <div class="tab-item" onclick="switchTab('browse')"><div class="tab-icon">🔍</div>找供应商</div>
   <div class="tab-item" onclick="switchTab('manage')"><div class="tab-icon">📋</div>需求管理</div>
   <div class="tab-item" onclick="switchTab('track')"><div class="tab-icon">🚚</div>订单跟踪</div>
+</div>
+
+<!-- 供应商详情 Modal -->
+<div class="modal-overlay" id="supplierDetailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>供应商详情</h3>
+      <button class="modal-close" onclick="closeModal('supplierDetailModal')">✕</button>
+    </div>
+    <div id="supplierDetailContent"></div>
+  </div>
 </div>
 
 <!-- 报价详情 Modal -->
@@ -188,6 +220,11 @@ textarea.form-input{resize:vertical;min-height:60px}
 <script>
 var CURRENT_BUYER='张明';
 var ORDER_STATUSES=['待确认','原料准备中','生产中','质检中','已发货','已签收'];
+var currentFilter='全部';
+
+function initData(){ if(!localStorage.getItem('yc_init_v3')){ window.location.href='index.html'; } }
+initData();
+
 function getData(key){return JSON.parse(localStorage.getItem(key)||'[]')}
 function setData(key,val){localStorage.setItem(key,JSON.stringify(val))}
 function getSupplier(id){return getData('yc_suppliers').find(function(s){return s.id===id})}
@@ -200,19 +237,122 @@ function switchBuyer(){CURRENT_BUYER=document.getElementById('buyerSelector').va
 function switchTab(tab){
   document.querySelectorAll('.page').forEach(function(p){p.style.display='none'});
   document.getElementById('page-'+tab).style.display='block';
-  var idx={publish:0,manage:1,track:2}[tab];
+  var idx={publish:0,browse:1,manage:2,track:3}[tab];
   document.querySelectorAll('.tab-item').forEach(function(t,i){t.className='tab-item'+(i===idx?' active':'')});
   renderCurrent();
 }
 function renderCurrent(){
   var active=document.querySelector('.tab-item.active');
   if(!active)return;
-  var tabs=['publish','manage','track'];
+  var tabs=['publish','browse','manage','track'];
   var idx=[].indexOf.call(document.querySelectorAll('.tab-item'),active);
-  if(idx===1)renderManage();
-  if(idx===2)renderTrack();
+  if(idx===1)renderBrowse();
+  if(idx===2)renderManage();
+  if(idx===3)renderTrack();
 }
 
+// ====== 找供应商 ======
+function renderBrowse(){
+  var categories=['全部','护肤品','彩妆','洗护','原料','包装'];
+  var filterHtml='';
+  categories.forEach(function(c){
+    filterHtml+='<div class="filter-tag'+(currentFilter===c?' active':'')+'" onclick="filterSuppliers(\''+c+'\')">'+c+'</div>';
+  });
+  document.getElementById('categoryFilters').innerHTML=filterHtml;
+
+  var suppliers=getData('yc_suppliers');
+  var filtered=currentFilter==='全部'?suppliers:suppliers.filter(function(s){return s.category===currentFilter});
+  if(filtered.length===0){document.getElementById('supplierBrowseList').innerHTML='<div class="empty">暂无该品类的供应商</div>';return}
+
+  var html='';
+  filtered.forEach(function(s){
+    var products=s.products||[];
+    var stars='';
+    for(var i=0;i<5;i++){stars+=i<Math.floor(s.rating)?'★':'☆'}
+    html+='<div class="supplier-browse-card">'
+      +'<div class="supplier-avatar">🏭</div>'
+      +'<div class="supplier-browse-info">'
+      +'<div class="supplier-browse-name">'+s.name+' <span class="item-badge badge-green" style="font-size:10px">'+s.status+'</span></div>'
+      +'<div class="supplier-browse-tags">'
+      +'<span class="supplier-browse-tag">'+s.category+'</span>'
+      +(products.length>0?'<span class="supplier-browse-tag">'+products.length+'种商品</span>':'')
+      +'</div>'
+      +'<div class="supplier-browse-meta"><span class="stars">'+stars+'</span> '+s.rating+' | 产能: '+s.capacity+'</div>'
+      +'<button class="btn btn-sm btn-outline" onclick="showSupplierDetail(\''+s.id+'\')" style="margin-top:8px">查看详情</button>'
+      +'</div></div>';
+  });
+  document.getElementById('supplierBrowseList').innerHTML=html;
+}
+
+function filterSuppliers(cat){
+  currentFilter=cat;
+  renderBrowse();
+}
+
+function showSupplierDetail(sid){
+  var s=getSupplier(sid);if(!s)return;
+  var products=s.products||[];
+  var stars='';
+  for(var i=0;i<5;i++){stars+=i<Math.floor(s.rating)?'★':'☆'}
+
+  var html='<div style="text-align:center;padding:10px 0 16px">'
+    +'<div style="width:50px;height:50px;background:linear-gradient(135deg,var(--orange),var(--gold));border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:22px;color:#fff;margin-bottom:8px">🏭</div>'
+    +'<div style="font-size:16px;font-weight:700">'+s.name+'</div>'
+    +'<div style="margin-top:4px"><span class="item-badge badge-green">'+s.status+'</span> <span class="stars">'+stars+'</span> '+s.rating+'</div>'
+    +'</div>';
+
+  // 基本信息
+  html+='<div class="detail-section"><div class="detail-section-title">📋 基本信息</div>'
+    +'<div style="font-size:13px;line-height:2;color:#666">'
+    +'<div>主营品类：'+s.category+'</div>'
+    +'<div>资质认证：'+s.cert+'</div>'
+    +'<div>产能：'+s.capacity+'</div>'
+    +'<div>联系人：'+s.contact+' | '+s.phone+'</div>'
+    +'</div></div>';
+
+  // 工厂介绍
+  if(s.intro){
+    html+='<div class="detail-section"><div class="detail-section-title">🏭 工厂介绍</div>'
+      +'<div style="font-size:13px;line-height:1.8;color:#666">'+s.intro+'</div></div>';
+  }
+
+  // 可提供的商品
+  if(products.length>0){
+    html+='<div class="detail-section"><div class="detail-section-title">📦 可提供的商品（'+products.length+'种）</div>';
+    products.forEach(function(p){
+      html+='<div class="detail-product-item">'
+        +'<div class="detail-product-name">'+p.name+'</div>'
+        +'<div class="detail-product-meta">'
+        +'<span>📏 '+p.spec+'</span>'
+        +'<span>💰 ¥'+p.price+'/件</span>'
+        +'<span>📦 MOQ: '+p.moq+'</span>'
+        +'</div>'
+        +(p.desc?'<div style="font-size:11px;color:#999;margin-top:2px">'+p.desc+'</div>':'')
+        +'</div>';
+    });
+    html+='</div>';
+  }
+
+  // 发起询价按钮
+  html+='<button class="btn btn-primary btn-block" onclick="goInquiry(\''+s.category+'\')">向该供应商发起询价</button>';
+  document.getElementById('supplierDetailContent').innerHTML=html;
+  openModal('supplierDetailModal');
+}
+
+function goInquiry(category){
+  closeModal('supplierDetailModal');
+  // 跳转到发布需求页并自动填充品类
+  switchTab('publish');
+  setTimeout(function(){
+    var catSelect=document.getElementById('fCategory');
+    for(var i=0;i<catSelect.options.length;i++){
+      if(catSelect.options[i].value===category){catSelect.selectedIndex=i;break;}
+    }
+    showToast('已自动选择品类"'+category+'"，请填写需求详情');
+  },100);
+}
+
+// ====== 发布需求 ======
 function submitDemand(){
   var title=document.getElementById('fTitle').value.trim();
   var cat=document.getElementById('fCategory').value;
@@ -226,16 +366,15 @@ function submitDemand(){
   var newId='d'+Date.now();
   demands.push({id:newId,title:title,category:cat,spec:spec,quantity:qty,targetPrice:price,deliveryDate:date,status:'报价中',createdBy:CURRENT_BUYER,createdAt:new Date().toISOString().slice(0,10),remark:remark});
   setData('yc_demands',demands);
-  // Count matching suppliers
   var suppliers=getData('yc_suppliers');
   var matched=suppliers.filter(function(s){return s.category===cat&&s.status==='活跃'}).length;
   document.getElementById('publishResult').style.display='block';
   document.getElementById('publishResult').innerHTML='<div class="success-msg"><div class="success-icon">✅</div><div class="success-text">需求发布成功</div><div class="success-sub">已为您匹配 <b style="color:var(--orange)">'+matched+'</b> 家供应商，等待报价中</div></div>';
-  // Clear form
   ['fTitle','fSpec','fQty','fPrice','fDate','fRemark'].forEach(function(id){document.getElementById(id).value=''});
   showToast('发布成功');
 }
 
+// ====== 需求管理 ======
 function renderManage(){
   var demands=getData('yc_demands').filter(function(d){return d.createdBy===CURRENT_BUYER});
   var quotes=getData('yc_quotations');
@@ -248,7 +387,7 @@ function renderManage(){
     var badgeClass=statusMap[d.status]||'badge-gray';
     html+='<div class="list-item" onclick="showQuoteCompare(\''+d.id+'\')">'
       +'<div class="item-header"><span class="item-title">'+d.title+'</span><span class="item-badge '+badgeClass+'">'+d.status+'</span></div>'
-      +'<div class="item-meta"><span>📂 '+d.category+'</span><span>💬 '+qCount+'条报价</span><span>📦 '+(d.quantity/10000).toFixed(1)+'万件</span></div>'
+      +'<div class="item-meta"><span>📂 '+d.category+'</span><span>💬 '+qCount+'条报价</span><span>📦 '+d.quantity.toLocaleString()+'</span></div>'
       +'<div style="font-size:12px;color:#999;margin-top:4px">发布: '+d.createdAt+'</div>'
       +'</div>';
   });
@@ -263,7 +402,6 @@ function showQuoteCompare(demandId){
   if(quotes.length===0){
     html+='<div class="empty">暂无供应商报价</div>';
   }else{
-    // Sort by price
     quotes.sort(function(a,b){return a.unitPrice-b.unitPrice});
     var bestPrice=quotes[0].unitPrice;
     html+='<div style="overflow-x:auto"><table class="compare-table"><thead><tr><th>供应商</th><th>单价</th><th>交期</th><th>MOQ</th><th>操作</th></tr></thead><tbody>';
@@ -271,8 +409,8 @@ function showQuoteCompare(demandId){
       var s=suppliers.find(function(x){return x.id===q.supplierId});
       var sName=s?s.name:'未知';
       var isBest=q.unitPrice===bestPrice;
-      html+='<tr class="'+(isBest?'best':'')+'"><td>'+sName.split('有限公司')[0].split('科技')[0].substring(0,8)+(isBest?'<span class="best-tag">最低</span>':'')+'</td>'
-        +'<td style="font-weight:600;color:var(--orange)">¥'+q.unitPrice+'</td>'
+      html+='<tr class="'+(isBest?'best':'')+'"><td>'+(sName.length>10?sName.substring(0,10)+'...':sName)+(isBest?'<span class="best-tag">最低</span>':'')+'</td>'
+        +'<td class="'+(isBest?'lowest':'')+'" style="font-weight:600;color:var(--orange)">¥'+q.unitPrice+'</td>'
         +'<td>'+q.deliveryDays+'天</td><td>'+q.moq.toLocaleString()+'</td>'
         +'<td>';
       if(d.status==='报价中'){
@@ -303,7 +441,6 @@ function confirmSelectSupplier(demandId,supplierId){
   setData('yc_demands',demands);
   var quotes=getData('yc_quotations');
   var q=quotes.find(function(x){return x.demandId===demandId&&x.supplierId===supplierId});
-  var supplier=getSupplier(supplierId);
   var orders=getData('yc_orders');
   var orderNo='YC'+new Date().toISOString().slice(0,10).replace(/-/g,'')+String(orders.length+1).padStart(3,'0');
   orders.push({
@@ -319,6 +456,7 @@ function confirmSelectSupplier(demandId,supplierId){
   renderManage();
 }
 
+// ====== 订单跟踪 ======
 function renderTrack(){
   var orders=getData('yc_orders').filter(function(o){return o.buyerName===CURRENT_BUYER});
   if(orders.length===0){document.getElementById('orderTrackList').innerHTML='<div class="empty">暂无订单</div>';return}
@@ -371,7 +509,6 @@ function confirmReceive(orderId){
   var o=orders.find(function(x){return x.id===orderId});
   o.status='已签收';
   o.timeline.push({status:'已签收',time:new Date().toLocaleString('zh-CN'),remark:'采购人员已确认收货'});
-  // Update demand status
   var demands=getData('yc_demands');
   var d=demands.find(function(x){return x.id===o.demandId});
   if(d)d.status='已完成';
@@ -383,25 +520,7 @@ function confirmReceive(orderId){
 }
 
 // Init
-renderManage=function(){
-  var demands=getData('yc_demands').filter(function(d){return d.createdBy===CURRENT_BUYER});
-  var quotes=getData('yc_quotations');
-  if(demands.length===0){document.getElementById('demandManageList').innerHTML='<div class="empty">暂无发布的需求</div>';return}
-  var html='';
-  demands.sort(function(a,b){return b.createdAt.localeCompare(a.createdAt)});
-  demands.forEach(function(d){
-    var qCount=quotes.filter(function(q){return q.demandId===d.id}).length;
-    var statusMap={'报价中':'badge-orange','已选供应商':'badge-blue','进行中':'badge-blue','已完成':'badge-green'};
-    var badgeClass=statusMap[d.status]||'badge-gray';
-    html+='<div class="list-item" onclick="showQuoteCompare(\''+d.id+'\')">'
-      +'<div class="item-header"><span class="item-title">'+d.title+'</span><span class="item-badge '+badgeClass+'">'+d.status+'</span></div>'
-      +'<div class="item-meta"><span>📂 '+d.category+'</span><span>💬 '+qCount+'条报价</span><span>📦 '+(d.quantity/10000).toFixed(1)+'万件</span></div>'
-      +'<div style="font-size:12px;color:#999;margin-top:4px">发布: '+d.createdAt+'</div>'
-      +'</div>';
-  });
-  document.getElementById('demandManageList').innerHTML=html;
-};
-renderTrack();
+renderManage();
 </script>
 </body>
 </html>
