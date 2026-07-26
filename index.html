@@ -87,7 +87,7 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
 </div>
 <script>
 (function initData(){
-  if(localStorage.getItem('yc_init_v3')) return;
+  if(localStorage.getItem('yc_init_v4')) return;
 
   var suppliers = [
     {id:'s1', name:'上海璟辰化妆品有限公司', category:'护肤品', cert:'ISO22716/GMPC/SGS', capacity:'月产50万瓶', contact:'王经理', phone:'138****6789', status:'活跃', level:'A', rating:4.8, cooperationCount:12,
@@ -124,6 +124,13 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
        {id:'p13', name:'PET精华液瓶', category:'包装', spec:'30ml，透明/磨砂可选', price:1.2, moq:10000, desc:'高品质PET材质，可配滴管/喷头/按压泵，支持丝印烫金'},
        {id:'p14', name:'口红管', category:'包装', spec:'标准口径21.5mm', price:2.5, moq:5000, desc:'铝合金/塑料材质可选，多色可选，支持定制LOGO和配色'},
        {id:'p15', name:'礼盒包装', category:'包装', spec:'定制尺寸，铜版纸+特种纸', price:15.0, moq:3000, desc:'高端礼盒定制，支持烫金、UV、击凸等工艺，含内衬设计'}
+     ]},
+    {id:'s6', name:'上海正信合规咨询有限公司', category:'合规咨询', cert:'CMA/CNAS/ISO17025', capacity:'年服务500+品牌', contact:'赵律师', phone:'133****7890', status:'活跃', level:'A', rating:4.9, cooperationCount:15,
+     intro:'上海正信合规咨询有限公司是一家专业的化妆品行业合规咨询服务机构。团队由资深法规专家、毒理学家和备案专员组成，累计服务超过500个化妆品品牌。提供产品备案、配方合规审查、标签审核、功效宣称评估、GMP体系咨询等全方位合规解决方案。',
+     products:[
+       {id:'p16', name:'化妆品备案全套服务', category:'合规咨询', spec:'普通化妆品备案，含配方审查', price:3000.0, moq:1, desc:'包含配方合规性审查、备案资料准备、系统提交、跟进审核直至备案完成'},
+       {id:'p17', name:'功效宣称评估报告', category:'合规咨询', spec:'含文献调研+实验方案设计', price:8000.0, moq:1, desc:'针对美白、防晒、抗皱等特殊功效宣称，提供合规的评估报告和支撑材料'},
+       {id:'p18', name:'标签合规审核', category:'合规咨询', spec:'单个SKU标签全套审核', price:500.0, moq:10, desc:'审核产品标签、说明书是否符合《化妆品标签管理办法》，出具修改建议报告'}
      ]}
   ];
 
