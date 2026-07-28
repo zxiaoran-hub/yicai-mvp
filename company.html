@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>异采 - 公司管理端</title>
 <style>
-:root{--orange:#F37021;--brown:#3C2415;--beige:#FAF6F0;--gold:#C8A96E;--white:#FFF;--gray:#999;--light-gray:#E8E4DF;--green:#27AE60;--red:#E74C3C;--blue:#2D8CFF;--shadow:0 2px 12px rgba(60,36,21,0.08);--radius:12px}
+:root{--orange:#F37021;--orange-light:#FF8C42;--brown:#3C2415;--beige:#FAF6F0;--gold:#C8A96E;--white:#FFF;--gray:#999;--light-gray:#E8E4DF;--green:#27AE60;--red:#E74C3C;--blue:#2D8CFF;--shadow:0 2px 12px rgba(60,36,21,0.08);--shadow-hover:0 6px 24px rgba(60,36,21,0.12);--radius:12px;--transition:all 0.2s ease}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--beige);color:var(--brown);min-height:100vh;padding-bottom:70px}
 .header{background:var(--white);padding:16px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
@@ -13,15 +13,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .header .sub{font-size:12px;color:var(--gray);margin-top:2px}
 .container{max-width:480px;margin:0 auto;padding:16px}
 .tab-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);display:flex;box-shadow:0 -2px 10px rgba(0,0,0,0.06);z-index:100}
-.tab-item{flex:1;text-align:center;padding:10px 0 8px;font-size:11px;color:var(--gray);border-top:2px solid transparent;cursor:pointer}
+.tab-item{flex:1;text-align:center;padding:10px 0 8px;font-size:11px;color:var(--gray);border-top:2px solid transparent;cursor:pointer;transition:var(--transition)}
 .tab-item.active{color:var(--orange);border-top-color:var(--orange)}
+.tab-item:hover{color:var(--orange)}
 .tab-item .tab-icon{font-size:20px;margin-bottom:2px}
+
+/* Stats */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.stat-card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
-.stat-num{font-size:24px;font-weight:700;color:var(--orange)}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:var(--transition);border:1px solid rgba(60,36,21,0.03);position:relative;overflow:hidden}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card:nth-child(1)::before{background:linear-gradient(90deg,var(--orange),var(--orange-light))}
+.stat-card:nth-child(2)::before{background:linear-gradient(90deg,var(--blue),#5BA8FF)}
+.stat-card:nth-child(3)::before{background:linear-gradient(90deg,var(--green),#4CD97B)}
+.stat-card:nth-child(4)::before{background:linear-gradient(90deg,var(--gold),#D4B87A)}
+.stat-icon{font-size:18px;margin-bottom:6px}
+.stat-num{font-size:22px;font-weight:700;color:var(--orange)}
+.stat-card:nth-child(2) .stat-num{color:var(--blue)}
+.stat-card:nth-child(3) .stat-num{color:var(--green)}
+.stat-card:nth-child(4) .stat-num{color:var(--gold)}
 .stat-label{font-size:12px;color:var(--gray);margin-top:4px}
 .stat-sub{font-size:11px;color:var(--green);margin-top:2px}
-.card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.stat-change{font-size:11px;margin-top:4px;display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:4px}
+.stat-change.up{color:var(--green);background:#E8F8EF}
+.stat-change.down{color:var(--red);background:#FDE8E8}
+
+/* Cards */
+.card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);transition:var(--transition);border:1px solid rgba(60,36,21,0.03);cursor:pointer}
+.card:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover)}
 .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .card-title{font-size:15px;font-weight:600}
 .card-meta{font-size:12px;color:var(--gray);display:flex;flex-wrap:wrap;gap:6px}
@@ -36,30 +55,57 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .level-B{background:#FFF3EB;color:var(--orange)}
 .level-C{background:#F0F0F0;color:var(--gray)}
 .stars{color:var(--gold);font-size:14px;letter-spacing:1px}
-.supplier-card{background:var(--white);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+
+/* Supplier card */
+.supplier-card{background:var(--white);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start;transition:var(--transition);border:1px solid rgba(60,36,21,0.03)}
+.supplier-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover)}
 .supplier-avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#FFF3EB,#FFE8D6);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .supplier-info{flex:1}
 .supplier-name{font-size:14px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .supplier-detail{font-size:12px;color:var(--gray);margin-top:4px}
-.person-card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px}
+.supplier-history{font-size:11px;color:var(--gray);margin-top:6px;padding:6px 8px;background:var(--beige);border-radius:6px}
+
+/* Person card */
+.person-card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;transition:var(--transition);border:1px solid rgba(60,36,21,0.03)}
+.person-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover)}
 .person-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:700;flex-shrink:0}
 .person-info{flex:1}
 .person-name{font-size:15px;font-weight:600}
 .person-role{font-size:11px;color:var(--gray);margin-top:2px}
 .person-stats{font-size:12px;color:var(--gray);margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
-.trend-card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.person-rank{font-size:12px;font-weight:700;color:var(--orange);background:#FFF3EB;padding:2px 8px;border-radius:8px}
+
+/* Trend card */
+.trend-card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px;border:1px solid rgba(60,36,21,0.03)}
 .trend-title{font-size:14px;font-weight:600;margin-bottom:10px}
 .trend-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
 .trend-bar-label{width:50px;color:var(--gray)}
 .trend-bar-track{flex:1;height:8px;background:var(--beige);border-radius:4px;overflow:hidden}
-.trend-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--orange),var(--gold))}
+.trend-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--orange),var(--gold));transition:width 0.6s ease}
 .trend-bar-value{width:50px;text-align:right;font-weight:600;color:var(--brown)}
+
+/* Pie chart - CSS only */
+.pie-chart-container{display:flex;align-items:center;gap:16px;margin-top:10px}
+.pie-chart{width:80px;height:80px;border-radius:50%;position:relative;overflow:hidden}
+.pie-legend{flex:1}
+.pie-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;margin-bottom:4px}
+.pie-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* Progress bar */
+.progress-bar{height:6px;background:var(--light-gray);border-radius:3px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--orange),var(--orange-light));transition:width 0.3s ease}
+
+/* Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{background:var(--white);width:100%;max-width:480px;max-height:85vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:20px 16px 30px}
+.modal{background:var(--white);width:100%;max-width:480px;max-height:85vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:20px 16px 30px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .modal-header h3{font-size:17px;font-weight:700}
-.modal-close{width:28px;height:28px;border-radius:50%;background:var(--beige);border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--beige);border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.modal-close:hover{background:var(--light-gray)}
+
+/* Timeline */
 .timeline{padding:10px 0}
 .timeline-item{display:flex;gap:12px;position:relative;padding-bottom:20px}
 .timeline-item:last-child{padding-bottom:0}
@@ -73,17 +119,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .timeline-item.current .timeline-status{color:var(--orange)}
 .timeline-time{font-size:12px;color:var(--gray);margin-top:2px}
 .timeline-remark{font-size:12px;color:var(--gray);margin-top:2px;font-style:italic}
-.btn{display:inline-block;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer}
+
+/* Buttons */
+.btn{display:inline-block;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:var(--transition)}
+.btn:hover{opacity:0.9;transform:translateY(-1px)}
 .btn:active{opacity:0.8}
 .btn-primary{background:var(--orange);color:var(--white)}
 .btn-sm{padding:5px 12px;font-size:11px}
+
 .empty{text-align:center;padding:40px 20px;color:var(--gray);font-size:14px}
 .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(60,36,21,0.85);color:var(--white);padding:12px 24px;border-radius:10px;font-size:14px;z-index:300;display:none}
 .toast.show{display:block}
 .order-row{font-size:12px;color:var(--gray);margin-top:4px;display:flex;flex-wrap:wrap;gap:8px}
 .section-title{font-size:15px;font-weight:600;margin:16px 0 10px}
+
+/* Filters */
 .filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.filter-select{padding:6px 10px;border:1px solid var(--light-gray);border-radius:8px;font-size:12px;background:var(--white);color:var(--brown);-webkit-appearance:none}
+.filter-select{padding:6px 10px;border:1px solid var(--light-gray);border-radius:8px;font-size:12px;background:var(--white);color:var(--brown);-webkit-appearance:none;transition:var(--transition)}
+.filter-select:focus{border-color:var(--orange)}
+
+/* Status distribution */
+.status-dist{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.status-dist-item{flex:1;min-width:60px;text-align:center;padding:8px 4px;background:var(--white);border-radius:8px;box-shadow:var(--shadow);border:1px solid rgba(60,36,21,0.03)}
+.status-dist-num{font-size:18px;font-weight:700}
+.status-dist-label{font-size:10px;color:var(--gray);margin-top:2px}
 </style>
 </head>
 <body>
@@ -101,22 +160,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <div class="trend-title">📈 月度采购趋势</div>
       <div id="trendBars"></div>
     </div>
+    <div class="trend-card">
+      <div class="trend-title">📊 采购品类分布</div>
+      <div id="categoryPie"></div>
+    </div>
     <div class="section-title">最近订单</div>
     <div id="recentOrders"></div>
   </div>
 
   <!-- 人员管理 -->
   <div id="page-people" class="page" style="display:none">
+    <div class="section-title">🏆 人员绩效排名</div>
     <div id="peopleList"></div>
   </div>
 
   <!-- 供应商库 -->
   <div id="page-suppliers" class="page" style="display:none">
+    <div class="filters">
+      <select class="filter-select" id="filterSupplierCat" onchange="renderSuppliers()">
+        <option value="">全部品类</option>
+        <option value="护肤品">护肤品</option>
+        <option value="彩妆">彩妆</option>
+        <option value="洗护">洗护</option>
+        <option value="原料">原料</option>
+        <option value="包装">包装</option>
+        <option value="合规咨询">合规咨询</option>
+      </select>
+      <select class="filter-select" id="filterSupplierLevel" onchange="renderSuppliers()">
+        <option value="">全部等级</option>
+        <option value="A">A级</option>
+        <option value="B">B级</option>
+        <option value="C">C级</option>
+      </select>
+    </div>
     <div id="supplierList"></div>
   </div>
 
   <!-- 订单总览 -->
   <div id="page-orders" class="page" style="display:none">
+    <div class="status-dist" id="orderStatusDist"></div>
     <div class="filters">
       <select class="filter-select" id="filterStatus" onchange="renderOrders()">
         <option value="">全部状态</option>
@@ -229,12 +311,12 @@ function renderOverview(){
   suppliers.forEach(function(s){totalProducts+=(s.products||[]).length});
 
   document.getElementById('overviewStats').innerHTML=
-    '<div class="stat-card"><div class="stat-num">¥'+(totalAmount/10000).toFixed(1)+'万</div><div class="stat-label">采购总额</div><div class="stat-sub">'+orders.length+'个订单</div></div>'
-    +'<div class="stat-card"><div class="stat-num">'+activeDemands+'</div><div class="stat-label">进行中需求</div><div class="stat-sub">共'+demands.length+'个需求</div></div>'
-    +'<div class="stat-card"><div class="stat-num">'+activeSuppliers+'</div><div class="stat-label">活跃供应商</div><div class="stat-sub">'+totalProducts+'种商品</div></div>'
-    +'<div class="stat-card"><div class="stat-num">'+doneOrders+'</div><div class="stat-label">已完成订单</div><div class="stat-sub">完成率'+(orders.length>0?Math.round(doneOrders/orders.length*100):0)+'%</div></div>';
+    '<div class="stat-card"><div class="stat-icon">💰</div><div class="stat-num">¥'+(totalAmount/10000).toFixed(1)+'万</div><div class="stat-label">采购总额</div><div class="stat-sub">'+orders.length+'个订单</div></div>'
+    +'<div class="stat-card"><div class="stat-icon">📋</div><div class="stat-num">'+activeDemands+'</div><div class="stat-label">进行中需求</div><div class="stat-sub">共'+demands.length+'个需求</div></div>'
+    +'<div class="stat-card"><div class="stat-icon">🏭</div><div class="stat-num">'+activeSuppliers+'</div><div class="stat-label">活跃供应商</div><div class="stat-sub">'+totalProducts+'种商品</div></div>'
+    +'<div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num">'+doneOrders+'</div><div class="stat-label">已完成订单</div><div class="stat-sub">完成率'+(orders.length>0?Math.round(doneOrders/orders.length*100):0)+'%</div></div>';
 
-  // Trend bars - computed from actual orders
+  // Trend bars
   var monthMap={};
   orders.forEach(function(o){
     var m=o.createdAt.substring(0,7);
@@ -244,15 +326,64 @@ function renderOverview(){
   var maxAmount=Math.max.apply(null,months.map(function(m){return monthMap[m]}))||1;
   var monthNames={'01':'1月','02':'2月','03':'3月','04':'4月','05':'5月','06':'6月','07':'7月','08':'8月','09':'9月','10':'10月','11':'11月','12':'12月'};
   var html='';
-  months.forEach(function(m){
+  months.forEach(function(m,idx){
     var pct=Math.round(monthMap[m]/maxAmount*100);
     var mName=m.split('-');
     var label=monthNames[m[1]]||m;
+    // Calculate change
+    var changeHtml='';
+    if(idx>0){
+      var prev=monthMap[months[idx-1]];
+      var change=Math.round((monthMap[m]-prev)/prev*100);
+      if(change>0) changeHtml='<span class="stat-change up">↑'+change+'%</span>';
+      else if(change<0) changeHtml='<span class="stat-change down">↓'+Math.abs(change)+'%</span>';
+    }
     html+='<div class="trend-bar"><span class="trend-bar-label">'+label+'</span>'
-      +'<div class="trend-bar-track"><div class="trend-bar-fill" style="width:'+pct+'%"></div></div>'
-      +'<span class="trend-bar-value">¥'+(monthMap[m]/10000).toFixed(1)+'万</span></div>';
+      +'<div class="trend-bar-track"><div class="trend-bar-fill" style="width:0%" data-width="'+pct+'"></div></div>'
+      +'<span class="trend-bar-value">¥'+(monthMap[m]/10000).toFixed(1)+'万</span>'+changeHtml+'</div>';
   });
   document.getElementById('trendBars').innerHTML=html||'<div class="empty" style="padding:10px">暂无数据</div>';
+  
+  // Animate bars
+  setTimeout(function(){
+    document.querySelectorAll('.trend-bar-fill[data-width]').forEach(function(el){
+      el.style.width=el.getAttribute('data-width')+'%';
+    });
+  },100);
+
+  // Category pie chart (CSS only)
+  var catMap={};
+  orders.forEach(function(o){
+    var d=getDemand(o.demandId);
+    var cat=d?d.category:'其他';
+    catMap[cat]=(catMap[cat]||0)+o.amount;
+  });
+  var catEntries=Object.entries(catMap).sort(function(a,b){return b[1]-a[1]});
+  var catTotal=catEntries.reduce(function(s,e){return s+e[1]},0);
+  var catColors=['#F37021','#C8A96E','#2D8CFF','#27AE60','#9B59B6','#E74C3C'];
+  
+  if(catEntries.length>0){
+    // Build conic gradient
+    var gradientParts=[];
+    var cumPct=0;
+    catEntries.forEach(function(entry,i){
+      var pct=Math.round(entry[1]/catTotal*100);
+      var color=catColors[i%catColors.length];
+      gradientParts.push(color+' '+cumPct+'% '+(cumPct+pct)+'%');
+      cumPct+=pct;
+    });
+    var pieStyle='background:conic-gradient('+gradientParts.join(',')+')';
+    
+    var legendHtml='';
+    catEntries.forEach(function(entry,i){
+      var pct=Math.round(entry[1]/catTotal*100);
+      legendHtml+='<div class="pie-legend-item"><div class="pie-dot" style="background:'+catColors[i%catColors.length]+'"></div><span>'+entry[0]+' '+pct+'%</span></div>';
+    });
+    
+    document.getElementById('categoryPie').innerHTML='<div class="pie-chart-container">'
+      +'<div class="pie-chart" style="'+pieStyle+'"></div>'
+      +'<div class="pie-legend">'+legendHtml+'</div></div>';
+  }
 
   // Recent orders
   var recent=orders.slice(-3).reverse();
@@ -260,7 +391,7 @@ function renderOverview(){
   recent.forEach(function(o){
     var s=getSupplier(o.supplierId);
     var statusClass=o.status==='已签收'||o.status==='已完成'?'badge-green':'badge-blue';
-    rhtml+='<div class="card" onclick="showOrderDetail(\''+o.id+'\')" style="cursor:pointer">'
+    rhtml+='<div class="card" onclick="showOrderDetail(\''+o.id+'\')">'
       +'<div class="card-header"><span class="card-title">'+o.title+'</span><span class="badge '+statusClass+'">'+o.status+'</span></div>'
       +'<div class="card-meta"><span>🏭 '+(s?s.name:'未知')+'</span><span>💰 ¥'+o.amount.toLocaleString()+'</span></div>'
       +'<div class="order-row"><span>'+o.buyerName+'</span><span>'+o.createdAt+'</span></div>'
@@ -273,45 +404,72 @@ function renderPeople(){
   var buyers=getData('yc_buyers');
   var orders=getData('yc_orders');
   var demands=getData('yc_demands');
-  var html='';
+  
+  // Calculate performance for ranking
+  var peopleData=[];
   buyers.forEach(function(b){
     var buyerOrders=orders.filter(function(o){return o.buyerName===b.name});
     var activeOrders=buyerOrders.filter(function(o){return o.status!=='已签收'&&o.status!=='已完成'}).length;
     var totalAmount=buyerOrders.reduce(function(s,o){return s+o.amount},0);
     var buyerDemands=demands.filter(function(d){return d.createdBy===b.name}).length;
+    var doneOrders=buyerOrders.filter(function(o){return o.status==='已签收'||o.status==='已完成'}).length;
+    peopleData.push({b:b, activeOrders:activeOrders, totalAmount:totalAmount, buyerDemands:buyerDemands, doneOrders:doneOrders});
+  });
+  
+  // Sort by total amount for ranking
+  peopleData.sort(function(a,b){return b.totalAmount - a.totalAmount});
+  
+  var html='';
+  peopleData.forEach(function(pd,idx){
+    var b=pd.b;
+    var rankEmoji = idx===0?'🥇':idx===1?'🥈':idx===2?'🥉':'';
     html+='<div class="person-card">'
       +'<div class="person-avatar">'+b.name[0]+'</div>'
       +'<div class="person-info">'
-      +'<div class="person-name">'+b.name+'</div>'
+      +'<div class="person-name">'+b.name+' '+(rankEmoji?'<span class="person-rank">'+rankEmoji+' #'+(idx+1)+'</span>':'')+'</div>'
       +'<div class="person-role">'+(b.title||'采购人员')+' · '+(b.company||'异采美妆集团')+'</div>'
-      +'<div class="person-stats"><span>📝 '+buyerDemands+'个需求</span><span>📦 '+activeOrders+'个进行中</span><span>💰 ¥'+(totalAmount/10000).toFixed(1)+'万</span></div>'
+      +'<div class="person-stats"><span>📝 '+pd.buyerDemands+'个需求</span><span>📦 '+pd.activeOrders+'个进行中</span><span>💰 ¥'+(pd.totalAmount/10000).toFixed(1)+'万</span><span>✅ '+pd.doneOrders+'已完成</span></div>'
       +'</div></div>';
   });
   document.getElementById('peopleList').innerHTML=html;
 }
 
 function renderSuppliers(){
+  var catFilter=(document.getElementById('filterSupplierCat')||{}).value||'';
+  var levelFilter=(document.getElementById('filterSupplierLevel')||{}).value||'';
+  
   var suppliers=getData('yc_suppliers');
   var orders=getData('yc_orders');
+  
+  if(catFilter) suppliers=suppliers.filter(function(s){return s.category===catFilter});
+  if(levelFilter) suppliers=suppliers.filter(function(s){return s.level===levelFilter});
+  
   var html='';
   suppliers.forEach(function(s){
-    var coopCount=orders.filter(function(o){return o.supplierId===s.id}).length;
+    var coopOrders=orders.filter(function(o){return o.supplierId===s.id});
+    var coopCount=coopOrders.length;
+    var totalAmount=coopOrders.reduce(function(sum,o){return sum+o.amount},0);
     var statusBadge=s.status==='活跃'?'badge-green':'badge-orange';
     var stars='';
     for(var i=0;i<5;i++){stars+=i<Math.floor(s.rating)?'★':'☆'}
     var products=s.products||[];
+    
+    var historyText=coopCount>0 ? '累计合作'+coopCount+'次，交易额¥'+(totalAmount/10000).toFixed(1)+'万' : '暂无合作记录';
+    
     html+='<div class="supplier-card">'
       +'<div class="supplier-avatar">🏭</div>'
       +'<div class="supplier-info">'
       +'<div class="supplier-name">'+s.name+' <span class="level-tag level-'+s.level+'">'+s.level+'</span></div>'
       +'<div style="margin:2px 0"><span class="badge '+statusBadge+'">'+s.status+'</span> <span class="stars">'+stars+'</span> <span style="font-size:12px;color:var(--gray)">'+s.rating+'</span></div>'
       +'<div class="supplier-detail">主营：'+s.category+' | 合作'+coopCount+'次 | '+products.length+'种商品</div>'
-      +'<div style="margin-top:6px;display:flex;gap:6px">'
+      +'<div class="supplier-history">'+historyText+'</div>'
+      +'<div style="margin-top:8px;display:flex;gap:6px">'
       +'<button class="btn btn-sm btn-primary" onclick="showSupplierDetail(\''+s.id+'\')">详情</button>'
       +'<button class="btn btn-sm" style="background:var(--beige);color:var(--brown)" onclick="showLevelChange(\''+s.id+'\')">调整等级</button>'
       +'</div>'
       +'</div></div>';
   });
+  if(html==='') html='<div class="empty">暂无匹配的供应商</div>';
   document.getElementById('supplierList').innerHTML=html;
 }
 
@@ -383,9 +541,21 @@ function renderOrders(){
   var statusFilter=document.getElementById('filterStatus').value;
   var catFilter=document.getElementById('filterCategory').value;
   var buyerFilter=document.getElementById('filterBuyer').value;
-  var orders=getData('yc_orders');
+  var allOrders=getData('yc_orders');
   var demands=getData('yc_demands');
 
+  // Status distribution
+  var statusCount={};
+  ORDER_STATUSES.forEach(function(s){statusCount[s]=0});
+  allOrders.forEach(function(o){if(statusCount[o.status]!==undefined)statusCount[o.status]++});
+  var distHtml='';
+  var distColors={'待确认':'var(--gray)','原料准备中':'var(--blue)','生产中':'var(--orange)','质检中':'var(--gold)','已发货':'#5BA8FF','已签收':'var(--green)'};
+  ORDER_STATUSES.forEach(function(s){
+    distHtml+='<div class="status-dist-item"><div class="status-dist-num" style="color:'+distColors[s]+'">'+statusCount[s]+'</div><div class="status-dist-label">'+s+'</div></div>';
+  });
+  document.getElementById('orderStatusDist').innerHTML=distHtml;
+
+  var orders=allOrders.slice();
   if(statusFilter){orders=orders.filter(function(o){return o.status===statusFilter})}
   if(catFilter){
     orders=orders.filter(function(o){
@@ -403,10 +573,14 @@ function renderOrders(){
     var s=getSupplier(o.supplierId);
     var d=getDemand(o.demandId);
     var statusClass=o.status==='已签收'||o.status==='已完成'?'badge-green':'badge-blue';
-    html+='<div class="card" onclick="showOrderDetail(\''+o.id+'\')" style="cursor:pointer">'
+    var currentIdx=ORDER_STATUSES.indexOf(o.status);
+    var progressPct = currentIdx >= 0 ? Math.round((currentIdx / (ORDER_STATUSES.length-1)) * 100) : 0;
+    
+    html+='<div class="card" onclick="showOrderDetail(\''+o.id+'\')">'
       +'<div class="card-header"><span class="card-title" style="font-size:13px">'+o.orderNo+'</span><span class="badge '+statusClass+'">'+o.status+'</span></div>'
       +'<div style="font-size:14px;font-weight:600;margin-bottom:6px">'+o.title+'</div>'
       +'<div class="card-meta"><span>🏭 '+(s?s.name:'未知')+'</span><span>💰 ¥'+o.amount.toLocaleString()+'</span></div>'
+      +'<div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:'+progressPct+'%"></div></div>'
       +'<div class="order-row"><span>📂 '+(d?d.category:'')+'</span><span>👤 '+o.buyerName+'</span><span>'+o.createdAt+'</span></div>'
       +'</div>';
   });

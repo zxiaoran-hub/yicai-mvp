@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>异采 - 化妆品行业可信供应链平台</title>
+<title>异采 - 小品牌方的供应链合伙人</title>
 <style>
 :root {
   --orange: #F37021;
+  --orange-light: #FF8C42;
   --brown: #3C2415;
   --beige: #FAF6F0;
   --gold: #C8A96E;
@@ -14,18 +15,108 @@
   --gray: #999;
   --light-gray: #E8E4DF;
   --shadow: 0 2px 12px rgba(60,36,21,0.08);
+  --shadow-hover: 0 6px 24px rgba(60,36,21,0.12);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: var(--beige); color: var(--brown); min-height: 100vh; }
-.container { max-width: 480px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; display: flex; flex-direction: column; }
-.logo-section { text-align: center; padding: 40px 0 20px; }
-.logo { width: 72px; height: 72px; background: linear-gradient(135deg, var(--orange), var(--gold)); border-radius: 18px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(243,112,33,0.3); }
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; 
+  background: var(--beige); 
+  color: var(--brown); 
+  min-height: 100vh;
+  position: relative;
+}
+/* Background decoration */
+body::before {
+  content: '';
+  position: fixed;
+  top: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(243,112,33,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -150px;
+  left: -150px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,169,110,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.container { max-width: 480px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; display: flex; flex-direction: column; position: relative; z-index: 1; }
+
+/* Logo section with animation */
+.logo-section { 
+  text-align: center; 
+  padding: 40px 0 20px;
+  animation: fadeInUp 0.6s ease both;
+}
+.logo { 
+  width: 72px; height: 72px; 
+  background: linear-gradient(135deg, var(--orange), var(--gold)); 
+  border-radius: 18px; 
+  display: inline-flex; align-items: center; justify-content: center; 
+  margin-bottom: 16px; 
+  box-shadow: 0 4px 20px rgba(243,112,33,0.3);
+  animation: logoFloat 3s ease-in-out infinite;
+}
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
 .logo-text { font-size: 32px; font-weight: 800; color: var(--white); letter-spacing: -1px; }
-h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
-.subtitle { font-size: 15px; color: var(--gray); letter-spacing: 2px; }
-.cards { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 30px 0; }
-.card { background: var(--white); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--brown); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 4px; }
+.slogan {
+  font-size: 14px;
+  color: var(--orange);
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+.subtitle { font-size: 14px; color: var(--gray); letter-spacing: 1px; }
+
+/* Cards with stagger animation */
+.cards { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 24px 0; }
+.card { 
+  background: var(--white); 
+  border-radius: 16px; 
+  padding: 22px 20px; 
+  box-shadow: var(--shadow); 
+  display: flex; align-items: center; gap: 16px; 
+  text-decoration: none; color: var(--brown); 
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  border: 1px solid rgba(60,36,21,0.04);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--orange), var(--gold));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.card:hover::before { opacity: 1; }
 .card:active { transform: scale(0.98); box-shadow: 0 1px 6px rgba(60,36,21,0.1); }
+
+/* Stagger animation for cards */
+.card:nth-child(1) { animation: fadeInUp 0.5s 0.1s ease both; }
+.card:nth-child(2) { animation: fadeInUp 0.5s 0.2s ease both; }
+.card:nth-child(3) { animation: fadeInUp 0.5s 0.3s ease both; }
+
 .card-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
 .card-icon.supplier { background: linear-gradient(135deg, #FFF3EB, #FFE8D6); }
 .card-icon.buyer { background: linear-gradient(135deg, #EBF5FF, #D6ECFF); }
@@ -34,9 +125,49 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
 .card-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
 .card-desc { font-size: 13px; color: var(--gray); }
 .card-arrow { font-size: 18px; color: var(--light-gray); }
-.footer { text-align: center; padding: 20px 0; }
-.footer-text { font-size: 12px; color: var(--light-gray); }
+
+/* Website entry card */
+.website-entry {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: var(--brown);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(60,36,21,0.04);
+  animation: fadeInUp 0.5s 0.4s ease both;
+}
+.website-entry:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.website-entry:active { transform: scale(0.98); }
+
+/* Badge */
 .badge { display: inline-block; background: var(--orange); color: var(--white); font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-top: 6px; }
+
+/* Footer */
+.footer { text-align: center; padding: 20px 0; animation: fadeInUp 0.5s 0.5s ease both; }
+.footer-text { font-size: 12px; color: var(--light-gray); }
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Decorative top element */
+.top-decor {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--orange), var(--gold), transparent);
+  border-radius: 0 0 4px 4px;
+  opacity: 0.6;
+}
+
 @media(min-width:768px) {
   .container { max-width: 600px; padding: 40px 24px; }
   .cards { flex-direction: row; flex-wrap: wrap; justify-content: center; }
@@ -46,18 +177,20 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
 </style>
 </head>
 <body>
+<div class="top-decor"></div>
 <div class="container">
   <div class="logo-section">
     <div class="logo"><span class="logo-text">异采</span></div>
     <h1>异采平台</h1>
-    <p class="subtitle">化妆品行业可信供应链平台</p>
+    <p class="slogan">小品牌方的供应链合伙人</p>
+    <p class="subtitle">从选厂到交付 · 全程托管</p>
   </div>
   <div class="cards">
     <a class="card" href="supplier.html">
       <div class="card-icon supplier">🏭</div>
       <div class="card-info">
         <div class="card-title">供应商端</div>
-        <div class="card-desc">查看需求、提交报价、管理订单、商品管理</div>
+        <div class="card-desc">需求大厅 · 报价管理 · 订单跟踪 · 商品上架</div>
         <span class="badge">供应商入口</span>
       </div>
       <span class="card-arrow">›</span>
@@ -66,7 +199,7 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
       <div class="card-icon buyer">📋</div>
       <div class="card-info">
         <div class="card-title">采购人员端</div>
-        <div class="card-desc">发布需求、找供应商、比价选择、跟踪订单</div>
+        <div class="card-desc">发布需求 · 浏览供应商 · 比价选品 · 订单跟踪</div>
         <span class="badge">采购入口</span>
       </div>
       <span class="card-arrow">›</span>
@@ -75,13 +208,13 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
       <div class="card-icon company">📊</div>
       <div class="card-info">
         <div class="card-title">公司管理端</div>
-        <div class="card-desc">数据总览、人员管理、供应商库、订单总览</div>
+        <div class="card-desc">经营数据 · 团队管理 · 供应商库 · 订单监控</div>
         <span class="badge">管理入口</span>
       </div>
       <span class="card-arrow">›</span>
     </a>
   </div>
-  <a href="https://zxiaoran-hub.github.io/yicai-website/" target="_blank" style="background:var(--white);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);margin-bottom:16px;display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--brown)">
+  <a class="website-entry" href="https://zxiaoran-hub.github.io/yicai-website/" target="_blank">
     <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🌐</div>
     <div style="flex:1">
       <div style="font-size:14px;font-weight:600">异采官网</div>
@@ -90,7 +223,7 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
     <span style="font-size:16px;color:var(--light-gray)">›</span>
   </a>
   <div class="footer">
-    <p class="footer-text">© 2025 异采 YiCai · 演示版 MVP</p>
+    <p class="footer-text">© 2025 异采 YiCai · 小品牌方的供应链合伙人</p>
   </div>
 </div>
 <script>
