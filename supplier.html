@@ -227,7 +227,7 @@ textarea.form-input{resize:vertical;min-height:60px}
 var CURRENT_SUPPLIER = 's1';
 var ORDER_STATUSES = ['待确认','原料准备中','生产中','质检中','已发货','已签收'];
 
-function initData(){ if(!localStorage.getItem('yc_init_v3')){ window.location.href='index.html'; } }
+function initData(){ if(!localStorage.getItem('yc_init_v4')){ window.location.href='index.html'; } }
 initData();
 
 function getData(key){ return JSON.parse(localStorage.getItem(key)||'[]'); }
@@ -461,7 +461,7 @@ function showAddProduct(){
   document.getElementById('productModalTitle').textContent='添加商品';
   var html='<div class="form-group"><label class="form-label">商品名称</label><input class="form-input" id="pName" placeholder="如：玻尿酸保湿精华液"></div>'
     +'<div class="form-group"><label class="form-label">品类</label><select class="form-select" id="pCategory">'
-    +'<option value="护肤品">护肤品</option><option value="彩妆">彩妆</option><option value="洗护">洗护</option><option value="原料">原料</option><option value="包装">包装</option>'
+    +'<option value="护肤品">护肤品</option><option value="彩妆">彩妆</option><option value="洗护">洗护</option><option value="原料">原料</option><option value="包装">包装</option><option value="合规咨询">合规咨询</option>'
     +'</select></div>'
     +'<div class="form-group"><label class="form-label">规格描述</label><input class="form-input" id="pSpec" placeholder="如：30ml/瓶，含2%玻尿酸"></div>'
     +'<div class="form-group"><label class="form-label">单价（元）</label><input type="number" class="form-input" id="pPrice" step="0.1" placeholder="如：8.5"></div>'

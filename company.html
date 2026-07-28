@@ -194,7 +194,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <script>
 var ORDER_STATUSES=['待确认','原料准备中','生产中','质检中','已发货','已签收'];
 
-function initData(){ if(!localStorage.getItem('yc_init_v3')){ window.location.href='index.html'; } }
+function initData(){ if(!localStorage.getItem('yc_init_v4')){ window.location.href='index.html'; } }
 initData();
 
 function getData(key){return JSON.parse(localStorage.getItem(key)||'[]')}
