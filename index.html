@@ -139,6 +139,20 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
        {id:'p16', name:'化妆品备案全套服务', category:'合规咨询', spec:'普通化妆品备案，含配方审查', price:3000.0, moq:1, desc:'包含配方合规性审查、备案资料准备、系统提交、跟进审核直至备案完成'},
        {id:'p17', name:'功效宣称评估报告', category:'合规咨询', spec:'含文献调研+实验方案设计', price:8000.0, moq:1, desc:'针对美白、防晒、抗皱等特殊功效宣称，提供合规的评估报告和支撑材料'},
        {id:'p18', name:'标签合规审核', category:'合规咨询', spec:'单个SKU标签全套审核', price:500.0, moq:10, desc:'审核产品标签、说明书是否符合《化妆品标签管理办法》，出具修改建议报告'}
+     ]},
+    {id:'s7', name:'北京华信检测认证有限公司', category:'合规咨询', cert:'CMA/CNAS/ISO17025', capacity:'年检测10000+批次', contact:'孙主任', phone:'132****5678', status:'活跃', level:'A', rating:4.7, cooperationCount:20,
+     intro:'北京华信检测认证有限公司是经国家认证的第三方化妆品检测机构，拥有CMA和CNAS双重资质。实验室配备液相色谱、气相色谱、原子吸收等先进检测设备，提供化妆品安全性检测、微生物检测、重金属检测、稳定性测试、功效评价等技术服务。报告被国家药监局认可，已为超过800个品牌提供检测认证服务。',
+     products:[
+       {id:'p19', name:'化妆品安全性检测', category:'合规咨询', spec:'微生物+重金属+甲醇等全套检测', price:1500.0, moq:1, desc:'按照《化妆品安全技术规范》要求，出具CMA/CNAS检测报告，可用于备案提交'},
+       {id:'p20', name:'产品稳定性测试', category:'合规咨询', spec:'加速稳定性+长期稳定性，含3/6个月报告', price:3500.0, moq:1, desc:'模拟不同温度和光照条件，评估产品保质期和储存条件'},
+       {id:'p21', name:'人体功效评价', category:'合规咨询', spec:'保湿/美白/抗皱功效人体试用试验', price:12000.0, moq:1, desc:'招募志愿者进行人体功效测试，出具符合法规要求的评价报告'}
+     ]},
+    {id:'s8', name:'广州瑞达法规技术有限公司', category:'合规咨询', cert:'ISO9001/行业协会会员', capacity:'年服务300+品牌', contact:'林顾问', phone:'131****4567', status:'活跃', level:'B', rating:4.5, cooperationCount:10,
+     intro:'广州瑞达法规技术有限公司专注于化妆品行业法规咨询，核心团队拥有8年以上化妆品注册备案经验。熟悉中国、东南亚、欧盟等多个市场的法规要求，擅长特殊化妆品注册、进口化妆品备案、跨境化妆品合规方案设计。已帮助300+品牌顺利完成产品上市。',
+     products:[
+       {id:'p22', name:'特殊化妆品注册', category:'合规咨询', spec:'美白/防晒/染发等特殊化妆品注册全套服务', price:8000.0, moq:1, desc:'包含注册资料编制、技术审评跟进、补充资料响应，直至取得注册证'},
+       {id:'p23', name:'进口化妆品备案', category:'合规咨询', spec:'进口普通化妆品备案，含中文标签审核', price:5000.0, moq:1, desc:'协助准备备案资料、中文标签审核、系统申报、跟进审核流程'},
+       {id:'p24', name:'跨境合规方案咨询', category:'合规咨询', spec:'按小时计费，含合规路径分析和方案建议', price:800.0, moq:1, desc:'针对跨境销售场景，分析目标市场法规要求，提供合规路径和成本预估'}
      ]}
   ];
 
@@ -209,7 +223,7 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 8px;
   localStorage.setItem('yc_quotations', JSON.stringify(quotations));
   localStorage.setItem('yc_orders', JSON.stringify(orders));
   localStorage.setItem('yc_buyers', JSON.stringify(buyers));
-  localStorage.setItem('yc_init_v4', '1');
+  localStorage.setItem('yc_init_v5', '1');
 })();
 </script>
 </body>
