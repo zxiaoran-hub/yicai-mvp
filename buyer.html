@@ -158,6 +158,33 @@ textarea.form-input{resize:vertical;min-height:60px}
 .detail-product-item{background:var(--white);border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:12px}
 .detail-product-name{font-weight:600;margin-bottom:2px}
 .detail-product-meta{color:var(--gray);display:flex;gap:8px;flex-wrap:wrap}
+
+/* Chat module */
+.chat-panel{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:14px;border:1px solid rgba(60,36,21,0.03)}
+.chat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.chat-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px}
+.chat-status{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px}
+.chat-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green)}
+.chat-messages{max-height:200px;overflow-y:auto;margin-bottom:12px;padding:10px;background:var(--beige);border-radius:10px}
+.chat-msg{margin-bottom:10px;display:flex;gap:8px}
+.chat-msg.self{flex-direction:right;flex-direction:row-reverse}
+.chat-bubble{max-width:70%;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.6}
+.chat-msg:not(.self) .chat-bubble{background:var(--white);color:var(--brown);border-bottom-left-radius:2px}
+.chat-msg.self .chat-bubble{background:var(--orange);color:var(--white);border-bottom-right-radius:2px}
+.chat-name{font-size:11px;color:var(--gray);margin-bottom:2px}
+.chat-time{font-size:10px;color:var(--gray);margin-top:2px}
+.chat-input-row{display:flex;gap:8px}
+.chat-input-row input{flex:1;padding:8px 12px;border:1.5px solid var(--light-gray);border-radius:20px;font-size:13px;background:var(--beige);outline:none}
+.chat-input-row input:focus{border-color:var(--orange)}
+.chat-input-row button{padding:8px 16px;border-radius:20px;background:var(--orange);color:white;border:none;font-size:13px;font-weight:600;cursor:pointer}
+
+/* Partner recommend card */
+.partner-recommend{background:linear-gradient(135deg,#FFF8E7,#FFE8B0);border-radius:var(--radius);padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;border:1px solid rgba(200,169,110,0.3);cursor:pointer;transition:var(--transition)}
+.partner-recommend:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.partner-recommend-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#D4B87A);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.partner-recommend-info{flex:1}
+.partner-recommend-title{font-size:14px;font-weight:600;color:var(--brown)}
+.partner-recommend-desc{font-size:12px;color:var(--gray);margin-top:2px}
 </style>
 </head>
 <body>
@@ -175,6 +202,16 @@ textarea.form-input{resize:vertical;min-height:60px}
       <option value="李娜">李娜</option>
       <option value="王芳">王芳</option>
     </select>
+  </div>
+
+  <!-- Partner Recommend Entry -->
+  <div class="partner-recommend" onclick="showPartnerRecommend()">
+    <div class="partner-recommend-icon">🤝</div>
+    <div class="partner-recommend-info">
+      <div class="partner-recommend-title">推荐成为合伙人，享20-30%分润</div>
+      <div class="partner-recommend-desc">推荐优质客户或行业人脉，获得持续被动收入</div>
+    </div>
+    <span style="color:var(--gold);font-size:16px">›</span>
   </div>
 
   <!-- 发布需求 -->
@@ -256,6 +293,39 @@ textarea.form-input{resize:vertical;min-height:60px}
 
   <!-- 订单跟踪 -->
   <div id="page-track" class="page" style="display:none">
+    <!-- Online Chat Panel -->
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-title">💬 在线沟通</div>
+        <div class="chat-status">在线</div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg">
+          <div>
+            <div class="chat-name">异采客服</div>
+            <div class="chat-bubble">您好！我是您的专属供应链顾问，有任何问题都可以随时沟通~</div>
+            <div class="chat-time">09:30</div>
+          </div>
+        </div>
+        <div class="chat-msg self">
+          <div>
+            <div class="chat-bubble">你好，我想了解一下定制洗护套装的进度</div>
+            <div class="chat-time">09:32</div>
+          </div>
+        </div>
+        <div class="chat-msg">
+          <div>
+            <div class="chat-name">异采客服</div>
+            <div class="chat-bubble">好的，您的订单目前正在灌装生产阶段，预计下周可以进入质检环节。我会实时同步进度给您 👍</div>
+            <div class="chat-time">09:33</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="输入消息..." onkeypress="if(event.key==='Enter')sendChatMsg()">
+        <button onclick="sendChatMsg()">发送</button>
+      </div>
+    </div>
     <div id="orderTrackList"></div>
   </div>
 </div>
@@ -301,6 +371,53 @@ textarea.form-input{resize:vertical;min-height:60px}
   </div>
 </div>
 
+
+<!-- Partner Recommend Modal -->
+<div class="modal-overlay" id="partnerModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🤝 推荐成为合伙人</h3>
+      <button class="modal-close" onclick="closeModal('partnerModal')">✕</button>
+    </div>
+    <div style="text-align:center;padding:10px 0 16px">
+      <div style="font-size:48px;margin-bottom:12px">🤝</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">异采合伙人计划</div>
+      <div style="font-size:13px;color:var(--gray);margin-bottom:16px">推荐优质客户或行业人脉加入异采合伙人网络</div>
+    </div>
+    <div style="background:var(--beige);border-radius:10px;padding:16px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px">合伙人类型</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="padding:6px 12px;background:white;border-radius:8px;font-size:12px">🤝 资源合伙人</span>
+        <span style="padding:6px 12px;background:white;border-radius:8px;font-size:12px">🏆 行业合伙人</span>
+        <span style="padding:6px 12px;background:white;border-radius:8px;font-size:12px">🌍 区域合伙人</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">推荐人姓名</label>
+      <input class="form-input" placeholder="请输入推荐人姓名">
+    </div>
+    <div class="form-group">
+      <label class="form-label">联系方式</label>
+      <input class="form-input" placeholder="手机号或微信">
+    </div>
+    <div class="form-group">
+      <label class="form-label">推荐类型</label>
+      <select class="form-select">
+        <option>资源合伙人</option>
+        <option>行业合伙人</option>
+        <option>区域合伙人</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">推荐理由</label>
+      <textarea class="form-input" placeholder="简述推荐人资源背景和优势"></textarea>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="submitPartnerRecommend()">提交推荐</button>
+    <div style="text-align:center;margin-top:12px">
+      <span style="font-size:12px;color:var(--gray)">💰 推荐成功可获得20-30%分润收益</span>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -654,6 +771,30 @@ function goDelegateSourcing(){
     document.getElementById('fRemark').value='请异采团队根据需求匹配供应商资源，联系方式：';
     showToast('请补充品类、数量等信息后发布');
   },100);
+}
+
+
+function showPartnerRecommend(){
+  openModal('partnerModal');
+}
+function submitPartnerRecommend(){
+  showToast('推荐已提交，我们将尽快联系！');
+  closeModal('partnerModal');
+}
+function sendChatMsg(){
+  var input=document.getElementById('chatInput');
+  var msg=input.value.trim();
+  if(!msg)return;
+  var container=document.getElementById('chatMessages');
+  var now=new Date();
+  var timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  container.innerHTML+='<div class="chat-msg self"><div><div class="chat-bubble">'+msg+'</div><div class="chat-time">'+timeStr+'</div></div></div>';
+  input.value='';
+  container.scrollTop=container.scrollHeight;
+  setTimeout(function(){
+    container.innerHTML+='<div class="chat-msg"><div><div class="chat-name">异采客服</div><div class="chat-bubble">收到您的消息，我们马上为您处理~</div><div class="chat-time">'+timeStr+'</div></div></div>';
+    container.scrollTop=container.scrollHeight;
+  },1000);
 }
 
 // Init

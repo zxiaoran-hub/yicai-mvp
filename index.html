@@ -213,7 +213,62 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 4px;
       </div>
       <span class="card-arrow">›</span>
     </a>
+    <a class="card" href="#partner-section" onclick="showPartnerInfo()" style="animation-delay:0.35s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#FFF8E7,#FFE8B0)">🤝</div>
+      <div class="card-info">
+        <div class="card-title">成为合伙人</div>
+        <div class="card-desc">资源合伙人 · 行业合伙人 · 区域合伙人</div>
+        <span class="badge" style="background:var(--gold)">合伙人入口</span>
+      </div>
+      <span class="card-arrow">›</span>
+    </a>
   </div>
+
+  <!-- Partner Info Panel -->
+  <div id="partner-section" style="display:none;background:white;border-radius:16px;padding:24px;box-shadow:var(--shadow);margin-top:12px;border:2px solid var(--gold);animation:fadeInUp 0.5s ease both">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:20px;font-weight:700;color:var(--brown);margin-bottom:4px">🤝 异采合伙人计划</div>
+      <div style="font-size:13px;color:var(--gray)">携手共创，共享增长红利</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+      <div style="text-align:center;padding:12px 8px;background:var(--beige);border-radius:10px">
+        <div style="font-size:13px;font-weight:600;color:var(--orange)">🤝 资源合伙人</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px">推荐客户获分润</div>
+      </div>
+      <div style="text-align:center;padding:12px 8px;background:var(--beige);border-radius:10px">
+        <div style="font-size:13px;font-weight:600;color:var(--gold)">🏆 行业合伙人</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px">深度参与高分润</div>
+      </div>
+      <div style="text-align:center;padding:12px 8px;background:var(--beige);border-radius:10px">
+        <div style="font-size:13px;font-weight:600;color:var(--brown)">🌍 区域合伙人</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px">独享区域收益</div>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--brown),var(--brown-light));border-radius:10px;padding:16px;color:white;text-align:center;margin-bottom:12px">
+      <div style="font-size:24px;font-weight:800;background:linear-gradient(135deg,var(--orange),var(--orange-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">20-30% 分润</div>
+      <div style="font-size:12px;opacity:0.8;margin-top:4px">推荐10个客户，年收入20-30万</div>
+    </div>
+    <a href="https://zxiaoran-hub.github.io/yicai-website/#partner" target="_blank" style="display:block;text-align:center;padding:10px;background:var(--orange);color:white;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none">了解详情 & 立即申请 →</a>
+  </div>
+
+  <!-- Pricing Brief -->
+  <div style="background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow);margin-top:12px;border:1px solid rgba(60,36,21,0.04);animation:fadeInUp 0.5s 0.45s ease both">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <span style="font-size:18px">💰</span>
+      <span style="font-size:14px;font-weight:600">透明定价 · 无隐藏费用</span>
+    </div>
+    <div style="display:flex;gap:10px">
+      <div style="flex:1;padding:10px;background:var(--beige);border-radius:8px;text-align:center">
+        <div style="font-size:12px;font-weight:600;color:var(--orange)">📋 按项目</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:2px">一次一结</div>
+      </div>
+      <div style="flex:1;padding:10px;background:var(--beige);border-radius:8px;text-align:center">
+        <div style="font-size:12px;font-weight:600;color:var(--gold)">📅 年度服务</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:2px">优惠15-20%</div>
+      </div>
+    </div>
+  </div>
+
   <a class="website-entry" href="https://zxiaoran-hub.github.io/yicai-website/" target="_blank">
     <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🌐</div>
     <div style="flex:1">
@@ -358,6 +413,14 @@ h1 { font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 4px;
   localStorage.setItem('yc_buyers', JSON.stringify(buyers));
   localStorage.setItem('yc_init_v5', '1');
 })();
+</script>
+
+<script>
+function showPartnerInfo(){
+  var el=document.getElementById('partner-section');
+  el.style.display=el.style.display==='none'?'block':'none';
+  if(el.style.display==='block') el.scrollIntoView({behavior:'smooth',block:'center'});
+}
 </script>
 </body>
 </html>
