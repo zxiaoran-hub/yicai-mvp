@@ -128,6 +128,7 @@ textarea.form-input{resize:vertical;min-height:60px}
 .supplier-browse-name{font-size:14px;font-weight:600;margin-bottom:4px}
 .supplier-browse-tags{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}
 .supplier-browse-tag{font-size:10px;padding:2px 6px;border-radius:4px;background:#FFF3EB;color:var(--orange)}
+.supplier-browse-tag.region-tag{background:#EBF5FF;color:var(--blue)}
 .supplier-browse-meta{font-size:12px;color:var(--gray);margin-top:4px}
 .stars{color:var(--gold);font-size:13px;letter-spacing:1px}
 
@@ -136,6 +137,15 @@ textarea.form-input{resize:vertical;min-height:60px}
 .search-box input{width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--light-gray);border-radius:10px;font-size:14px;background:var(--white);outline:none;transition:var(--transition)}
 .search-box input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(243,112,33,0.1)}
 .search-box::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px}
+
+/* Region filter row */
+.region-filter-row{margin-bottom:14px}
+.region-filter-row .filter-label{font-size:12px;color:var(--gray);margin-bottom:6px}
+.region-scroll-tags{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.region-scroll-tags::-webkit-scrollbar{display:none}
+.region-tag{padding:6px 14px;border-radius:20px;font-size:12px;background:var(--white);color:var(--brown);border:1px solid var(--light-gray);cursor:pointer;transition:var(--transition);white-space:nowrap;flex-shrink:0}
+.region-tag.active{background:var(--orange);color:var(--white);border-color:var(--orange)}
+.region-tag:hover{border-color:var(--orange)}
 
 /* Delegate card - enhanced */
 .delegate-card{background:linear-gradient(135deg,#FFF3EB,#FFE0C7);border-radius:16px;padding:24px 20px;margin-top:16px;text-align:center;border:2px solid var(--orange);position:relative;overflow:hidden}
@@ -185,6 +195,70 @@ textarea.form-input{resize:vertical;min-height:60px}
 .partner-recommend-info{flex:1}
 .partner-recommend-title{font-size:14px;font-weight:600;color:var(--brown)}
 .partner-recommend-desc{font-size:12px;color:var(--gray);margin-top:2px}
+
+/* ====== New: Factory Photo Wall ====== */
+.photo-wall{display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch}
+.photo-wall::-webkit-scrollbar{display:none}
+.photo-wall-item{width:120px;height:90px;border-radius:8px;overflow:hidden;flex-shrink:0;cursor:pointer;position:relative;transition:var(--transition)}
+.photo-wall-item:hover{transform:scale(1.03);box-shadow:var(--shadow-hover)}
+.photo-wall-item img{width:100%;height:100%;object-fit:cover}
+.photo-wall-item .photo-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#f5f0eb,#e8e0d6);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--light-gray)}
+.photo-wall-empty{font-size:13px;color:var(--gray);padding:12px 0;text-align:center;background:var(--beige);border-radius:8px}
+
+/* ====== New: Certificate Cards ====== */
+.cert-list{display:flex;flex-direction:column;gap:8px}
+.cert-card{display:flex;align-items:center;gap:10px;background:var(--white);border-radius:8px;padding:10px 12px;border:1px solid var(--light-gray);transition:var(--transition)}
+.cert-card:hover{border-color:var(--orange);background:#FFF9F4}
+.cert-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#FFF3EB,#FFE8D6);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cert-info{flex:1}
+.cert-name{font-size:13px;font-weight:600;color:var(--brown)}
+.cert-type{font-size:10px;padding:2px 6px;border-radius:4px;background:#EBF5FF;color:var(--blue);display:inline-block;margin-top:2px}
+.cert-empty{font-size:13px;color:var(--gray);padding:12px 0;text-align:center;background:var(--beige);border-radius:8px}
+
+/* ====== New: Production Dynamics Timeline (in supplier detail) ====== */
+.prod-dynamic-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f5f0eb;align-items:flex-start}
+.prod-dynamic-item:last-child{border-bottom:none}
+.prod-dynamic-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px}
+.prod-dynamic-dot.green{background:var(--green)}
+.prod-dynamic-dot.blue{background:var(--blue)}
+.prod-dynamic-body{flex:1}
+.prod-dynamic-status{font-size:13px;font-weight:600;color:var(--brown)}
+.prod-dynamic-time{font-size:11px;color:var(--gray);margin-top:1px}
+.prod-dynamic-remark{font-size:12px;color:var(--gray);margin-top:3px}
+.prod-dynamic-imgs{display:flex;gap:6px;margin-top:6px}
+.prod-dynamic-img{width:50px;height:50px;border-radius:6px;object-fit:cover;background:var(--light-gray)}
+.prod-dynamic-empty{font-size:13px;color:var(--gray);padding:12px 0;text-align:center;background:var(--beige);border-radius:8px}
+
+/* ====== New: Fullscreen Photo Viewer ====== */
+.photo-fullscreen{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:300;align-items:center;justify-content:center;flex-direction:column}
+.photo-fullscreen.show{display:flex}
+.photo-fullscreen img{max-width:90vw;max-height:80vh;border-radius:8px;object-fit:contain}
+.photo-fullscreen .close-btn{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.photo-fullscreen .close-btn:hover{background:rgba(255,255,255,0.3)}
+
+/* ====== New: Production Dynamics Page ====== */
+.prod-filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.prod-filter-bar select{padding:8px 12px;border:1.5px solid var(--light-gray);border-radius:8px;font-size:13px;background:var(--white);outline:none;color:var(--brown);transition:var(--transition)}
+.prod-filter-bar select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(243,112,33,0.1)}
+
+.prod-card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);border:1px solid rgba(60,36,21,0.03);transition:var(--transition)}
+.prod-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover)}
+.prod-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prod-card-supplier{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px}
+.prod-card-supplier .supplier-dot{width:8px;height:8px;border-radius:50%;background:var(--orange)}
+.prod-card-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:#FFF3EB;color:var(--orange)}
+.prod-card-status{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:3px 10px;border-radius:10px;font-weight:500}
+.prod-card-status.pending{background:#FFF3EB;color:var(--orange)}
+.prod-card-status.material{background:#EBF5FF;color:var(--blue)}
+.prod-card-status.producing{background:#FFF8E7;color:var(--gold)}
+.prod-card-status.qc{background:#F0EBFF;color:#7C3AED}
+.prod-card-status.shipped{background:#E8F8EF;color:var(--green)}
+.prod-card-status.received{background:#F0F0F0;color:var(--gray)}
+.prod-card-time{font-size:11px;color:var(--gray);margin-top:4px}
+.prod-card-remark{font-size:13px;color:#666;margin-top:6px;line-height:1.6;padding:8px 10px;background:var(--beige);border-radius:8px}
+.prod-card-title{font-size:13px;color:var(--gray);margin-top:4px}
+.prod-card-imgs{display:flex;gap:6px;margin-top:8px}
+.prod-card-img{width:70px;height:52px;border-radius:6px;object-fit:cover;background:var(--light-gray)}
 </style>
 </head>
 <body>
@@ -276,6 +350,11 @@ textarea.form-input{resize:vertical;min-height:60px}
       <input type="text" id="supplierSearch" placeholder="搜索供应商名称..." oninput="renderBrowse()">
     </div>
     <div class="filter-tags" id="categoryFilters"></div>
+    <!-- New: Region Filter -->
+    <div class="region-filter-row">
+      <div class="filter-label">📍 地区筛选</div>
+      <div class="region-scroll-tags" id="regionFilters"></div>
+    </div>
     <div id="supplierBrowseList"></div>
     <div class="delegate-card">
       <div class="delegate-icon">🔍</div>
@@ -283,6 +362,26 @@ textarea.form-input{resize:vertical;min-height:60px}
       <div class="delegate-desc">几句话描述一下你的需求，我们帮你找！<br>异采拥有100+筛选供应商资源，覆盖六大品类</div>
       <button class="btn btn-primary" onclick="goDelegateSourcing()">委托平台寻找</button>
     </div>
+  </div>
+
+  <!-- 生产动态 (New Tab) -->
+  <div id="page-production" class="page" style="display:none">
+    <div style="font-size:16px;font-weight:700;margin-bottom:14px">📹 生产动态</div>
+    <div class="prod-filter-bar">
+      <select id="prodSupplierFilter" onchange="renderProduction()">
+        <option value="全部">全部供应商</option>
+      </select>
+      <select id="prodStatusFilter" onchange="renderProduction()">
+        <option value="全部">全部状态</option>
+        <option value="待确认">待确认</option>
+        <option value="原料准备中">原料准备中</option>
+        <option value="生产中">生产中</option>
+        <option value="质检中">质检中</option>
+        <option value="已发货">已发货</option>
+        <option value="已签收">已签收</option>
+      </select>
+    </div>
+    <div id="productionList"></div>
   </div>
 
   <!-- 需求管理 -->
@@ -334,6 +433,7 @@ textarea.form-input{resize:vertical;min-height:60px}
 <div class="tab-bar">
   <div class="tab-item active" onclick="switchTab('publish')"><div class="tab-icon">✏️</div>发布需求</div>
   <div class="tab-item" onclick="switchTab('browse')"><div class="tab-icon">🔍</div>找供应商</div>
+  <div class="tab-item" onclick="switchTab('production')"><div class="tab-icon">📹</div>生产动态</div>
   <div class="tab-item" onclick="switchTab('manage')"><div class="tab-icon">📋</div>需求管理</div>
   <div class="tab-item" onclick="switchTab('track')"><div class="tab-icon">🚚</div>订单跟踪</div>
 </div>
@@ -371,6 +471,11 @@ textarea.form-input{resize:vertical;min-height:60px}
   </div>
 </div>
 
+<!-- 照片全屏预览 -->
+<div class="photo-fullscreen" id="photoFullscreen" onclick="closePhotoFullscreen()">
+  <button class="close-btn" onclick="closePhotoFullscreen()">✕</button>
+  <img id="photoFullscreenImg" src="" alt="照片预览">
+</div>
 
 <!-- Partner Recommend Modal -->
 <div class="modal-overlay" id="partnerModal">
@@ -424,9 +529,119 @@ textarea.form-input{resize:vertical;min-height:60px}
 var CURRENT_BUYER='张明';
 var ORDER_STATUSES=['待确认','原料准备中','生产中','质检中','已发货','已签收'];
 var currentFilter='全部';
+var currentRegionFilter='全部';
 var demandStatusFilter='全部';
 
-function initData(){ if(!localStorage.getItem('yc_init_v5')){ window.location.href='index.html'; } }
+// ====== 供应商地区映射 ======
+var SUPPLIER_REGIONS = {
+  's1': '上海奉贤',
+  's2': '广州白云',
+  's3': '上海浦东',
+  's4': '杭州萧山',
+  's5': '苏州吴江',
+  's6': '上海奉贤',
+  's7': '北京海淀',
+  's8': '广州天河'
+};
+
+// ====== 供应商工厂照片（模拟数据） ======
+var SUPPLIER_PHOTOS = {
+  's1': [
+    'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1571781418606-d2d1f47a6a2e?w=400&h=300&fit=crop'
+  ],
+  's2': [
+    'https://images.unsplash.com/photo-1596462502278-27bfdc403323?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=300&fit=crop'
+  ],
+  's3': [
+    'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400&h=300&fit=crop'
+  ],
+  's4': [],
+  's5': [
+    'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1606261473155-d5fe4b0a9a04?w=400&h=300&fit=crop'
+  ],
+  's6': [],
+  's7': [
+    'https://images.unsplash.com/photo-1581093458791-9d42e3c2fd45?w=400&h=300&fit=crop'
+  ],
+  's8': [
+    'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=300&fit=crop'
+  ]
+};
+
+// ====== 供应商资质证书（模拟数据） ======
+var SUPPLIER_CERTS = {
+  's1': [
+    {name:'ISO 22716 化妆品GMP认证', type:'质量管理', icon:'📋'},
+    {name:'GMPC 国际认证', type:'生产规范', icon:'🏅'},
+    {name:'SGS 检测报告', type:'第三方检测', icon:'🔬'}
+  ],
+  's2': [
+    {name:'ISO 22716 化妆品GMP认证', type:'质量管理', icon:'📋'},
+    {name:'FDA 美国食品药品管理局注册', type:'国际认证', icon:'🌍'}
+  ],
+  's3': [
+    {name:'ISO 22716 化妆品GMP认证', type:'质量管理', icon:'📋'},
+    {name:'ISO 14001 环境管理体系', type:'环境管理', icon:'🌿'}
+  ],
+  's4': [
+    {name:'ISO 9001 质量管理体系', type:'质量管理', icon:'📋'},
+    {name:'REACH 欧盟化学品注册', type:'国际认证', icon:'🌍'},
+    {name:'COA 分析证书', type:'检测报告', icon:'🔬'}
+  ],
+  's5': [
+    {name:'ISO 9001 质量管理体系', type:'质量管理', icon:'📋'},
+    {name:'FSC 森林认证', type:'环保认证', icon:'🌿'},
+    {name:'BRC 全球标准', type:'国际认证', icon:'🌍'}
+  ],
+  's6': [
+    {name:'CMA 计量认证', type:'检测资质', icon:'🔬'},
+    {name:'CNAS 实验室认可', type:'检测资质', icon:'🔬'},
+    {name:'ISO 17025 实验室管理', type:'质量管理', icon:'📋'}
+  ],
+  's7': [
+    {name:'CMA 计量认证', type:'检测资质', icon:'🔬'},
+    {name:'CNAS 实验室认可', type:'检测资质', icon:'🔬'},
+    {name:'ISO 17025 实验室管理', type:'质量管理', icon:'📋'}
+  ],
+  's8': [
+    {name:'ISO 9001 质量管理体系', type:'质量管理', icon:'📋'},
+    {name:'行业协会会员证书', type:'行业资质', icon:'🏅'}
+  ]
+};
+
+function initData(){
+  if(!localStorage.getItem('yc_init_v5')){
+    window.location.href='index.html';
+    return;
+  }
+  // 数据迁移：补充region字段
+  migrateSupplierData();
+}
+
+function migrateSupplierData(){
+  if(localStorage.getItem('yc_init_v6')) return;
+  var suppliers=getData('yc_suppliers');
+  var needMigrate=false;
+  suppliers.forEach(function(s){
+    if(!s.region){
+      s.region=SUPPLIER_REGIONS[s.id]||'其他';
+      needMigrate=true;
+    }
+  });
+  if(needMigrate){
+    setData('yc_suppliers',suppliers);
+  }
+  localStorage.setItem('yc_init_v6','1');
+}
+
 initData();
 
 function getData(key){return JSON.parse(localStorage.getItem(key)||'[]')}
@@ -441,7 +656,7 @@ function switchBuyer(){CURRENT_BUYER=document.getElementById('buyerSelector').va
 function switchTab(tab){
   document.querySelectorAll('.page').forEach(function(p){p.style.display='none'});
   document.getElementById('page-'+tab).style.display='block';
-  var idx={publish:0,browse:1,manage:2,track:3}[tab];
+  var idx={publish:0,browse:1,production:2,manage:3,track:4}[tab];
   document.querySelectorAll('.tab-item').forEach(function(t,i){t.className='tab-item'+(i===idx?' active':'')});
   renderCurrent();
 }
@@ -450,8 +665,9 @@ function renderCurrent(){
   if(!active)return;
   var idx=[].indexOf.call(document.querySelectorAll('.tab-item'),active);
   if(idx===1)renderBrowse();
-  if(idx===2)renderManage();
-  if(idx===3)renderTrack();
+  if(idx===2)renderProduction();
+  if(idx===3)renderManage();
+  if(idx===4)renderTrack();
 }
 
 // ====== Step indicator ======
@@ -478,26 +694,40 @@ function renderBrowse(){
   });
   document.getElementById('categoryFilters').innerHTML=filterHtml;
 
+  // Region filter
+  var regions=['全部','上海奉贤','上海浦东','广州白云','杭州萧山','苏州吴江','其他'];
+  var regionHtml='';
+  regions.forEach(function(r){
+    regionHtml+='<div class="region-tag'+(currentRegionFilter===r?' active':'')+'" onclick="filterByRegion(\''+r+'\')">'+(r==='全部'?'📍 全部':r)+'</div>';
+  });
+  document.getElementById('regionFilters').innerHTML=regionHtml;
+
   var suppliers=getData('yc_suppliers');
   var searchText=(document.getElementById('supplierSearch')||{}).value||'';
   
   var filtered=currentFilter==='全部'?suppliers:suppliers.filter(function(s){return s.category===currentFilter});
+  // Region filter
+  if(currentRegionFilter!=='全部'){
+    filtered=filtered.filter(function(s){return (s.region||SUPPLIER_REGIONS[s.id]||'其他')===currentRegionFilter});
+  }
   if(searchText){
     filtered=filtered.filter(function(s){return s.name.toLowerCase().indexOf(searchText.toLowerCase())!==-1});
   }
-  if(filtered.length===0){document.getElementById('supplierBrowseList').innerHTML='<div class="empty">暂无该品类的供应商</div>';return}
+  if(filtered.length===0){document.getElementById('supplierBrowseList').innerHTML='<div class="empty">暂无符合条件的供应商</div>';return}
 
   var html='';
   filtered.forEach(function(s){
     var products=s.products||[];
     var stars='';
     for(var i=0;i<5;i++){stars+=i<Math.floor(s.rating)?'★':'☆'}
+    var region=s.region||SUPPLIER_REGIONS[s.id]||'其他';
     html+='<div class="supplier-browse-card">'
       +'<div class="supplier-avatar">🏭</div>'
       +'<div class="supplier-browse-info">'
       +'<div class="supplier-browse-name">'+s.name+' <span class="item-badge badge-green" style="font-size:10px">'+s.status+'</span></div>'
       +'<div class="supplier-browse-tags">'
       +'<span class="supplier-browse-tag">'+s.category+'</span>'
+      +'<span class="supplier-browse-tag region-tag">📍 '+region+'</span>'
       +(products.length>0?'<span class="supplier-browse-tag">'+products.length+'种商品</span>':'')
       +'<span class="supplier-browse-tag">合作'+s.cooperationCount+'次</span>'
       +'</div>'
@@ -513,31 +743,78 @@ function filterSuppliers(cat){
   renderBrowse();
 }
 
+function filterByRegion(region){
+  currentRegionFilter=region;
+  renderBrowse();
+}
+
+// ====== 供应商详情（增强版） ======
 function showSupplierDetail(sid){
   var s=getSupplier(sid);if(!s)return;
   var products=s.products||[];
   var stars='';
   for(var i=0;i<5;i++){stars+=i<Math.floor(s.rating)?'★':'☆'}
+  var region=s.region||SUPPLIER_REGIONS[s.id]||'其他';
 
   var html='<div style="text-align:center;padding:10px 0 16px">'
     +'<div style="width:50px;height:50px;background:linear-gradient(135deg,var(--orange),var(--gold));border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:22px;color:#fff;margin-bottom:8px">🏭</div>'
     +'<div style="font-size:16px;font-weight:700">'+s.name+'</div>'
     +'<div style="margin-top:4px"><span class="item-badge badge-green">'+s.status+'</span> <span class="stars">'+stars+'</span> '+s.rating+'</div>'
+    +'<div style="margin-top:4px"><span class="supplier-browse-tag region-tag" style="font-size:11px;padding:3px 8px">📍 '+region+'</span></div>'
     +'</div>';
 
+  // 基本信息
   html+='<div class="detail-section"><div class="detail-section-title">📋 基本信息</div>'
     +'<div style="font-size:13px;line-height:2;color:#666">'
     +'<div>主营品类：'+s.category+'</div>'
+    +'<div>所在地：'+region+'</div>'
     +'<div>资质认证：'+s.cert+'</div>'
     +'<div>产能：'+s.capacity+'</div>'
     +'<div>联系人：'+s.contact+' | '+s.phone+'</div>'
     +'</div></div>';
 
+  // 工厂介绍
   if(s.intro){
     html+='<div class="detail-section"><div class="detail-section-title">🏭 工厂介绍</div>'
       +'<div style="font-size:13px;line-height:1.8;color:#666">'+s.intro+'</div></div>';
   }
 
+  // 工厂实拍（照片墙）
+  var photos=SUPPLIER_PHOTOS[s.id]||[];
+  html+='<div class="detail-section"><div class="section-title">📷 工厂实拍</div>';
+  if(photos.length>0){
+    html+='<div class="photo-wall">';
+    photos.forEach(function(url,idx){
+      html+='<div class="photo-wall-item" onclick="viewPhotoFullscreen(\''+url.replace(/'/g,"\\'")+'\')">'
+        +'<img src="'+url+'" alt="工厂照片'+(idx+1)+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=photo-placeholder>🏭</div>\'">'
+        +'</div>';
+    });
+    html+='</div>';
+  }else{
+    html+='<div class="photo-wall-empty">暂无工厂实拍</div>';
+  }
+  html+='</div>';
+
+  // 资质证书
+  var certs=SUPPLIER_CERTS[s.id]||[];
+  html+='<div class="detail-section"><div class="section-title">📜 资质证书</div>';
+  if(certs.length>0){
+    html+='<div class="cert-list">';
+    certs.forEach(function(c){
+      html+='<div class="cert-card">'
+        +'<div class="cert-icon">'+c.icon+'</div>'
+        +'<div class="cert-info">'
+        +'<div class="cert-name">'+c.name+'</div>'
+        +'<span class="cert-type">'+c.type+'</span>'
+        +'</div></div>';
+    });
+    html+='</div>';
+  }else{
+    html+='<div class="cert-empty">暂无资质信息</div>';
+  }
+  html+='</div>';
+
+  // 可提供的商品
   if(products.length>0){
     html+='<div class="detail-section"><div class="detail-section-title">📦 可提供的商品（'+products.length+'种）</div>';
     products.forEach(function(p){
@@ -554,9 +831,60 @@ function showSupplierDetail(sid){
     html+='</div>';
   }
 
+  // 最近生产动态
+  var orders=getData('yc_orders');
+  var supplierOrders=orders.filter(function(o){return o.supplierId===sid});
+  var allTimeline=[];
+  supplierOrders.forEach(function(o){
+    (o.timeline||[]).forEach(function(t){
+      allTimeline.push({
+        status:t.status,
+        time:t.time,
+        remark:t.remark||'',
+        orderTitle:o.title,
+        orderNo:o.orderNo,
+        images:t.images||[]
+      });
+    });
+  });
+  allTimeline.sort(function(a,b){return b.time.localeCompare(a.time)});
+  var recentTimeline=allTimeline.slice(0,5);
+
+  html+='<div class="detail-section"><div class="section-title">📹 最近生产动态</div>';
+  if(recentTimeline.length>0){
+    recentTimeline.forEach(function(t){
+      var dotClass='';
+      if(t.status==='已签收'||t.status==='已发货') dotClass='green';
+      else if(t.status==='生产中'||t.status==='原料准备中') dotClass='';
+      else if(t.status==='质检中') dotClass='blue';
+      html+='<div class="prod-dynamic-item">'
+        +'<div class="prod-dynamic-dot '+dotClass+'"></div>'
+        +'<div class="prod-dynamic-body">'
+        +'<div class="prod-dynamic-status">'+t.status+' <span style="font-size:11px;color:var(--gray);font-weight:400">- '+t.orderTitle+'</span></div>'
+        +'<div class="prod-dynamic-time">🕐 '+t.time+'</div>'
+        +(t.remark?'<div class="prod-dynamic-remark">'+t.remark+'</div>':'')
+        +(t.images.length>0?'<div class="prod-dynamic-imgs">'+t.images.map(function(img){return '<img class="prod-dynamic-img" src="'+img+'" alt="动态图片" loading="lazy">'}).join('')+'</div>':'')
+        +'</div></div>';
+    });
+  }else{
+    html+='<div class="prod-dynamic-empty">暂无生产动态</div>';
+  }
+  html+='</div>';
+
   html+='<button class="btn btn-primary btn-block" onclick="goInquiry(\''+s.category+'\')">向该供应商发起询价</button>';
   document.getElementById('supplierDetailContent').innerHTML=html;
   openModal('supplierDetailModal');
+}
+
+// ====== 照片全屏预览 ======
+function viewPhotoFullscreen(url){
+  var overlay=document.getElementById('photoFullscreen');
+  var img=document.getElementById('photoFullscreenImg');
+  img.src=url;
+  overlay.className='photo-fullscreen show';
+}
+function closePhotoFullscreen(){
+  document.getElementById('photoFullscreen').className='photo-fullscreen';
 }
 
 function goInquiry(category){
@@ -594,6 +922,99 @@ function submitDemand(){
   showToast('发布成功');
 }
 
+// ====== 生产动态 ======
+function renderProduction(){
+  // 初始化供应商筛选下拉
+  var supplierSelect=document.getElementById('prodSupplierFilter');
+  if(supplierSelect.options.length<=1){
+    var suppliers=getData('yc_suppliers');
+    suppliers.forEach(function(s){
+      var opt=document.createElement('option');
+      opt.value=s.id;
+      opt.textContent=s.name;
+      supplierSelect.appendChild(opt);
+    });
+  }
+
+  var supplierFilterVal=document.getElementById('prodSupplierFilter').value;
+  var statusFilterVal=document.getElementById('prodStatusFilter').value;
+
+  var orders=getData('yc_orders');
+  var suppliers=getData('yc_suppliers');
+
+  // 提取所有timeline记录
+  var allDynamics=[];
+  orders.forEach(function(o){
+    var supplier=suppliers.find(function(s){return s.id===o.supplierId});
+    (o.timeline||[]).forEach(function(t){
+      allDynamics.push({
+        supplierId:o.supplierId,
+        supplierName:supplier?supplier.name:'未知供应商',
+        supplierCategory:supplier?supplier.category:'',
+        status:t.status,
+        time:t.time,
+        remark:t.remark||'',
+        orderTitle:o.title,
+        orderNo:o.orderNo,
+        images:t.images||[]
+      });
+    });
+  });
+
+  // 筛选
+  if(supplierFilterVal!=='全部'){
+    allDynamics=allDynamics.filter(function(d){return d.supplierId===supplierFilterVal});
+  }
+  if(statusFilterVal!=='全部'){
+    allDynamics=allDynamics.filter(function(d){return d.status===statusFilterVal});
+  }
+
+  // 按时间倒序
+  allDynamics.sort(function(a,b){return b.time.localeCompare(a.time)});
+
+  if(allDynamics.length===0){
+    document.getElementById('productionList').innerHTML='<div class="empty">暂无生产动态记录</div>';
+    return;
+  }
+
+  var statusClassMap={
+    '待确认':'pending',
+    '原料准备中':'material',
+    '生产中':'producing',
+    '质检中':'qc',
+    '已发货':'shipped',
+    '已签收':'received'
+  };
+  var statusIconMap={
+    '待确认':'📋',
+    '原料准备中':'🧪',
+    '生产中':'⚙️',
+    '质检中':'🔍',
+    '已发货':'🚚',
+    '已签收':'✅'
+  };
+
+  var html='';
+  allDynamics.forEach(function(d){
+    var cls=statusClassMap[d.status]||'pending';
+    var icon=statusIconMap[d.status]||'📋';
+    html+='<div class="prod-card">'
+      +'<div class="prod-card-header">'
+      +'<div class="prod-card-supplier"><span class="supplier-dot"></span>'+d.supplierName+'</div>'
+      +'<span class="prod-card-cat">'+d.supplierCategory+'</span>'
+      +'</div>'
+      +'<div class="prod-card-title">📋 '+d.orderTitle+' ('+d.orderNo+')</div>'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'
+      +'<span class="prod-card-status '+cls+'">'+icon+' '+d.status+'</span>'
+      +'<span class="prod-card-time">🕐 '+d.time+'</span>'
+      +'</div>'
+      +(d.remark?'<div class="prod-card-remark">'+d.remark+'</div>':'')
+      +(d.images.length>0?'<div class="prod-card-imgs">'+d.images.slice(0,3).map(function(img){return '<img class="prod-card-img" src="'+img+'" alt="生产图片" loading="lazy">'}).join('')+'</div>':'')
+      +'</div>';
+  });
+  document.getElementById('productionList').innerHTML=html;
+}
+
 // ====== 需求管理 ======
 function renderManage(){
   var statusList=['全部','报价中','已选供应商','进行中','已完成'];
@@ -615,7 +1036,6 @@ function renderManage(){
     var qCount=quotes.filter(function(q){return q.demandId===d.id}).length;
     var statusMap={'报价中':'badge-orange','已选供应商':'badge-blue','进行中':'badge-blue','已完成':'badge-green'};
     var badgeClass=statusMap[d.status]||'badge-gray';
-    // Progress bar for quote count (max expected ~6 quotes)
     var quoteProgress=Math.min(qCount/6*100,100);
     html+='<div class="list-item" onclick="showQuoteCompare(\''+d.id+'\')">'
       +'<div class="item-header"><span class="item-title">'+d.title+'</span><span class="item-badge '+badgeClass+'">'+d.status+'</span></div>'
@@ -665,7 +1085,7 @@ function showQuoteCompare(demandId){
     });
     html+='</tbody></table></div>';
     if(quotes[0].remark){
-      html+='<div style="font-size:12px;color:var(--gray);margin-top:8px;background:var(--beige);padding:8px;border-radius:6px">💡 最低价供应商备注：'+quotes[0].remark+'</div>';
+      html+='<div style="font-size:12px;color:var(--gray);margin-top:8px;background:var(--beige);padding:8px;border-radius:8px">💡 最低价供应商备注：'+quotes[0].remark+'</div>';
     }
   }
   document.getElementById('quoteDetailContent').innerHTML=html;

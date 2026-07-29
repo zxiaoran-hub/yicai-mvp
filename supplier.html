@@ -117,6 +117,10 @@ textarea.form-input{resize:vertical;min-height:60px}
 .timeline-item.current .timeline-status{color:var(--orange)}
 .timeline-time{font-size:12px;color:var(--gray);margin-top:2px}
 .timeline-remark{font-size:12px;color:var(--gray);margin-top:2px;font-style:italic}
+.timeline-images{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.timeline-img-thumb{width:40px;height:40px;border-radius:6px;object-fit:cover;cursor:pointer;border:1.5px solid var(--light-gray);transition:var(--transition)}
+.timeline-img-thumb:hover{border-color:var(--orange);transform:scale(1.05)}
+.timeline-img-placeholder{width:40px;height:40px;border-radius:6px;background:linear-gradient(135deg,#FFF3EB,#FFE8D6);display:flex;align-items:center;justify-content:center;font-size:14px;border:1.5px solid var(--light-gray)}
 
 /* Profile */
 .profile-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:12px;border:1px solid rgba(60,36,21,0.03)}
@@ -135,6 +139,60 @@ textarea.form-input{resize:vertical;min-height:60px}
 /* Intro section */
 .intro-section{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px;border:1px solid rgba(60,36,21,0.03)}
 .intro-text{font-size:13px;line-height:1.8;color:#666;margin-bottom:10px}
+
+/* ====== NEW: Photo Grid (工厂实拍) ====== */
+.photo-section{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px;border:1px solid rgba(60,36,21,0.03)}
+.photo-category-tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.photo-cat-tag{padding:5px 12px;border-radius:16px;font-size:12px;background:var(--beige);color:var(--gray);border:1px solid var(--light-gray);cursor:pointer;transition:var(--transition)}
+.photo-cat-tag.active{background:var(--orange);color:var(--white);border-color:var(--orange)}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.photo-item{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;box-shadow:0 2px 8px rgba(60,36,21,0.06);cursor:pointer;transition:var(--transition);border:1px solid rgba(60,36,21,0.03)}
+.photo-item:hover{transform:scale(1.02);box-shadow:var(--shadow-hover)}
+.photo-item img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--gray);gap:4px}
+.photo-placeholder .ph-icon{font-size:24px}
+.photo-placeholder .ph-text{font-size:10px;text-align:center;padding:0 4px}
+.photo-delete{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,0.5);color:#fff;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:var(--transition)}
+.photo-item:hover .photo-delete{opacity:1}
+.photo-upload-btn{border:2px dashed var(--light-gray);border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);background:var(--beige);gap:4px}
+.photo-upload-btn:hover{border-color:var(--orange);background:#FFF3EB}
+.photo-upload-btn .upload-icon{font-size:24px;color:var(--gray)}
+.photo-upload-btn .upload-text{font-size:11px;color:var(--gray)}
+
+/* ====== NEW: Certificate Cards (资质证书) ====== */
+.cert-section{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px;border:1px solid rgba(60,36,21,0.03)}
+.cert-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.cert-scroll::-webkit-scrollbar{display:none}
+.cert-card{flex-shrink:0;width:130px;background:var(--beige);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(60,36,21,0.05);transition:var(--transition);position:relative}
+.cert-card:hover{box-shadow:var(--shadow)}
+.cert-thumb{width:100%;aspect-ratio:1.3;border-radius:6px;overflow:hidden;margin-bottom:8px;background:var(--white);display:flex;align-items:center;justify-content:center;border:1px solid var(--light-gray)}
+.cert-thumb img{width:100%;height:100%;object-fit:cover}
+.cert-thumb-placeholder{font-size:28px;color:var(--light-gray)}
+.cert-name{font-size:12px;font-weight:600;color:var(--brown);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cert-type-tag{font-size:10px;padding:2px 6px;border-radius:8px;background:#FFF3EB;color:var(--orange);display:inline-block}
+.cert-delete-btn{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(231,76,60,0.8);color:#fff;border:none;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:var(--transition)}
+.cert-card:hover .cert-delete-btn{opacity:1}
+.cert-add-card{flex-shrink:0;width:130px;border:2px dashed var(--light-gray);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:var(--transition);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:160px;background:var(--beige)}
+.cert-add-card:hover{border-color:var(--orange);background:#FFF3EB}
+.cert-add-card .cert-add-icon{font-size:28px;color:var(--gray)}
+.cert-add-card .cert-add-text{font-size:11px;color:var(--gray)}
+
+/* ====== NEW: Full Image Preview ====== */
+.img-preview-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:300;align-items:center;justify-content:center;cursor:pointer}
+.img-preview-overlay.show{display:flex}
+.img-preview-overlay img{max-width:90%;max-height:80vh;border-radius:8px;object-fit:contain}
+.img-preview-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);color:#fff;border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.img-preview-placeholder{width:200px;height:200px;border-radius:12px;background:linear-gradient(135deg,#FFF3EB,#FFE8D6);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gray);gap:8px}
+
+/* ====== NEW: Upload in Status Modal ====== */
+.status-upload-area{border:2px dashed var(--light-gray);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--beige);margin-top:8px}
+.status-upload-area:hover{border-color:var(--orange);background:#FFF3EB}
+.status-upload-area .su-icon{font-size:28px;color:var(--gray);margin-bottom:4px}
+.status-upload-area .su-text{font-size:12px;color:var(--gray)}
+.status-upload-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.status-upload-thumb{position:relative;width:60px;height:60px;border-radius:8px;overflow:hidden;border:1px solid var(--light-gray)}
+.status-upload-thumb img{width:100%;height:100%;object-fit:cover}
+.status-upload-thumb .su-remove{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,0.5);color:#fff;border:none;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
 .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(60,36,21,0.85);color:var(--white);padding:12px 24px;border-radius:10px;font-size:14px;z-index:300;display:none}
 .toast.show{display:block}
@@ -271,6 +329,10 @@ textarea.form-input{resize:vertical;min-height:60px}
     <div class="intro-section" id="introSection"></div>
     <button class="btn btn-outline btn-block" onclick="editProfile()" style="margin-top:10px">编辑公司信息</button>
     <button class="btn btn-outline btn-block" onclick="editIntro()" style="margin-top:10px">编辑工厂介绍</button>
+    <!-- 工厂实拍 -->
+    <div class="photo-section" id="photoSection" style="margin-top:14px"></div>
+    <!-- 资质证书 -->
+    <div class="cert-section" id="certSection" style="margin-top:14px"></div>
   </div>
 </div>
 
@@ -361,6 +423,23 @@ textarea.form-input{resize:vertical;min-height:60px}
   </div>
 </div>
 
+<!-- 上传证书 Modal -->
+<div class="modal-overlay" id="uploadCertModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>上传资质证书</h3>
+      <button class="modal-close" onclick="closeModal('uploadCertModal')">✕</button>
+    </div>
+    <div id="uploadCertForm"></div>
+  </div>
+</div>
+
+<!-- 图片全屏预览 -->
+<div class="img-preview-overlay" id="imgPreviewOverlay" onclick="closeImgPreview()">
+  <button class="img-preview-close" onclick="closeImgPreview()">✕</button>
+  <div id="imgPreviewContent"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -368,6 +447,8 @@ var CURRENT_SUPPLIER = 's1';
 var ORDER_STATUSES = ['待确认','原料准备中','生产中','质检中','已发货','已签收'];
 var demandFilter = '全部';
 var orderStatusFilter = '全部';
+var photoCategoryFilter = '全部';
+var pendingStatusImages = []; // temp storage for images being uploaded in status update
 
 function initData(){ if(!localStorage.getItem('yc_init_v5')){ window.location.href='index.html'; } }
 initData();
@@ -380,6 +461,29 @@ function showToast(msg){var t=document.getElementById('toast');t.textContent=msg
 function openModal(id){document.getElementById(id).className='modal-overlay show'}
 function closeModal(id){document.getElementById(id).className='modal-overlay'}
 
+// ====== Image Preview ======
+function showImgPreview(url, placeholderText){
+  var overlay = document.getElementById('imgPreviewOverlay');
+  var content = document.getElementById('imgPreviewContent');
+  if(url && url.indexOf('data:') === 0){
+    content.innerHTML = '<img src="'+url+'">';
+  } else {
+    content.innerHTML = '<div class="img-preview-placeholder"><span style="font-size:48px">📷</span><span style="font-size:13px">'+(placeholderText||'示例图片')+'</span></div>';
+  }
+  overlay.className = 'img-preview-overlay show';
+}
+function closeImgPreview(){
+  document.getElementById('imgPreviewOverlay').className = 'img-preview-overlay';
+}
+
+// ====== FileReader helper ======
+function readFileAsBase64(file, callback){
+  var reader = new FileReader();
+  reader.onload = function(e){ callback(e.target.result); };
+  reader.readAsDataURL(file);
+}
+
+// ====== Supplier Switch & Tab ======
 function switchSupplier(){
   CURRENT_SUPPLIER = document.getElementById('supplierSelector').value;
   var s = getSupplier(CURRENT_SUPPLIER);
@@ -415,9 +519,6 @@ function renderWork(){
   var active=orders.filter(function(o){return o.status!=='已签收'&&o.status!=='已完成'}).length;
   var done=orders.filter(function(o){return o.status==='已签收'||o.status==='已完成'}).length;
   
-  // Calculate monthly revenue from completed orders
-  var now = new Date();
-  var thisMonth = now.toISOString().slice(0,7);
   var monthRev = orders.filter(function(o){
     return (o.status==='已签收'||o.status==='已完成') && o.createdAt && o.createdAt.substring(0,7) === '2025-01';
   }).reduce(function(sum,o){return sum + o.amount}, 0);
@@ -577,6 +678,7 @@ function filterOrders(status){
   renderOrderList();
 }
 
+// ====== 订单详情 - 含时间线图片展示 ======
 function showOrderDetail(orderId){
   var orders=getData('yc_orders');
   var o=orders.find(function(x){return x.id===orderId});if(!o)return;
@@ -598,10 +700,24 @@ function showOrderDetail(orderId){
     var found=o.timeline.find(function(t){return t.status===s});
     var cls=i<currentIdx?'done':(i===currentIdx?'current':'');
     html+='<div class="timeline-item '+cls+'"><div class="timeline-dot"></div><div class="timeline-content">'
-      +'<div class="timeline-status">'+(i<currentIdx?'✓ ':'')+s+'</div>'
-      +(found?'<div class="timeline-time">'+found.time+'</div>'
-      +(found.remark?'<div class="timeline-remark">'+found.remark+'</div>':''):'')
-      +'</div></div>';
+      +'<div class="timeline-status">'+(i<currentIdx?'✓ ':'')+s+'</div>';
+    if(found){
+      html+='<div class="timeline-time">'+found.time+'</div>';
+      if(found.remark) html+='<div class="timeline-remark">'+found.remark+'</div>';
+      // 显示时间线图片
+      if(found.images && found.images.length > 0){
+        html+='<div class="timeline-images">';
+        found.images.forEach(function(img){
+          if(img.url && img.url.indexOf('data:') === 0){
+            html+='<img class="timeline-img-thumb" src="'+img.url+'" onclick="event.stopPropagation();showImgPreview(\''+img.url.replace(/'/g,"\\'")+'\')">';
+          } else {
+            html+='<div class="timeline-img-placeholder" onclick="event.stopPropagation();showImgPreview(null,\''+(img.label||'生产照片')+'\')" title="'+(img.label||'生产照片')+'">📷</div>';
+          }
+        });
+        html+='</div>';
+      }
+    }
+    html+='</div></div>';
   });
   html+='</div>';
   if(currentIdx<ORDER_STATUSES.length-1){
@@ -611,19 +727,60 @@ function showOrderDetail(orderId){
   openModal('orderDetailModal');
 }
 
+// ====== 更新状态 - 含拍照上传 ======
 function showUpdateStatus(orderId){
   var orders=getData('yc_orders');
   var o=orders.find(function(x){return x.id===orderId});
   var currentIdx=ORDER_STATUSES.indexOf(o.status);
   var nextStatus=ORDER_STATUSES[currentIdx+1];
+  pendingStatusImages = [];
   closeModal('orderDetailModal');
   var html='<div style="margin-bottom:14px;font-size:14px;color:#666">当前状态：<b>'+o.status+'</b></div>'
     +'<div class="form-group"><label class="form-label">更新为</label>'
     +'<div style="font-size:16px;font-weight:600;color:var(--orange);padding:10px;background:#FFF3EB;border-radius:8px">'+nextStatus+'</div></div>'
     +'<div class="form-group"><label class="form-label">备注（可选）</label><textarea class="form-input" id="statusRemark" placeholder="如：原料已到位、开始灌装等"></textarea></div>'
+    +'<div class="form-group"><label class="form-label">拍照/上传图片（可选）</label>'
+    +'<div class="status-upload-area" onclick="document.getElementById(\'statusPhotoInput\').click()">'
+    +'<div class="su-icon">📷</div><div class="su-text">点击拍照或上传图片</div></div>'
+    +'<input type="file" id="statusPhotoInput" accept="image/*" style="display:none" onchange="handleStatusPhotoUpload(this)" multiple>'
+    +'<div class="status-upload-preview" id="statusUploadPreview"></div>'
+    +'</div>'
     +'<button class="btn btn-primary btn-block" onclick="confirmUpdateStatus(\''+orderId+'\',\''+nextStatus+'\')">确认更新</button>';
   document.getElementById('updateStatusForm').innerHTML=html;
   openModal('updateStatusModal');
+}
+
+function handleStatusPhotoUpload(input){
+  var files = input.files;
+  if(!files || files.length === 0) return;
+  for(var i=0; i<files.length; i++){
+    (function(file){
+      readFileAsBase64(file, function(base64){
+        var imgObj = {id:'si'+Date.now()+Math.random().toString(36).substr(2,4), url:base64};
+        pendingStatusImages.push(imgObj);
+        renderStatusUploadPreview();
+      });
+    })(files[i]);
+  }
+  input.value = '';
+}
+
+function renderStatusUploadPreview(){
+  var container = document.getElementById('statusUploadPreview');
+  if(!container) return;
+  var html = '';
+  pendingStatusImages.forEach(function(img, idx){
+    html += '<div class="status-upload-thumb">'
+      + '<img src="'+img.url+'">'
+      + '<button class="su-remove" onclick="removeStatusImage('+idx+')">✕</button>'
+      + '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function removeStatusImage(idx){
+  pendingStatusImages.splice(idx, 1);
+  renderStatusUploadPreview();
 }
 
 function confirmUpdateStatus(orderId,newStatus){
@@ -631,8 +788,13 @@ function confirmUpdateStatus(orderId,newStatus){
   var orders=getData('yc_orders');
   var o=orders.find(function(x){return x.id===orderId});
   o.status=newStatus;
-  o.timeline.push({status:newStatus,time:new Date().toLocaleString('zh-CN'),remark:remark||''});
+  var timelineEntry = {status:newStatus, time:new Date().toLocaleString('zh-CN'), remark:remark||''};
+  if(pendingStatusImages.length > 0){
+    timelineEntry.images = pendingStatusImages.slice();
+  }
+  o.timeline.push(timelineEntry);
   setData('yc_orders',orders);
+  pendingStatusImages = [];
   closeModal('updateStatusModal');
   showToast('状态已更新');
   renderOrderList();
@@ -743,7 +905,7 @@ function deleteProduct(productId){
   renderProductList();
 }
 
-// ====== 我的主页 ======
+// ====== 我的主页 - 含工厂实拍 & 资质证书 ======
 function renderProfile(){
   var s=getSupplier(CURRENT_SUPPLIER);if(!s)return;
   document.getElementById('supplierName').textContent=s.name;
@@ -766,13 +928,229 @@ function renderProfile(){
   var products=s.products||[];
   introHtml+='<div style="font-size:13px;color:var(--gray);margin-top:8px">可提供 '+products.length+' 种商品</div>';
   document.getElementById('introSection').innerHTML=introHtml;
+
+  // 渲染工厂实拍
+  renderPhotoSection(s);
+  // 渲染资质证书
+  renderCertSection(s);
+}
+
+// ====== 功能1：工厂实拍 ======
+function renderPhotoSection(s){
+  var photos = s.photos || [];
+  var categories = ['全部','车间环境','生产设备','仓储物流','其他'];
+  var catHtml = '<div style="font-size:14px;font-weight:600;margin-bottom:10px">📷 工厂实拍</div>';
+  catHtml += '<div class="photo-category-tabs">';
+  categories.forEach(function(c){
+    catHtml += '<div class="photo-cat-tag'+(photoCategoryFilter===c?' active':'')+'" onclick="filterPhotos(\''+c+'\')">'+c+'</div>';
+  });
+  catHtml += '</div>';
+
+  var filtered = photos;
+  if(photoCategoryFilter !== '全部'){
+    filtered = photos.filter(function(p){ return p.category === photoCategoryFilter; });
+  }
+
+  catHtml += '<div class="photo-grid">';
+  filtered.forEach(function(photo){
+    catHtml += '<div class="photo-item">';
+    if(photo.url && photo.url.indexOf('data:') === 0){
+      catHtml += '<img src="'+photo.url+'" onclick="showImgPreview(\''+photo.url.replace(/'/g,"\\'")+'\')">';
+    } else {
+      catHtml += '<div class="photo-placeholder" onclick="showImgPreview(null,\''+photo.label+'\')" style="background:'+photo.bgColor+';cursor:pointer">'
+        + '<div class="ph-icon">'+photo.icon+'</div>'
+        + '<div class="ph-text">'+photo.label+'</div></div>';
+    }
+    catHtml += '<button class="photo-delete" onclick="event.stopPropagation();deletePhoto(\''+photo.id+'\')">✕</button>';
+    catHtml += '</div>';
+  });
+  // 上传按钮
+  catHtml += '<div class="photo-upload-btn" onclick="document.getElementById(\'factoryPhotoInput\').click()">'
+    + '<div class="upload-icon">＋</div>'
+    + '<div class="upload-text">上传照片</div></div>';
+  catHtml += '</div>';
+  // Hidden file input
+  catHtml += '<input type="file" id="factoryPhotoInput" accept="image/*" style="display:none" onchange="handleFactoryPhotoUpload(this)">';
+  // 分类选择提示
+  catHtml += '<div id="photoCategorySelect" style="display:none;margin-top:8px">'
+    + '<div class="form-group" style="margin-bottom:8px"><label class="form-label">选择照片分类</label>'
+    + '<select class="form-select" id="newPhotoCategory">'
+    + '<option value="车间环境">车间环境</option><option value="生产设备">生产设备</option><option value="仓储物流">仓储物流</option><option value="其他">其他</option>'
+    + '</select></div>'
+    + '<button class="btn btn-primary btn-sm btn-block" onclick="confirmPhotoUpload()">确认添加</button></div>';
+  // 临时存储待确认的base64
+  catHtml += '<div id="pendingPhotoPreview" style="display:none;margin-top:8px"></div>';
+
+  document.getElementById('photoSection').innerHTML = catHtml;
+}
+
+var pendingPhotoBase64 = null;
+
+function filterPhotos(cat){
+  photoCategoryFilter = cat;
+  renderPhotoSection(getSupplier(CURRENT_SUPPLIER));
+}
+
+function handleFactoryPhotoUpload(input){
+  var file = input.files[0];
+  if(!file) return;
+  readFileAsBase64(file, function(base64){
+    pendingPhotoBase64 = base64;
+    // 显示预览和分类选择
+    var preview = document.getElementById('pendingPhotoPreview');
+    var catSelect = document.getElementById('photoCategorySelect');
+    preview.style.display = 'block';
+    preview.innerHTML = '<div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--beige);border-radius:8px">'
+      + '<img src="'+base64+'" style="width:50px;height:50px;border-radius:6px;object-fit:cover">'
+      + '<div style="flex:1;font-size:12px;color:var(--gray)">照片已就绪，请选择分类</div></div>';
+    catSelect.style.display = 'block';
+  });
+  input.value = '';
+}
+
+function confirmPhotoUpload(){
+  if(!pendingPhotoBase64) return;
+  var category = document.getElementById('newPhotoCategory').value;
+  var suppliers = getData('yc_suppliers');
+  var s = suppliers.find(function(x){return x.id===CURRENT_SUPPLIER});
+  if(!s.photos) s.photos = [];
+  s.photos.push({
+    id: 'ph'+Date.now(),
+    url: pendingPhotoBase64,
+    category: category,
+    uploadedAt: new Date().toISOString().slice(0,10)
+  });
+  setData('yc_suppliers', suppliers);
+  pendingPhotoBase64 = null;
+  showToast('照片已添加');
+  renderPhotoSection(s);
+}
+
+function deletePhoto(photoId){
+  if(!confirm('确认删除此照片？')) return;
+  var suppliers = getData('yc_suppliers');
+  var s = suppliers.find(function(x){return x.id===CURRENT_SUPPLIER});
+  s.photos = (s.photos || []).filter(function(p){ return p.id !== photoId; });
+  setData('yc_suppliers', suppliers);
+  showToast('照片已删除');
+  renderPhotoSection(s);
+}
+
+// ====== 功能2：资质证书 ======
+function renderCertSection(s){
+  var certs = s.certificates || [];
+  var html = '<div style="font-size:14px;font-weight:600;margin-bottom:10px">📜 资质证书</div>';
+  html += '<div class="cert-scroll">';
+  
+  certs.forEach(function(cert){
+    html += '<div class="cert-card">';
+    html += '<div class="cert-thumb">';
+    if(cert.url && cert.url.indexOf('data:') === 0){
+      html += '<img src="'+cert.url+'" onclick="showImgPreview(\''+cert.url.replace(/'/g,"\\'")+'\')">';
+    } else {
+      html += '<div class="cert-thumb-placeholder" onclick="showImgPreview(null,\''+cert.name+'\')" style="cursor:pointer">📄</div>';
+    }
+    html += '</div>';
+    html += '<div class="cert-name" title="'+cert.name+'">'+cert.name+'</div>';
+    html += '<span class="cert-type-tag">'+cert.type+'</span>';
+    html += '<button class="cert-delete-btn" onclick="event.stopPropagation();deleteCertificate(\''+cert.id+'\')">✕</button>';
+    html += '</div>';
+  });
+
+  // 添加按钮
+  html += '<div class="cert-add-card" onclick="showUploadCertForm()">';
+  html += '<div class="cert-add-icon">＋</div>';
+  html += '<div class="cert-add-text">上传证书</div>';
+  html += '</div>';
+
+  html += '</div>';
+  document.getElementById('certSection').innerHTML = html;
+}
+
+var pendingCertBase64 = null;
+
+function showUploadCertForm(){
+  pendingCertBase64 = null;
+  var html = '<div class="form-group"><label class="form-label">证书名称</label>'
+    + '<input class="form-input" id="certName" placeholder="如：营业执照、GMPC认证证书"></div>'
+    + '<div class="form-group"><label class="form-label">证书类型</label>'
+    + '<select class="form-select" id="certType">'
+    + '<option value="营业执照">营业执照</option>'
+    + '<option value="生产许可证">生产许可证</option>'
+    + '<option value="GMPC">GMPC</option>'
+    + '<option value="ISO认证">ISO认证</option>'
+    + '<option value="FDA">FDA</option>'
+    + '<option value="其他">其他</option>'
+    + '</select></div>'
+    + '<div class="form-group"><label class="form-label">证书图片</label>'
+    + '<div class="status-upload-area" onclick="document.getElementById(\'certPhotoInput\').click()">'
+    + '<div class="su-icon">📄</div><div class="su-text">点击上传证书图片</div></div>'
+    + '<input type="file" id="certPhotoInput" accept="image/*" style="display:none" onchange="handleCertPhotoUpload(this)">'
+    + '<div class="status-upload-preview" id="certUploadPreview"></div>'
+    + '</div>'
+    + '<button class="btn btn-primary btn-block" onclick="saveCertificate()">保存证书</button>';
+  document.getElementById('uploadCertForm').innerHTML = html;
+  openModal('uploadCertModal');
+}
+
+function handleCertPhotoUpload(input){
+  var file = input.files[0];
+  if(!file) return;
+  readFileAsBase64(file, function(base64){
+    pendingCertBase64 = base64;
+    var preview = document.getElementById('certUploadPreview');
+    preview.innerHTML = '<div class="status-upload-thumb"><img src="'+base64+'"><button class="su-remove" onclick="removeCertPhoto()">✕</button></div>';
+  });
+  input.value = '';
+}
+
+function removeCertPhoto(){
+  pendingCertBase64 = null;
+  document.getElementById('certUploadPreview').innerHTML = '';
+}
+
+function saveCertificate(){
+  var name = document.getElementById('certName').value.trim();
+  var type = document.getElementById('certType').value;
+  if(!name){ showToast('请填写证书名称'); return; }
+  var suppliers = getData('yc_suppliers');
+  var s = suppliers.find(function(x){return x.id===CURRENT_SUPPLIER});
+  if(!s.certificates) s.certificates = [];
+  s.certificates.push({
+    id: 'cert'+Date.now(),
+    name: name,
+    type: type,
+    url: pendingCertBase64 || '',
+    uploadedAt: new Date().toISOString().slice(0,10)
+  });
+  // 同时更新cert文本字段
+  var certNames = s.certificates.map(function(c){ return c.name; });
+  s.cert = certNames.join(' / ');
+  setData('yc_suppliers', suppliers);
+  pendingCertBase64 = null;
+  closeModal('uploadCertModal');
+  showToast('证书已添加');
+  renderProfile();
+}
+
+function deleteCertificate(certId){
+  if(!confirm('确认删除此证书？')) return;
+  var suppliers = getData('yc_suppliers');
+  var s = suppliers.find(function(x){return x.id===CURRENT_SUPPLIER});
+  s.certificates = (s.certificates || []).filter(function(c){ return c.id !== certId; });
+  // 同步cert文本
+  var certNames = s.certificates.map(function(c){ return c.name; });
+  s.cert = certNames.length > 0 ? certNames.join(' / ') : '未认证';
+  setData('yc_suppliers', suppliers);
+  showToast('证书已删除');
+  renderProfile();
 }
 
 function editProfile(){
   var s=getSupplier(CURRENT_SUPPLIER);
   var html='<div class="form-group"><label class="form-label">公司名称</label><input class="form-input" id="epName" value="'+s.name+'"></div>'
     +'<div class="form-group"><label class="form-label">主营品类</label><input class="form-input" id="epCategory" value="'+s.category+'"></div>'
-    +'<div class="form-group"><label class="form-label">资质认证</label><input class="form-input" id="epCert" value="'+s.cert+'"></div>'
+    +'<div class="form-group"><label class="form-label">资质认证（文本概要）</label><input class="form-input" id="epCert" value="'+s.cert+'"></div>'
     +'<div class="form-group"><label class="form-label">产能描述</label><input class="form-input" id="epCapacity" value="'+s.capacity+'"></div>'
     +'<div class="form-group"><label class="form-label">联系人</label><input class="form-input" id="epContact" value="'+s.contact+'"></div>'
     +'<div class="form-group"><label class="form-label">联系电话</label><input class="form-input" id="epPhone" value="'+s.phone+'"></div>'
@@ -817,6 +1195,127 @@ function saveIntro(){
 }
 
 function showPartnerEntry(){switchTab('partner');}
+
+// ====== 初始化增强数据 ======
+function enhanceInitData(){
+  if(localStorage.getItem('yc_init_v6_enhanced')) return;
+  var suppliers = getData('yc_suppliers');
+  
+  // 照片placeholder配置
+  var photoConfigs = {
+    s1: [
+      {id:'ph_s1_1', url:'', category:'车间环境', icon:'🏭', label:'10万级GMPC洁净车间', bgColor:'linear-gradient(135deg,#E8F4FD,#D1ECF9)', uploadedAt:'2025-01-01'},
+      {id:'ph_s1_2', url:'', category:'生产设备', icon:'⚙️', label:'全自动灌装生产线', bgColor:'linear-gradient(135deg,#FFF3EB,#FFE8D6)', uploadedAt:'2025-01-01'},
+      {id:'ph_s1_3', url:'', category:'仓储物流', icon:'📦', label:'成品仓储区', bgColor:'linear-gradient(135deg,#E8F8EF,#D1F2E0)', uploadedAt:'2025-01-01'}
+    ],
+    s2: [
+      {id:'ph_s2_1', url:'', category:'车间环境', icon:'💄', label:'彩妆无尘车间', bgColor:'linear-gradient(135deg,#FCE4EC,#F8BBD9)', uploadedAt:'2025-01-01'},
+      {id:'ph_s2_2', url:'', category:'生产设备', icon:'🔧', label:'口红灌装机', bgColor:'linear-gradient(135deg,#FFF3EB,#FFE8D6)', uploadedAt:'2025-01-01'},
+      {id:'ph_s2_3', url:'', category:'其他', icon:'🎨', label:'调色实验室', bgColor:'linear-gradient(135deg,#F3E5F5,#E1BEE7)', uploadedAt:'2025-01-01'}
+    ],
+    s3: [
+      {id:'ph_s3_1', url:'', category:'车间环境', icon:'🧴', label:'洗护生产线', bgColor:'linear-gradient(135deg,#E0F7FA,#B2EBF2)', uploadedAt:'2025-01-01'},
+      {id:'ph_s3_2', url:'', category:'生产设备', icon:'🧪', label:'植物提取设备', bgColor:'linear-gradient(135deg,#E8F5E9,#C8E6C9)', uploadedAt:'2025-01-01'}
+    ],
+    s4: [
+      {id:'ph_s4_1', url:'', category:'仓储物流', icon:'🏪', label:'GMP标准仓库', bgColor:'linear-gradient(135deg,#FFF8E1,#FFECB3)', uploadedAt:'2025-01-01'},
+      {id:'ph_s4_2', url:'', category:'生产设备', icon:'🔬', label:'质检实验室', bgColor:'linear-gradient(135deg,#E8EAF6,#C5CAE9)', uploadedAt:'2025-01-01'},
+      {id:'ph_s4_3', url:'', category:'车间环境', icon:'🧫', label:'原料储存间', bgColor:'linear-gradient(135deg,#E0F2F1,#B2DFDB)', uploadedAt:'2025-01-01'}
+    ],
+    s5: [
+      {id:'ph_s5_1', url:'', category:'车间环境', icon:'🖨️', label:'印刷生产线', bgColor:'linear-gradient(135deg,#FBE9E7,#FFCCBC)', uploadedAt:'2025-01-01'},
+      {id:'ph_s5_2', url:'', category:'生产设备', icon:'🏗️', label:'PET吹瓶机', bgColor:'linear-gradient(135deg,#FFF3EB,#FFE8D6)', uploadedAt:'2025-01-01'}
+    ],
+    s6: [
+      {id:'ph_s6_1', url:'', category:'车间环境', icon:'💼', label:'办公环境', bgColor:'linear-gradient(135deg,#ECEFF1,#CFD8DC)', uploadedAt:'2025-01-01'},
+      {id:'ph_s6_2', url:'', category:'其他', icon:'📋', label:'合规评审室', bgColor:'linear-gradient(135deg,#E8EAF6,#C5CAE9)', uploadedAt:'2025-01-01'},
+      {id:'ph_s6_3', url:'', category:'其他', icon:'📚', label:'法规资料室', bgColor:'linear-gradient(135deg,#FFF8E1,#FFECB3)', uploadedAt:'2025-01-01'}
+    ],
+    s7: [
+      {id:'ph_s7_1', url:'', category:'生产设备', icon:'🔬', label:'液相色谱仪', bgColor:'linear-gradient(135deg,#E8EAF6,#C5CAE9)', uploadedAt:'2025-01-01'},
+      {id:'ph_s7_2', url:'', category:'车间环境', icon:'🧪', label:'微生物检测室', bgColor:'linear-gradient(135deg,#E0F7FA,#B2EBF2)', uploadedAt:'2025-01-01'},
+      {id:'ph_s7_3', url:'', category:'其他', icon:'📊', label:'数据分析中心', bgColor:'linear-gradient(135deg,#F3E5F5,#E1BEE7)', uploadedAt:'2025-01-01'}
+    ],
+    s8: [
+      {id:'ph_s8_1', url:'', category:'车间环境', icon:'🏢', label:'公司外景', bgColor:'linear-gradient(135deg,#E8F5E9,#C8E6C9)', uploadedAt:'2025-01-01'},
+      {id:'ph_s8_2', url:'', category:'其他', icon:'🤝', label:'客户接待区', bgColor:'linear-gradient(135deg,#FFF3EB,#FFE8D6)', uploadedAt:'2025-01-01'}
+    ]
+  };
+
+  // 证书placeholder配置
+  var certConfigs = {
+    s1: [
+      {id:'cert_s1_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s1_2', name:'GMPC认证证书', type:'GMPC', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s1_3', name:'ISO22716证书', type:'ISO认证', url:'', uploadedAt:'2025-01-01'}
+    ],
+    s2: [
+      {id:'cert_s2_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s2_2', name:'FDA注册证书', type:'FDA', url:'', uploadedAt:'2025-01-01'}
+    ],
+    s3: [
+      {id:'cert_s3_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s3_2', name:'ISO22716证书', type:'ISO认证', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s3_3', name:'ISO14001环境认证', type:'ISO认证', url:'', uploadedAt:'2025-01-01'}
+    ],
+    s4: [
+      {id:'cert_s4_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s4_2', name:'REACH合规证书', type:'其他', url:'', uploadedAt:'2025-01-01'}
+    ],
+    s5: [
+      {id:'cert_s5_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s5_2', name:'FSC认证', type:'其他', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s5_3', name:'BRC认证', type:'其他', url:'', uploadedAt:'2025-01-01'}
+    ],
+    s6: [
+      {id:'cert_s6_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s6_2', name:'CMA资质证书', type:'其他', url:'', uploadedAt:'2025-01-01'}
+    ],
+    s7: [
+      {id:'cert_s7_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s7_2', name:'CMA/CNAS双认证', type:'其他', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s7_3', name:'ISO17025实验室认可', type:'ISO认证', url:'', uploadedAt:'2025-01-01'}
+    ],
+    s8: [
+      {id:'cert_s8_1', name:'营业执照', type:'营业执照', url:'', uploadedAt:'2025-01-01'},
+      {id:'cert_s8_2', name:'行业协会会员证', type:'其他', url:'', uploadedAt:'2025-01-01'}
+    ]
+  };
+
+  suppliers.forEach(function(s){
+    if(photoConfigs[s.id]) s.photos = photoConfigs[s.id];
+    else s.photos = [];
+    if(certConfigs[s.id]) s.certificates = certConfigs[s.id];
+    else s.certificates = [];
+  });
+  setData('yc_suppliers', suppliers);
+
+  // 为订单timeline添加示例图片标记
+  var orders = getData('yc_orders');
+  orders.forEach(function(o){
+    if(o.id === 'o1'){
+      // 为"生产中"节点添加示例图片
+      var prod = o.timeline.find(function(t){return t.status==='生产中'});
+      if(prod) prod.images = [{id:'ti1', url:'', label:'灌装生产现场'}];
+    }
+    if(o.id === 'o2'){
+      // 为"质检中"节点添加示例图片
+      var qc = o.timeline.find(function(t){return t.status==='质检中'});
+      if(qc) qc.images = [{id:'ti2', url:'', label:'质检报告'}, {id:'ti3', url:'', label:'检测样品'}];
+    }
+    if(o.id === 'o3'){
+      // 为"已发货"节点添加示例图片
+      var shipped = o.timeline.find(function(t){return t.status==='已发货'});
+      if(shipped) shipped.images = [{id:'ti4', url:'', label:'打包发货照片'}];
+      var prod3 = o.timeline.find(function(t){return t.status==='生产中'});
+      if(prod3) prod3.images = [{id:'ti5', url:'', label:'乳化灌装过程'}];
+    }
+  });
+  setData('yc_orders', orders);
+
+  localStorage.setItem('yc_init_v6_enhanced', '1');
+}
+enhanceInitData();
 
 // Init
 renderWork();
