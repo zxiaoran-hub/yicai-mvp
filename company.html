@@ -229,28 +229,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     <div id="orderList"></div>
   </div>
 
-  <!-- 合伙人管理 -->
-  <div id="page-partners" class="page" style="display:none">
-    <div class="stat-grid" id="partnerStats"></div>
-    <div class="section-title">💰 分润统计</div>
-    <div class="trend-card" id="partnerRevenueChart"></div>
-    <div class="section-title">🤝 合伙人列表</div>
-    <div style="filters;margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap">
-      <select class="filter-select" id="filterPartnerType" onchange="renderPartners()">
-        <option value="">全部类型</option>
-        <option value="资源合伙人">资源合伙人</option>
-        <option value="行业合伙人">行业合伙人</option>
-        <option value="区域合伙人">区域合伙人</option>
-      </select>
-      <select class="filter-select" id="filterPartnerStatus" onchange="renderPartners()">
-        <option value="">全部状态</option>
-        <option value="活跃">活跃</option>
-        <option value="待审核">待审核</option>
-      </select>
-    </div>
-    <div id="partnerList"></div>
-    <button class="btn btn-primary" onclick="showAddPartner()" style="margin-top:12px;width:100%">+ 添加合伙人</button>
-  </div>
 
 </div>
 
@@ -260,7 +238,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   <div class="tab-item" onclick="switchTab('people')"><div class="tab-icon">👥</div>人员管理</div>
   <div class="tab-item" onclick="switchTab('suppliers')"><div class="tab-icon">🏭</div>供应商库</div>
   <div class="tab-item" onclick="switchTab('orders')"><div class="tab-icon">📦</div>订单总览</div>
-  <div class="tab-item" onclick="switchTab('partners')"><div class="tab-icon">🤝</div>合伙人</div>
 </div>
 
 <!-- 订单详情 Modal -->
@@ -297,27 +274,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 
 
-<!-- 合伙人详情 Modal -->
-<div class="modal-overlay" id="partnerDetailModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>合伙人详情</h3>
-      <button class="modal-close" onclick="closeModal('partnerDetailModal')">✕</button>
-    </div>
-    <div id="partnerDetailContent"></div>
-  </div>
-</div>
-
-<!-- 添加合伙人 Modal -->
-<div class="modal-overlay" id="addPartnerModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>添加合伙人</h3>
-      <button class="modal-close" onclick="closeModal('addPartnerModal')">✕</button>
-    </div>
-    <div id="addPartnerContent"></div>
-  </div>
-</div>
 
 <div class="toast" id="toast"></div>
 
@@ -338,13 +294,12 @@ function closeModal(id){document.getElementById(id).className='modal-overlay'}
 function switchTab(tab){
   document.querySelectorAll('.page').forEach(function(p){p.style.display='none'});
   document.getElementById('page-'+tab).style.display='block';
-  var idx={overview:0,people:1,suppliers:2,orders:3,partners:4}[tab];
+  var idx={overview:0,people:1,suppliers:2,orders:3}[tab];
   document.querySelectorAll('.tab-item').forEach(function(t,i){t.className='tab-item'+(i===idx?' active':'')});
   if(tab==='overview')renderOverview();
   if(tab==='people')renderPeople();
   if(tab==='suppliers')renderSuppliers();
   if(tab==='orders')renderOrders();
-  if(tab==='partners')renderPartners();
 }
 
 function renderOverview(){
@@ -670,119 +625,6 @@ function showOrderDetail(orderId){
   openModal('orderDetailModal');
 }
 
-
-// ====== 合伙人管理 ======
-var partners = [
-  {id:'p1', name:'王建国', type:'资源合伙人', status:'活跃', phone:'138****5001', region:'上海', joinDate:'2024-06-15', referrals:12, totalRevenue:285000, commission:71250, clients:['上海汇朗','某美妆品牌A','某护肤品牌B']},
-  {id:'p2', name:'李明月', type:'行业合伙人', status:'活跃', phone:'139****5002', region:'广东', joinDate:'2024-08-20', referrals:8, totalRevenue:196000, commission:58800, clients:['广州某彩妆集团','某洗护品牌']},
-  {id:'p3', name:'陈浩然', type:'区域合伙人', status:'活跃', phone:'137****5003', region:'浙江', joinDate:'2024-10-10', referrals:5, totalRevenue:120000, commission:36000, clients:['杭州某护肤品牌','某日化企业']},
-  {id:'p4', name:'张薇', type:'资源合伙人', status:'待审核', phone:'136****5004', region:'北京', joinDate:'2025-01-05', referrals:2, totalRevenue:45000, commission:11250, clients:['北京某品牌']},
-  {id:'p5', name:'赵鹏飞', type:'资源合伙人', status:'活跃', phone:'135****5005', region:'江苏', joinDate:'2024-11-01', referrals:6, totalRevenue:150000, commission:37500, clients:['苏州某日化','南京某美妆']}
-];
-
-function renderPartners(){
-  // Stats
-  var totalPartners = partners.length;
-  var activePartners = partners.filter(function(p){return p.status==='活跃'}).length;
-  var totalReferrals = partners.reduce(function(s,p){return s+p.referrals},0);
-  var totalCommission = partners.reduce(function(s,p){return s+p.commission},0);
-
-  document.getElementById('partnerStats').innerHTML =
-    '<div class="stat-card"><div class="stat-icon">🤝</div><div class="stat-num">'+totalPartners+'</div><div class="stat-label">合伙人总数</div><div class="stat-sub">活跃'+activePartners+'人</div></div>'
-    +'<div class="stat-card"><div class="stat-icon">📋</div><div class="stat-num">'+totalReferrals+'</div><div class="stat-label">累计推荐客户</div><div class="stat-sub">人均'+(totalReferrals/totalPartners).toFixed(1)+'个</div></div>'
-    +'<div class="stat-card"><div class="stat-icon">💰</div><div class="stat-num">¥'+(totalCommission/10000).toFixed(1)+'万</div><div class="stat-label">累计分润支出</div><div class="stat-sub">20-30%比例</div></div>'
-    +'<div class="stat-card"><div class="stat-icon">📈</div><div class="stat-num">¥'+(partners.reduce(function(s,p){return s+p.totalRevenue},0)/10000).toFixed(1)+'万</div><div class="stat-label">合伙人贡献营收</div><div class="stat-sub">持续增长中</div></div>';
-
-  // Revenue chart
-  var months = ['2024-07','2024-08','2024-09','2024-10','2024-11','2024-12','2025-01'];
-  var monthLabels = ['7月','8月','9月','10月','11月','12月','1月'];
-  var revenueData = [12000,18000,25000,32000,38000,52000,68000];
-  var maxRev = Math.max.apply(null, revenueData);
-  var chartHtml = '<div class="trend-title">📈 月度分润支出趋势</div>';
-  months.forEach(function(m,i){
-    var pct = Math.round(revenueData[i]/maxRev*100);
-    chartHtml += '<div class="trend-bar"><span class="trend-bar-label">'+monthLabels[i]+'</span>'
-      +'<div class="trend-bar-track"><div class="trend-bar-fill" style="width:'+pct+'%"></div></div>'
-      +'<span class="trend-bar-value">¥'+(revenueData[i]/10000).toFixed(1)+'万</span></div>';
-  });
-  document.getElementById('partnerRevenueChart').innerHTML = chartHtml;
-
-  // Partner list
-  var typeFilter = (document.getElementById('filterPartnerType')||{}).value||'';
-  var statusFilter = (document.getElementById('filterPartnerStatus')||{}).value||'';
-  var filtered = partners;
-  if(typeFilter) filtered = filtered.filter(function(p){return p.type===typeFilter});
-  if(statusFilter) filtered = filtered.filter(function(p){return p.status===statusFilter});
-
-  var html = '';
-  filtered.forEach(function(p){
-    var typeColor = p.type==='资源合伙人'?'var(--orange)':p.type==='行业合伙人'?'var(--gold)':'var(--brown)';
-    var statusBadge = p.status==='活跃'?'badge-green':'badge-orange';
-    html += '<div class="person-card" onclick="showPartnerDetail(''+p.id+'')" style="cursor:pointer">'
-      +'<div class="person-avatar" style="background:linear-gradient(135deg,'+typeColor+','+typeColor+'88)">'+p.name[0]+'</div>'
-      +'<div class="person-info">'
-      +'<div class="person-name">'+p.name+' <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:'+typeColor+'15;color:'+typeColor+';font-weight:600">'+p.type+'</span></div>'
-      +'<div class="person-role">'+p.region+' · 加入于'+p.joinDate+' · <span class="badge '+statusBadge+'">'+p.status+'</span></div>'
-      +'<div class="person-stats"><span>📋 '+p.referrals+'个推荐</span><span>💰 分润¥'+(p.commission/10000).toFixed(1)+'万</span><span>📈 贡献¥'+(p.totalRevenue/10000).toFixed(1)+'万</span></div>'
-      +'</div></div>';
-  });
-  if(html==='') html='<div class="empty">暂无匹配的合伙人</div>';
-  document.getElementById('partnerList').innerHTML = html;
-}
-
-function showPartnerDetail(pid){
-  var p = partners.find(function(x){return x.id===pid});
-  if(!p) return;
-  var typeColor = p.type==='资源合伙人'?'var(--orange)':p.type==='行业合伙人'?'var(--gold)':'var(--brown)';
-  var html = '<div style="text-align:center;padding:10px 0 16px">'
-    +'<div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,'+typeColor+','+typeColor+'88);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:700;margin-bottom:8px">'+p.name[0]+'</div>'
-    +'<div style="font-size:17px;font-weight:700">'+p.name+'</div>'
-    +'<div style="margin-top:4px"><span style="font-size:12px;padding:3px 10px;border-radius:8px;background:'+typeColor+'15;color:'+typeColor+';font-weight:600">'+p.type+'</span> · '+p.region+'</div>'
-    +'</div>';
-  html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">'
-    +'<div style="text-align:center;padding:12px;background:var(--beige);border-radius:10px"><div style="font-size:20px;font-weight:700;color:var(--orange)">'+p.referrals+'</div><div style="font-size:11px;color:var(--gray)">推荐客户</div></div>'
-    +'<div style="text-align:center;padding:12px;background:var(--beige);border-radius:10px"><div style="font-size:20px;font-weight:700;color:var(--green)">¥'+(p.commission/10000).toFixed(1)+'万</div><div style="font-size:11px;color:var(--gray)">累计分润</div></div>'
-    +'<div style="text-align:center;padding:12px;background:var(--beige);border-radius:10px"><div style="font-size:20px;font-weight:700;color:var(--blue)">¥'+(p.totalRevenue/10000).toFixed(1)+'万</div><div style="font-size:11px;color:var(--gray)">贡献营收</div></div>'
-    +'</div>';
-  html += '<div style="font-size:14px;font-weight:600;margin-bottom:8px">📋 推荐客户</div>';
-  p.clients.forEach(function(c){
-    html += '<div style="padding:8px 12px;background:var(--beige);border-radius:8px;margin-bottom:6px;font-size:13px;display:flex;justify-content:space-between"><span>'+c+'</span><span style="color:var(--green);font-size:11px">已成交</span></div>';
-  });
-  html += '<div style="margin-top:12px;font-size:13px;color:var(--gray)">'
-    +'<div>📱 '+p.phone+'</div>'
-    +'<div>📅 加入时间：'+p.joinDate+'</div>'
-    +'<div>📍 负责区域：'+p.region+'</div>'
-    +'</div>';
-  document.getElementById('partnerDetailContent').innerHTML = html;
-  openModal('partnerDetailModal');
-}
-
-function showAddPartner(){
-  var html = '<div class="form-group"><label style="font-size:13px;font-weight:500;margin-bottom:6px;display:block">姓名</label><input class="form-input" id="apName" placeholder="合伙人姓名"></div>'
-    +'<div class="form-group"><label style="font-size:13px;font-weight:500;margin-bottom:6px;display:block">类型</label><select class="form-select" id="apType"><option>资源合伙人</option><option>行业合伙人</option><option>区域合伙人</option></select></div>'
-    +'<div class="form-group"><label style="font-size:13px;font-weight:500;margin-bottom:6px;display:block">区域</label><input class="form-input" id="apRegion" placeholder="负责区域"></div>'
-    +'<div class="form-group"><label style="font-size:13px;font-weight:500;margin-bottom:6px;display:block">联系方式</label><input class="form-input" id="apPhone" placeholder="手机号"></div>'
-    +'<div class="form-group"><label style="font-size:13px;font-weight:500;margin-bottom:6px;display:block">分润比例</label><select class="form-select" id="apRate"><option value="20">20%</option><option value="25">25%</option><option value="30">30%</option></select></div>'
-    +'<button class="btn btn-primary" onclick="saveNewPartner()" style="width:100%">保存</button>';
-  document.getElementById('addPartnerContent').innerHTML = html;
-  openModal('addPartnerModal');
-}
-
-function saveNewPartner(){
-  var name = document.getElementById('apName').value.trim();
-  if(!name){showToast('请填写姓名');return;}
-  partners.push({
-    id:'p'+Date.now(), name:name,
-    type:document.getElementById('apType').value,
-    status:'待审核', phone:document.getElementById('apPhone').value,
-    region:document.getElementById('apRegion').value,
-    joinDate:new Date().toISOString().slice(0,10),
-    referrals:0, totalRevenue:0, commission:0, clients:[]
-  });
-  closeModal('addPartnerModal');
-  showToast('合伙人已添加');
-  renderPartners();
-}
 
 // Init
 renderOverview();
